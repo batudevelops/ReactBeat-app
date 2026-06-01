@@ -4,28 +4,29 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Badge } from '../../components/ui';
 import { SafeLayout } from '../../components/shared/SafeLayout';
 import type { RootNavProp } from '../../app/navigation/types';
+import { useUserStore } from '../../stores';
 import { colors, radius, spacing, typography } from '../../theme';
 import { GAME_MODES, MODE_META } from '../../types/game';
 
-// TODO (Faz 4): userStore'dan gelecek.
-const PLACEHOLDER = { displayName: 'Oyuncu', streak: 7, isPremium: false };
-
 export function HomeScreen() {
   const navigation = useNavigation<RootNavProp>();
+  const displayName = useUserStore((s) => s.displayName) || 'Oyuncu';
+  const streak = useUserStore((s) => s.streak);
+  const isPremium = useUserStore((s) => s.isPremium);
 
   return (
     <SafeLayout>
       <View style={styles.headerRow}>
         <View>
-          <Text style={styles.hello}>Merhaba, {PLACEHOLDER.displayName} 👋</Text>
-          <Text style={styles.streak}>🔥 {PLACEHOLDER.streak} günlük seri</Text>
+          <Text style={styles.hello}>Merhaba, {displayName} 👋</Text>
+          <Text style={styles.streak}>🔥 {streak} günlük seri</Text>
         </View>
       </View>
 
       <ScrollView contentContainerStyle={styles.modes}>
         {GAME_MODES.map((mode) => {
           const meta = MODE_META[mode];
-          const locked = meta.premium && !PLACEHOLDER.isPremium;
+          const locked = meta.premium && !isPremium;
           return (
             <Pressable
               key={mode}

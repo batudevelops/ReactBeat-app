@@ -48,7 +48,10 @@ Bu checklist `BrainTap_ProjectDoc.md`'ye dayanır, ancak projenin **Expo (SDK 56
 
 ## FAZ 4 — State management
 
-- [ ] `gameStore`, `userStore`, `settingsStore` (Zustand + AsyncStorage persist) (§9)
+- [x] `gameStore` (geçici oyun durumu + tapCorrect/tapWrong/pause/resume/end/reset, anti-cheat session) (§9, §13)
+- [x] `userStore` (Zustand + AsyncStorage persist; setUser/updateBestScore/setPremium/streak) — `useAuth` Firestore doc'undan hydrate
+- [x] `settingsStore` (Zustand + AsyncStorage persist; ses/haptic/bildirim)
+- [x] Home/Profile/Settings ekranları store'lara bağlandı (placeholder kaldırıldı), simülatörde doğrulandı ✓
 
 ## FAZ 5 — Oyun motoru
 

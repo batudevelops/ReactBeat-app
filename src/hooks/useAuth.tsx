@@ -19,7 +19,24 @@ import {
   signOut as authSignOut,
 } from '../services/firebase/auth';
 import { ensureUserDoc, getUserDoc } from '../services/firebase/firestore';
+import { useUserStore } from '../stores/userStore';
 import type { UserDoc } from '../types/user';
+
+/** Pushes a freshly loaded Firestore user doc into the persisted user store. */
+function hydrateUserStore(uid: string, doc: UserDoc): void {
+  useUserStore.getState().setUser({
+    uid,
+    displayName: doc.displayName,
+    avatar: doc.avatar,
+    isAnonymous: doc.isAnonymous,
+    isPremium: doc.isPremium,
+    bestScores: doc.bestScores,
+    totalGames: doc.totalGames,
+    totalXP: doc.totalXP,
+    streak: doc.streak,
+    lastPlayedAt: doc.lastPlayedAt?.toDate?.().toISOString() ?? null,
+  });
+}
 
 type AuthStatus = 'loading' | 'ready';
 
@@ -57,6 +74,7 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
           const doc = await ensureUserDoc(u.uid, { isAnonymous: u.isAnonymous });
           if (mounted.current) {
             setUserDoc(doc);
+            hydrateUserStore(u.uid, doc);
           }
         } catch (e) {
           Sentry.captureException(e);

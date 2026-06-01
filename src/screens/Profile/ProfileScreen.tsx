@@ -7,12 +7,14 @@ import { Header } from '../../components/shared/Header';
 import { SafeLayout } from '../../components/shared/SafeLayout';
 import type { RootNavProp } from '../../app/navigation/types';
 import { useAuth } from '../../hooks/useAuth';
+import { useUserStore } from '../../stores';
 import { colors, spacing, typography } from '../../theme';
 import { GAME_MODES, MODE_META } from '../../types/game';
 
 export function ProfileScreen() {
   const navigation = useNavigation<RootNavProp>();
-  const { user, userDoc, linkGoogle, linkApple } = useAuth();
+  const { user, linkGoogle, linkApple } = useAuth();
+  const profile = useUserStore();
   const [busy, setBusy] = useState<null | 'google' | 'apple'>(null);
 
   const isAnonymous = user?.isAnonymous ?? true;
@@ -39,22 +41,22 @@ export function ProfileScreen() {
     <SafeLayout>
       <Header title="Profil" onBack={() => navigation.goBack()} />
       <View style={styles.identity}>
-        <Avatar index={userDoc?.avatar ?? 0} size={72} />
-        <Text style={styles.name}>{userDoc?.displayName ?? 'Oyuncu'}</Text>
-        {userDoc?.isPremium ? <Text style={styles.premium}>★ Premium</Text> : null}
+        <Avatar index={profile.avatar} size={72} />
+        <Text style={styles.name}>{profile.displayName || 'Oyuncu'}</Text>
+        {profile.isPremium ? <Text style={styles.premium}>★ Premium</Text> : null}
       </View>
 
       <Card style={styles.block}>
-        <Text style={styles.stat}>Toplam oyun: {userDoc?.totalGames ?? '—'}</Text>
-        <Text style={styles.stat}>Toplam XP: {userDoc?.totalXP ?? '—'}</Text>
-        <Text style={styles.stat}>En uzun seri: {userDoc?.streak ?? '—'}</Text>
+        <Text style={styles.stat}>Toplam oyun: {profile.totalGames}</Text>
+        <Text style={styles.stat}>Toplam XP: {profile.totalXP}</Text>
+        <Text style={styles.stat}>En uzun seri: {profile.streak}</Text>
       </Card>
 
       <Card style={styles.block}>
         <Text style={styles.blockTitle}>En iyi skorlar</Text>
         {GAME_MODES.map((m) => (
           <Text key={m} style={styles.stat}>
-            {MODE_META[m].label}: {userDoc?.bestScores?.[m] ?? '—'}
+            {MODE_META[m].label}: {profile.bestScores[m]}
           </Text>
         ))}
       </Card>

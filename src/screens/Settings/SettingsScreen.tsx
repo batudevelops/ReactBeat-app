@@ -1,22 +1,22 @@
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, Switch, Text, View } from 'react-native';
-import { useState } from 'react';
 
 import { Button } from '../../components/ui';
 import { Header } from '../../components/shared/Header';
 import { SafeLayout } from '../../components/shared/SafeLayout';
 import type { RootNavProp } from '../../app/navigation/types';
+import { useSettingsStore } from '../../stores';
 import { colors, spacing, typography } from '../../theme';
 
 function Row({
   label,
   value,
   onValueChange,
-}: {
+}: Readonly<{
   label: string;
   value: boolean;
   onValueChange: (v: boolean) => void;
-}) {
+}>) {
   return (
     <View style={styles.row}>
       <Text style={styles.rowLabel}>{label}</Text>
@@ -31,21 +31,23 @@ function Row({
 
 export function SettingsScreen() {
   const navigation = useNavigation<RootNavProp>();
-  // TODO (Faz 4): settingsStore.
-  const [sound, setSound] = useState(true);
-  const [haptic, setHaptic] = useState(true);
-  const [notifications, setNotifications] = useState(false);
+  const soundEnabled = useSettingsStore((s) => s.soundEnabled);
+  const hapticEnabled = useSettingsStore((s) => s.hapticEnabled);
+  const notificationsEnabled = useSettingsStore((s) => s.notificationsEnabled);
+  const toggleSound = useSettingsStore((s) => s.toggleSound);
+  const toggleHaptic = useSettingsStore((s) => s.toggleHaptic);
+  const toggleNotifications = useSettingsStore((s) => s.toggleNotifications);
 
   return (
     <SafeLayout>
       <Header title="Ayarlar" onBack={() => navigation.goBack()} />
       <View style={styles.body}>
-        <Row label="Ses efektleri" value={sound} onValueChange={setSound} />
-        <Row label="Haptic feedback" value={haptic} onValueChange={setHaptic} />
+        <Row label="Ses efektleri" value={soundEnabled} onValueChange={toggleSound} />
+        <Row label="Haptic feedback" value={hapticEnabled} onValueChange={toggleHaptic} />
         <Row
           label="Bildirimler"
-          value={notifications}
-          onValueChange={setNotifications}
+          value={notificationsEnabled}
+          onValueChange={toggleNotifications}
         />
 
         <View style={styles.spacer} />
