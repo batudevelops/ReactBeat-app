@@ -1,8 +1,6 @@
-import Constants from 'expo-constants';
-import * as Crypto from 'expo-crypto';
-import { Platform } from 'react-native';
 import { create } from 'zustand';
 
+import { createSession } from '../engine/antiCheat';
 import type { GameMode } from '../types/game';
 import type { GameSession, TapEvent } from '../types/session';
 
@@ -31,10 +29,6 @@ interface GameState {
   reset: () => void;
 }
 
-function deviceFingerprint(): string {
-  return `${Platform.OS}/${Constants.deviceName ?? 'unknown'}`;
-}
-
 const idleState = {
   mode: null,
   level: 1,
@@ -58,15 +52,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       streak: 0,
       lives: DEFAULT_LIVES,
       status: 'playing',
-      session: {
-        sessionId: Crypto.randomUUID(),
-        mode,
-        level,
-        startTime: Date.now(),
-        endTime: 0,
-        deviceFingerprint: deviceFingerprint(),
-        events: [],
-      },
+      session: createSession(mode, level),
     }),
 
   tapCorrect: (reactionMs, detail) =>

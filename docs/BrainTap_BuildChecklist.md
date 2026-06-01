@@ -55,9 +55,10 @@ Bu checklist `BrainTap_ProjectDoc.md`'ye dayanır, ancak projenin **Expo (SDK 56
 
 ## FAZ 5 — Oyun motoru
 
-- [ ] `levelConfig.ts` (§8), `scorer.ts` (skor formülü)
-- [ ] `antiCheat.ts` — session + TapEvent (§13)
-- [ ] 5 mod motoru: reflex, memory, pattern, colorConflict, oddOneOut (§7)
+- [x] `engine/levelConfig.ts` (§8): `LevelConfig` + `getLevelConfig(mode, level)` (5 mod progresyon tabloları, 31+ RC fallback)
+- [x] `engine/scorer.ts`: `calculateScore` (base + hız bonusu × combo + flat combo bonus) + `calculateXP`
+- [x] `engine/antiCheat.ts` — `createSession`/`addEvent`/`finalizeSession` + `validateSession` (5 kontrol) + `theoreticalMaxScore` (§13); `gameStore` createSession'ı kullanıyor
+- [x] 5 mod round üreticisi (`engine/modes/`): reflex, memory, pattern, colorConflict, oddOneOut — saf/UI'dan bağımsız (§7)
 
 ## FAZ 6 — Oyun ekranları & bileşenleri
 
