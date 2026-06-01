@@ -1,28 +1,78 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { Button } from '../../../components/ui';
-import { colors, spacing, typography } from '../../../theme';
+import { GameHud } from '../../../components/game';
+import {
+  generateColorConflictRound,
+  type ColorConflictRound,
+} from '../../../engine/modes';
+import { colors, radius, spacing, typography } from '../../../theme';
 import type { GameModeScreenProps } from '../types';
+import { useGameController } from '../useGameController';
 
-export function ColorConflictScreen({ level, onFinish }: GameModeScreenProps) {
+export function ColorConflictScreen({
+  level,
+  onFinish,
+}: Readonly<GameModeScreenProps>) {
+  const { round, msLeft, timeLimit, score, combo, lives, submit } =
+    useGameController<ColorConflictRound, string>({
+      mode: 'colorConflict',
+      level,
+      generate: (cfg) => generateColorConflictRound(cfg),
+      isCorrect: (r, id) => id === r.correctId,
+      onFinish,
+    });
+
   return (
-    <View style={styles.center}>
-      <Text style={styles.title}>Color Conflict</Text>
-      <Text style={styles.level}>Level {level}</Text>
-      <Text style={styles.note}>Premium · Oyun motoru Faz 5-6'da bağlanacak.</Text>
-      <Button
-        label="Bitir (test)"
-        onPress={() =>
-          onFinish({ score: 0, isNewRecord: false, correct: 0, wrong: 0, avgReactionMs: 0 })
-        }
+    <View style={styles.container}>
+      <GameHud
+        score={score}
+        combo={combo}
+        lives={lives}
+        msLeft={msLeft}
+        timeLimit={timeLimit}
       />
+
+      {round ? (
+        <View style={styles.play}>
+          <Text style={styles.hint}>Şeklin gerçek rengine tap’la</Text>
+          <View style={[styles.stage, { backgroundColor: round.backgroundHex }]}>
+            <View style={[styles.shape, { backgroundColor: round.shapeColorHex }]} />
+          </View>
+
+          <View style={styles.options}>
+            {round.options.map((opt) => (
+              <Pressable
+                key={opt.id}
+                style={[styles.tile, { backgroundColor: opt.hex }]}
+                onPress={() => submit(opt.id)}
+                accessibilityRole="button"
+              />
+            ))}
+          </View>
+        </View>
+      ) : null}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: spacing.md },
-  title: { color: colors.textPrimary, fontSize: typography.heading1.fontSize, fontWeight: '800' },
-  level: { color: colors.amber400, fontSize: typography.heading3.fontSize },
-  note: { color: colors.textMuted, fontSize: typography.caption.fontSize, marginBottom: spacing.lg },
+  container: { flex: 1 },
+  play: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: spacing.lg },
+  hint: { color: colors.textMuted, fontSize: typography.body.fontSize },
+  stage: {
+    width: 220,
+    height: 220,
+    borderRadius: radius.xl,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  shape: { width: 110, height: 110, borderRadius: radius.md },
+  options: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    gap: spacing.md,
+    paddingHorizontal: spacing.lg,
+  },
+  tile: { width: 64, height: 64, borderRadius: radius.lg },
 });

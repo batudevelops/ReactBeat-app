@@ -1,28 +1,71 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { Button } from '../../../components/ui';
-import { colors, spacing, typography } from '../../../theme';
+import { GameHud } from '../../../components/game';
+import {
+  generateOddOneOutRound,
+  type OddOneOutRound,
+} from '../../../engine/modes';
+import { colors, radius, spacing, typography } from '../../../theme';
 import type { GameModeScreenProps } from '../types';
+import { useGameController } from '../useGameController';
 
-export function OddOneOutScreen({ level, onFinish }: GameModeScreenProps) {
+function columnsFor(gridSize: number): number {
+  return Math.ceil(Math.sqrt(gridSize));
+}
+
+export function OddOneOutScreen({
+  level,
+  onFinish,
+}: Readonly<GameModeScreenProps>) {
+  const { round, msLeft, timeLimit, score, combo, lives, submit } =
+    useGameController<OddOneOutRound, string>({
+      mode: 'oddOneOut',
+      level,
+      generate: (cfg, lvl) => generateOddOneOutRound(cfg, lvl),
+      isCorrect: (r, id) => id === r.oddId,
+      onFinish,
+    });
+
+  const cols = round ? columnsFor(round.gridSize) : 2;
+
   return (
-    <View style={styles.center}>
-      <Text style={styles.title}>Odd One Out</Text>
-      <Text style={styles.level}>Level {level}</Text>
-      <Text style={styles.note}>Premium · Oyun motoru Faz 5-6'da bağlanacak.</Text>
-      <Button
-        label="Bitir (test)"
-        onPress={() =>
-          onFinish({ score: 0, isNewRecord: false, correct: 0, wrong: 0, avgReactionMs: 0 })
-        }
+    <View style={styles.container}>
+      <GameHud
+        score={score}
+        combo={combo}
+        lives={lives}
+        msLeft={msLeft}
+        timeLimit={timeLimit}
       />
+
+      {round ? (
+        <View style={styles.play}>
+          <Text style={styles.hint}>Farklı olana tap’la</Text>
+          <View style={[styles.grid, { maxWidth: cols * 84 }]}>
+            {round.items.map((item) => (
+              <Pressable
+                key={item.id}
+                style={[styles.cell, { backgroundColor: item.hex }]}
+                onPress={() => submit(item.id)}
+                accessibilityRole="button"
+              />
+            ))}
+          </View>
+        </View>
+      ) : null}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: spacing.md },
-  title: { color: colors.textPrimary, fontSize: typography.heading1.fontSize, fontWeight: '800' },
-  level: { color: colors.amber400, fontSize: typography.heading3.fontSize },
-  note: { color: colors.textMuted, fontSize: typography.caption.fontSize, marginBottom: spacing.lg },
+  container: { flex: 1 },
+  play: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: spacing.lg },
+  hint: { color: colors.textMuted, fontSize: typography.body.fontSize },
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    gap: spacing.sm,
+  },
+  cell: { width: 72, height: 72, borderRadius: radius.md },
 });

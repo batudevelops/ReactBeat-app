@@ -15,6 +15,8 @@ interface ControllerOptions<TRound, TAnswer> {
   generate: (config: LevelConfig, level: number) => TRound;
   isCorrect: (round: TRound, answer: TAnswer) => boolean;
   onFinish: (result: GameResult) => void;
+  /** Optional per-round time budget (ms); defaults to the level config timeLimit. */
+  getTimeLimit?: (round: TRound, config: LevelConfig) => number;
 }
 
 interface ControllerState<TRound, TAnswer> {
@@ -32,7 +34,7 @@ const TICK_MS = 50;
 export function useGameController<TRound, TAnswer>(
   opts: ControllerOptions<TRound, TAnswer>,
 ): ControllerState<TRound, TAnswer> {
-  const { mode, level, generate, isCorrect, onFinish } = opts;
+  const { mode, level, generate, isCorrect, onFinish, getTimeLimit } = opts;
   const config = getLevelConfig(mode, level);
 
   const score = useGameStore((s) => s.score);
@@ -43,17 +45,25 @@ export function useGameController<TRound, TAnswer>(
   const [msLeft, setMsLeft] = useState(config.timeLimit);
 
   const roundStart = useRef(Date.now());
+  const timeLimitRef = useRef(config.timeLimit);
   const finished = useRef(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const handleRef = useRef<(answer: TAnswer | null) => void>(() => {});
 
   const hapticEnabled = useSettingsStore.getState().hapticEnabled;
 
+  const limitFor = useCallback(
+    (r: TRound) => (getTimeLimit ? getTimeLimit(r, config) : config.timeLimit),
+    [config, getTimeLimit],
+  );
+
   const advance = useCallback(() => {
+    const next = generate(config, level);
     roundStart.current = Date.now();
-    setRound(generate(config, level));
-    setMsLeft(config.timeLimit);
-  }, [config, generate, level]);
+    timeLimitRef.current = limitFor(next);
+    setRound(next);
+    setMsLeft(timeLimitRef.current);
+  }, [config, generate, level, limitFor]);
 
   const doFinish = useCallback(() => {
     if (finished.current) {
@@ -95,7 +105,7 @@ export function useGameController<TRound, TAnswer>(
         return;
       }
       const reactionMs = Math.min(
-        config.timeLimit,
+        timeLimitRef.current,
         Date.now() - roundStart.current,
       );
       const correct = answer !== null && isCorrect(round, answer);
@@ -131,9 +141,11 @@ export function useGameController<TRound, TAnswer>(
   useEffect(() => {
     useGameStore.getState().startGame(mode, level);
     finished.current = false;
+    const first = generate(config, level);
     roundStart.current = Date.now();
-    setRound(generate(config, level));
-    setMsLeft(config.timeLimit);
+    timeLimitRef.current = limitFor(first);
+    setRound(first);
+    setMsLeft(timeLimitRef.current);
 
     return () => {
       if (intervalRef.current) {
@@ -147,7 +159,7 @@ export function useGameController<TRound, TAnswer>(
   // Countdown loop; a timed-out question counts as wrong.
   useEffect(() => {
     intervalRef.current = setInterval(() => {
-      const left = config.timeLimit - (Date.now() - roundStart.current);
+      const left = timeLimitRef.current - (Date.now() - roundStart.current);
       if (left <= 0) {
         handleRef.current(null);
       } else {
@@ -162,5 +174,13 @@ export function useGameController<TRound, TAnswer>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { round, msLeft, timeLimit: config.timeLimit, score, combo, lives, submit: (a) => handleRef.current(a) };
+  return {
+    round,
+    msLeft,
+    timeLimit: timeLimitRef.current,
+    score,
+    combo,
+    lives,
+    submit: (a) => handleRef.current(a),
+  };
 }

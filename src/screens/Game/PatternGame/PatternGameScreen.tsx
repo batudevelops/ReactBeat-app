@@ -1,28 +1,120 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { Button } from '../../../components/ui';
-import { colors, spacing, typography } from '../../../theme';
+import { GameHud } from '../../../components/game';
+import { generatePatternRound, type PatternRound } from '../../../engine/modes';
+import { colors, radius, spacing, typography } from '../../../theme';
 import type { GameModeScreenProps } from '../types';
+import { useGameController } from '../useGameController';
 
-export function PatternGameScreen({ level, onFinish }: GameModeScreenProps) {
+const GRID = 9;
+const COLS = 3;
+
+function PatternGrid({
+  cells,
+  tile,
+  active,
+}: Readonly<{ cells: number[]; tile: number; active: boolean }>) {
   return (
-    <View style={styles.center}>
-      <Text style={styles.title}>Pattern</Text>
-      <Text style={styles.level}>Level {level}</Text>
-      <Text style={styles.note}>Oyun motoru Faz 5-6'da bağlanacak.</Text>
-      <Button
-        label="Bitir (test)"
-        onPress={() =>
-          onFinish({ score: 2750, isNewRecord: false, correct: 0, wrong: 0, avgReactionMs: 0 })
-        }
+    <View style={[styles.grid, { width: COLS * (tile + 4) }]}>
+      {Array.from({ length: GRID }, (_, i) => (
+        <View
+          key={i}
+          style={[
+            styles.gridCell,
+            { width: tile, height: tile },
+            cells.includes(i)
+              ? { backgroundColor: active ? colors.orange500 : colors.special }
+              : { backgroundColor: colors.bgElevated },
+          ]}
+        />
+      ))}
+    </View>
+  );
+}
+
+export function PatternGameScreen({
+  level,
+  onFinish,
+}: Readonly<GameModeScreenProps>) {
+  const { round, msLeft, timeLimit, score, combo, lives, submit } =
+    useGameController<PatternRound, string>({
+      mode: 'pattern',
+      level,
+      generate: (cfg) => generatePatternRound(cfg),
+      isCorrect: (r, id) => id === r.correctId,
+      onFinish,
+      getTimeLimit: (r, cfg) => cfg.timeLimit + r.showDuration,
+    });
+
+  const [revealed, setRevealed] = useState(true);
+
+  useEffect(() => {
+    if (!round) {
+      return;
+    }
+    setRevealed(true);
+    const t = setTimeout(() => setRevealed(false), round.showDuration);
+    return () => clearTimeout(t);
+  }, [round]);
+
+  return (
+    <View style={styles.container}>
+      <GameHud
+        score={score}
+        combo={combo}
+        lives={lives}
+        msLeft={msLeft}
+        timeLimit={timeLimit}
       />
+
+      {round ? (
+        <View style={styles.play}>
+          {revealed ? (
+            <>
+              <Text style={styles.hint}>Deseni ezberle</Text>
+              <PatternGrid cells={round.target} tile={56} active />
+            </>
+          ) : (
+            <>
+              <Text style={styles.hint}>Hangisiydi?</Text>
+              <View style={styles.options}>
+                {round.options.map((opt) => (
+                  <Pressable
+                    key={opt.id}
+                    onPress={() => submit(opt.id)}
+                    style={styles.optionCard}
+                    accessibilityRole="button"
+                  >
+                    <PatternGrid cells={opt.cells} tile={28} active={false} />
+                  </Pressable>
+                ))}
+              </View>
+            </>
+          )}
+        </View>
+      ) : null}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: spacing.md },
-  title: { color: colors.textPrimary, fontSize: typography.heading1.fontSize, fontWeight: '800' },
-  level: { color: colors.amber400, fontSize: typography.heading3.fontSize },
-  note: { color: colors.textMuted, fontSize: typography.caption.fontSize, marginBottom: spacing.lg },
+  container: { flex: 1 },
+  play: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: spacing.lg },
+  hint: { color: colors.textMuted, fontSize: typography.body.fontSize },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 4, justifyContent: 'center' },
+  gridCell: { borderRadius: radius.sm },
+  options: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    gap: spacing.md,
+  },
+  optionCard: {
+    padding: spacing.sm,
+    borderRadius: radius.lg,
+    borderWidth: 1,
+    borderColor: colors.bgBorder,
+    backgroundColor: colors.bgSurface,
+  },
 });

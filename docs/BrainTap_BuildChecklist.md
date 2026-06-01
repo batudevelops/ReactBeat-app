@@ -63,7 +63,7 @@ Bu checklist `BrainTap_ProjectDoc.md`'ye dayanır, ancak projenin **Expo (SDK 56
 ## FAZ 6 — Oyun ekranları & bileşenleri
 
 - [~] Game bileşenleri: `TimerBar` (CircularTimer yerine; SVG halka sonra), `LivesBar`, `ScoreDisplay`, `ComboIndicator`, `GameHud` ✓ — `TapCard`, `StreakBadge` bekliyor
-- [~] Ortak `GameHud` + generic `useGameController` (timer/round/score/combo/lives/session) ✓ — **Reflex tam oynanabilir** ✓; Memory/Pattern/ColorConflict/OddOneOut ekranları bekliyor
+- [x] Ortak `GameHud` + generic `useGameController` (timer/round/score/combo/lives/session, round-bazlı `getTimeLimit`) — **5 mod da oynanabilir**: Reflex, ColorConflict, OddOneOut (tek-tap), Pattern (reveal→seç), Memory (dizi→tekrarla)
 - [~] Reanimated animasyonları: timer pulse + lives shake + combo pop ✓ — ripple/flip bekliyor (§15)
 - [~] `expo-haptics` (doğru/yanlış tap) ✓ — Lottie kutlama + `expo-audio` ertelendi (asset yok)
 - [~] Süre-bitti akışı (yanlış sayılır) ✓ — Can-bitti modalı (reklam +1 can) Faz 10 ile bekliyor
