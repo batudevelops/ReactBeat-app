@@ -28,6 +28,7 @@ module.exports = {
     // Sentry org/project live in the EU region (url => https://de.sentry.io).
     // Source map upload at build time needs SENTRY_AUTH_TOKEN in the environment.
     plugins: [
+      'expo-audio',
       [
         '@sentry/react-native/expo',
         {
