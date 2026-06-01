@@ -1,9 +1,9 @@
-/**
- * @format
- */
+import * as Sentry from '@sentry/react-native';
+import { registerRootComponent } from 'expo';
 
-import { AppRegistry } from 'react-native';
 import App from './App';
-import { name as appName } from './app.json';
+import { initSentry } from './src/lib/sentry';
 
-AppRegistry.registerComponent(appName, () => App);
+initSentry();
+
+registerRootComponent(Sentry.wrap(App));
