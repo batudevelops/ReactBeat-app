@@ -18,6 +18,7 @@ const firebaseConfig = Constants.expoConfig?.extra?.firebase as {
   storageBucket: string;
   messagingSenderId: string;
   appId: string;
+  databaseURL: string;
 };
 
 if (!firebaseConfig?.apiKey) {
@@ -42,4 +43,4 @@ try {
 
 export const firebaseAuth = auth;
 export const firestore = getFirestore(firebaseApp);
-export const database = getDatabase(firebaseApp);
+export const database = getDatabase(firebaseApp, firebaseConfig.databaseURL);

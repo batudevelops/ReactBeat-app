@@ -7,13 +7,23 @@ import { Header } from '../../components/shared/Header';
 import { SafeLayout } from '../../components/shared/SafeLayout';
 import type { RootNavProp, RootStackParamList } from '../../app/navigation/types';
 import type { RouteProp } from '@react-navigation/native';
+import { useLeaderboard } from '../../hooks/useLeaderboard';
+import { useUserStore } from '../../stores';
 import { colors, spacing, typography } from '../../theme';
 
 export function ModeSelectScreen() {
   const navigation = useNavigation<RootNavProp>();
   const route = useRoute<RouteProp<RootStackParamList, 'ModeSelect'>>();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { mode } = route.params;
+
+  const best = useUserStore((s) => s.bestScores[mode]);
+  const { myRank, loading } = useLeaderboard('weekly', mode);
+
+  const bestLabel =
+    best > 0 ? best.toLocaleString(i18n.language) : '—';
+  const rankLabel =
+    loading || myRank == null ? '—' : `#${myRank}`;
 
   return (
     <SafeLayout>
@@ -22,8 +32,12 @@ export function ModeSelectScreen() {
         <Text style={styles.desc}>{t(`modes.${mode}.description`)}</Text>
 
         <Card style={styles.stats}>
-          <Text style={styles.statLine}>{t('modeSelect.personalBest', { value: '—' })}</Text>
-          <Text style={styles.statLine}>{t('modeSelect.weeklyRank', { value: '—' })}</Text>
+          <Text style={styles.statLine}>
+            {t('modeSelect.personalBest', { value: bestLabel })}
+          </Text>
+          <Text style={styles.statLine}>
+            {t('modeSelect.weeklyRank', { value: rankLabel })}
+          </Text>
         </Card>
 
         <View style={styles.spacer} />

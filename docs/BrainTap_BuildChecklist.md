@@ -70,10 +70,12 @@ Bu checklist `BrainTap_ProjectDoc.md`'ye dayanır, ancak projenin **Expo (SDK 56
 
 ## FAZ 7 — Result / Leaderboard / Profile / Settings
 
-- [ ] `ResultScreen` (rekor → konfeti, top10 → login tetikle)
-- [ ] `useLeaderboard` + RTDB top-100 dinleme (3 dönem × 5 mod)
-- [ ] `ProfileScreen` (avatar, istatistik, hesap bağlama)
-- [ ] `SettingsScreen` (ses/haptic/bildirim, gizlilik, restore)
+- [x] `useLeaderboard` + `services/firebase/leaderboard.ts` — RTDB `leaderboard/{period}/{mode}` realtime dinleme, top-100, `myRank` + `provisionalRank` (yeni skor, CF öncesi); `databaseURL` app.config + firebase init
+- [x] `LeaderboardScreen` — 3 dönem × 5 mod tab/chip, liste, boş durum, alt bar sıra
+- [x] `ResultScreen` — rekor kutlaması (`RecordCelebration` Reanimated), haftalık sıra (RTDB), top-10 + anonim → login modal (Google/Apple)
+- [x] `ModeSelectScreen` — kişisel en iyi (`userStore`) + haftalık sıra (`useLeaderboard`)
+- [x] `ProfileScreen` — avatar seçici (0–9, Firestore), görünen ad düzenleme, istatistik, hesap bağlama
+- [x] `SettingsScreen` — ses/haptic/bildirim/dil ✓ + gizlilik/kullanım şartları linkleri + premium/restore
 
 ## FAZ 8 — Cloud Functions (Blaze planı)
 

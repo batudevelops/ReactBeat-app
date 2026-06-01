@@ -70,6 +70,8 @@ module.exports = {
         storageBucket: 'braintap-b0486.firebasestorage.app',
         messagingSenderId: '909994962274',
         appId: '1:909994962274:ios:018c42f0c33e4880fa103b',
+        databaseURL:
+          'https://braintap-b0486-default-rtdb.europe-west1.firebasedatabase.app',
       },
       // Google OAuth client IDs (public). webClientId is required by GoogleSignin
       // to obtain an idToken accepted by Firebase Auth; iosClientId is the iOS

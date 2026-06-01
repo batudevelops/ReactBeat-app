@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-import { Pressable, StyleSheet, Switch, Text, View } from 'react-native';
+import { Linking, Pressable, StyleSheet, Switch, Text, View } from 'react-native';
 
 import { Button } from '../../components/ui';
 import { Header } from '../../components/shared/Header';
@@ -77,6 +77,19 @@ export function SettingsScreen() {
           </View>
         </View>
 
+        <Pressable
+          style={styles.linkRow}
+          onPress={() => void Linking.openURL('https://batudevelops.com/privacy')}
+        >
+          <Text style={styles.linkText}>{t('settings.privacy')}</Text>
+        </Pressable>
+        <Pressable
+          style={styles.linkRow}
+          onPress={() => void Linking.openURL('https://batudevelops.com/terms')}
+        >
+          <Text style={styles.linkText}>{t('settings.terms')}</Text>
+        </Pressable>
+
         <View style={styles.spacer} />
 
         <Button
@@ -109,6 +122,12 @@ const styles = StyleSheet.create({
   langChipActive: { backgroundColor: colors.orange500 },
   langChipText: { color: colors.textSecondary, fontSize: typography.caption.fontSize },
   langChipTextActive: { color: colors.textPrimary, fontWeight: '700' },
+  linkRow: { paddingVertical: spacing.sm },
+  linkText: {
+    color: colors.info,
+    fontSize: typography.body.fontSize,
+    textDecorationLine: 'underline',
+  },
   spacer: { flex: 1 },
   version: {
     color: colors.textMuted,

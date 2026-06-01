@@ -56,6 +56,9 @@
     "avgReaction": "Avg. reaction: {{ms}} ms",
     "avgReactionEmpty": "Avg. reaction: —",
     "weeklyRank": "Your weekly rank: #{{rank}}",
+    "saveScoreTitle": "Save your score!",
+    "saveScoreBody": "You're in the weekly top {{rank}} — link your account so your score is saved.",
+    "saveScoreDismiss": "Later",
     "playAgain": "Play Again",
     "viewLeaderboard": "View Leaderboard",
     "mainMenu": "Main Menu"
@@ -65,8 +68,9 @@
     "daily": "Daily",
     "weekly": "Weekly",
     "alltime": "All-time",
-    "comingSoon": "List will load from Realtime DB in Phase 7.",
-    "yourRank": "Your rank: —"
+    "empty": "No scores yet. Be the first!",
+    "yourRank": "Your rank: —",
+    "yourRankValue": "Your rank: #{{rank}}"
   },
   "profile": {
     "title": "Profile",
@@ -83,7 +87,13 @@
     "linkSuccessTitle": "Success",
     "linkSuccessBody": "Your account is linked, your progress is now safe.",
     "linkFailTitle": "Couldn’t link",
-    "linkFailBody": "Something went wrong while linking."
+    "linkFailBody": "Something went wrong while linking.",
+    "chooseAvatar": "Choose avatar",
+    "editName": "Display name",
+    "saveName": "Save name",
+    "saving": "Saving…",
+    "saveFailTitle": "Couldn't save",
+    "saveFailBody": "Something went wrong while updating your profile."
   },
   "settings": {
     "title": "Settings",
@@ -93,6 +103,8 @@
     "language": "Language",
     "buyPremium": "Buy Premium",
     "restore": "Restore purchases",
+    "privacy": "Privacy policy",
+    "terms": "Terms of use",
     "version": "BrainTap v{{version}}"
   },
   "paywall": {

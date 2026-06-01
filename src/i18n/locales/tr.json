@@ -56,6 +56,9 @@
     "avgReaction": "Ort. tepki: {{ms}} ms",
     "avgReactionEmpty": "Ort. tepki: —",
     "weeklyRank": "Bu haftaki sıran: #{{rank}}",
+    "saveScoreTitle": "Skoru kaydet!",
+    "saveScoreBody": "Haftalık top {{rank}} — hesabını bağla, skorun kaybolmasın.",
+    "saveScoreDismiss": "Sonra",
     "playAgain": "Tekrar Oyna",
     "viewLeaderboard": "Leaderboard’a bak",
     "mainMenu": "Ana Menü"
@@ -65,8 +68,9 @@
     "daily": "Günlük",
     "weekly": "Haftalık",
     "alltime": "Tüm",
-    "comingSoon": "Liste Faz 7’de Realtime DB’den gelecek.",
-    "yourRank": "Senin sıran: —"
+    "empty": "Henüz skor yok. İlk sen ol!",
+    "yourRank": "Senin sıran: —",
+    "yourRankValue": "Senin sıran: #{{rank}}"
   },
   "profile": {
     "title": "Profil",
@@ -83,7 +87,13 @@
     "linkSuccessTitle": "Başarılı",
     "linkSuccessBody": "Hesabın bağlandı, ilerlemen artık güvende.",
     "linkFailTitle": "Bağlanamadı",
-    "linkFailBody": "Bağlama sırasında hata oluştu."
+    "linkFailBody": "Bağlama sırasında hata oluştu.",
+    "chooseAvatar": "Avatar seç",
+    "editName": "Görünen ad",
+    "saveName": "Adı kaydet",
+    "saving": "Kaydediliyor…",
+    "saveFailTitle": "Kaydedilemedi",
+    "saveFailBody": "Profil güncellenirken bir hata oluştu."
   },
   "settings": {
     "title": "Ayarlar",
@@ -93,6 +103,8 @@
     "language": "Dil",
     "buyPremium": "Premium satın al",
     "restore": "Restore purchases",
+    "privacy": "Gizlilik politikası",
+    "terms": "Kullanım şartları",
     "version": "BrainTap v{{version}}"
   },
   "paywall": {
