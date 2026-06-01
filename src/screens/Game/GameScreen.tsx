@@ -35,7 +35,7 @@ export function GameScreen() {
       <Header title={t(`modes.${mode}.label`)} onBack={() => navigation.goBack()} />
       <ModeComponent
         level={level}
-        onFinish={({ score, isNewRecord, correct, wrong, avgReactionMs }) =>
+        onFinish={({ score, isNewRecord, correct, wrong, avgReactionMs, rank }) =>
           navigation.replace('Result', {
             mode,
             score,
@@ -44,6 +44,7 @@ export function GameScreen() {
             wrong,
             avgReactionMs,
             level,
+            rank,
           })
         }
       />

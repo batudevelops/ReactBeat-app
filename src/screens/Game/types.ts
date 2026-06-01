@@ -4,6 +4,9 @@ export interface GameResult {
   correct: number;
   wrong: number;
   avgReactionMs: number;
+  /** Weekly rank from Cloud Function after RTDB write (if deployed). */
+  rank?: number;
+  scoreSaved?: boolean;
 }
 
 export interface GameModeScreenProps {

@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { getLevelConfig, type LevelConfig } from '../../engine/levelConfig';
 import { calculateXP } from '../../engine/scorer';
+import { submitValidatedScore } from '../../services/firebase/scores';
 import { useGameStore } from '../../stores/gameStore';
 import { useSettingsStore } from '../../stores/settingsStore';
 import { useUserStore } from '../../stores/userStore';
@@ -65,7 +66,7 @@ export function useGameController<TRound, TAnswer>(
     setMsLeft(timeLimitRef.current);
   }, [config, generate, level, limitFor]);
 
-  const doFinish = useCallback(() => {
+  const doFinish = useCallback(async () => {
     if (finished.current) {
       return;
     }
@@ -86,6 +87,21 @@ export function useGameController<TRound, TAnswer>(
         )
       : 0;
 
+    const levelCfg = getLevelConfig(mode, level);
+    let rank: number | undefined;
+    let scoreSaved = false;
+    if (state.session) {
+      const cf = await submitValidatedScore(
+        state.session,
+        state.score,
+        levelCfg.comboBonus,
+      );
+      if (cf?.valid) {
+        scoreSaved = true;
+        rank = cf.rank ?? undefined;
+      }
+    }
+
     const user = useUserStore.getState();
     const isNewRecord = state.score > (user.bestScores[mode] ?? 0);
     user.updateBestScore(mode, state.score);
@@ -95,8 +111,16 @@ export function useGameController<TRound, TAnswer>(
       lastPlayedAt: new Date().toISOString(),
     });
 
-    onFinish({ score: state.score, isNewRecord, correct, wrong, avgReactionMs });
-  }, [mode, onFinish]);
+    onFinish({
+      score: state.score,
+      isNewRecord,
+      correct,
+      wrong,
+      avgReactionMs,
+      rank,
+      scoreSaved,
+    });
+  }, [mode, level, onFinish]);
 
   const handleAnswer = useCallback(
     (answer: TAnswer | null) => {

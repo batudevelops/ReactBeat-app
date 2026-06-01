@@ -79,10 +79,12 @@ Bu checklist `BrainTap_ProjectDoc.md`'ye dayanır, ancak projenin **Expo (SDK 56
 
 ## FAZ 8 — Cloud Functions (Blaze planı)
 
-- [ ] Functions kurulumu (`europe-west1`), Blaze planı
-- [ ] `validateAndSaveScore` (anti-cheat 5 kontrol → RTDB) (§13, §17)
-- [ ] `resetDailyLeaderboard` / `resetWeeklyLeaderboard` (CRON)
-- [ ] Emülatör testi
+- [x] Functions iskeleti (`functions/`, TypeScript, `europe-west1`, `firebase.json` predeploy + emulators)
+- [x] `validateAndSaveScore` — callable: §13 anti-cheat + sunucu skor hesabı + RTDB daily/weekly/alltime upsert + haftalık sıra dönüşü
+- [x] `resetDailyLeaderboard` (CRON `0 0 * * *` UTC) / `resetWeeklyLeaderboard` (CRON `0 0 * * 1` UTC)
+- [x] Client: `submitValidatedScore` — oyun bitişinde CF çağrısı (`useGameController` → Result `rank`)
+- [ ] **HARİCİ (sen):** Firebase **Blaze** planı + `firebase deploy --only functions` (bkz. `functions/README.md`)
+- [ ] Emülatör testi (`cd functions && npm run serve`) — isteğe bağlı doğrulama
 
 ## FAZ 9 — Dinamik config
 
