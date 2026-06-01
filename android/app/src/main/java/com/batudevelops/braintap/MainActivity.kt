@@ -1,4 +1,4 @@
-package com.braintap.app
+package com.batudevelops.braintap
 
 import android.os.Build
 import android.os.Bundle

@@ -7,16 +7,28 @@
  * runtime through expo-constants (Constants.expoConfig.extra.firebase).
  */
 
-// Google Sign-In's iOS URL scheme is the REVERSED_CLIENT_ID of the iOS OAuth
-// client (e.g. com.googleusercontent.apps.123-abc). It is only known after the
-// Google OAuth iOS client is created in the Firebase/Google Cloud console, so
-// the native config plugin is added conditionally to keep `prebuild` working
-// before that external setup is done. Set GOOGLE_IOS_URL_SCHEME to enable it.
-const googleIosUrlScheme = process.env.GOOGLE_IOS_URL_SCHEME || '';
+// Google OAuth client IDs come from the Firebase iOS app's GoogleService-Info.plist
+// (CLIENT_ID / REVERSED_CLIENT_ID) and the project web client (google-services.json,
+// client_type 3). These are public values embedded in the app, so they are kept
+// here directly; env vars can still override per build.
+const googleWebClientId =
+  process.env.GOOGLE_WEB_CLIENT_ID ||
+  '909994962274-aibg719t8juamcjhb49dsagmuc5acdr1.apps.googleusercontent.com';
+const googleIosClientId =
+  process.env.GOOGLE_IOS_CLIENT_ID ||
+  '909994962274-9g993c0ma7tbhtdo6gjed1auv3hf5qsr.apps.googleusercontent.com';
+// iOS URL scheme is the reversed iOS client ID.
+const googleIosUrlScheme =
+  process.env.GOOGLE_IOS_URL_SCHEME ||
+  'com.googleusercontent.apps.909994962274-9g993c0ma7tbhtdo6gjed1auv3hf5qsr';
 
 const plugins = [
   'expo-audio',
   'expo-apple-authentication',
+  [
+    '@react-native-google-signin/google-signin',
+    { iosUrlScheme: googleIosUrlScheme },
+  ],
   [
     '@sentry/react-native/expo',
     {
@@ -26,13 +38,6 @@ const plugins = [
     },
   ],
 ];
-
-if (googleIosUrlScheme) {
-  plugins.push([
-    '@react-native-google-signin/google-signin',
-    { iosUrlScheme: googleIosUrlScheme },
-  ]);
-}
 
 module.exports = {
   expo: {
@@ -45,14 +50,14 @@ module.exports = {
     newArchEnabled: true,
     ios: {
       supportsTablet: false,
-      bundleIdentifier: 'com.braintap.app',
+      bundleIdentifier: 'com.batudevelops.braintap',
       usesAppleSignIn: true,
       infoPlist: {
         ITSAppUsesNonExemptEncryption: false,
       },
     },
     android: {
-      package: 'com.braintap.app',
+      package: 'com.batudevelops.braintap',
     },
     // Sentry org/project live in the EU region (url => https://de.sentry.io).
     // Source map upload at build time needs SENTRY_AUTH_TOKEN in the environment.
@@ -64,15 +69,14 @@ module.exports = {
         projectId: 'braintap-b0486',
         storageBucket: 'braintap-b0486.firebasestorage.app',
         messagingSenderId: '909994962274',
-        appId: '1:909994962274:ios:56488de04bd4455ffa103b',
+        appId: '1:909994962274:ios:018c42f0c33e4880fa103b',
       },
-      // Google OAuth client IDs (from Firebase console -> Auth -> Google).
-      // webClientId is required by GoogleSignin to obtain an idToken usable by
-      // Firebase Auth; iosClientId is the iOS OAuth client. Filled via env until
-      // the external Google setup is done.
+      // Google OAuth client IDs (public). webClientId is required by GoogleSignin
+      // to obtain an idToken accepted by Firebase Auth; iosClientId is the iOS
+      // OAuth client from GoogleService-Info.plist.
       google: {
-        webClientId: process.env.GOOGLE_WEB_CLIENT_ID || '',
-        iosClientId: process.env.GOOGLE_IOS_CLIENT_ID || '',
+        webClientId: googleWebClientId,
+        iosClientId: googleIosClientId,
       },
       // Sentry DSN is public by design. Env var overrides the default if set.
       sentryDsn:

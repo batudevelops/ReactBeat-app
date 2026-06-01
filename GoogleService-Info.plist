@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CLIENT_ID</key>
+	<string>909994962274-9g993c0ma7tbhtdo6gjed1auv3hf5qsr.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.909994962274-9g993c0ma7tbhtdo6gjed1auv3hf5qsr</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCwFFgQSygpMTYWFOmeixs-RSPjxCIUUoE</string>
 	<key>GCM_SENDER_ID</key>
@@ -9,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.braintap.app</string>
+	<string>com.batudevelops.braintap</string>
 	<key>PROJECT_ID</key>
 	<string>braintap-b0486</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:909994962274:ios:56488de04bd4455ffa103b</string>
+	<string>1:909994962274:ios:018c42f0c33e4880fa103b</string>
+	<key>DATABASE_URL</key>
+	<string>https://braintap-b0486-default-rtdb.europe-west1.firebasedatabase.app</string>
 </dict>
 </plist>

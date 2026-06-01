@@ -30,13 +30,19 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>braintap</string>
-				<string>com.braintap.app</string>
+				<string>com.batudevelops.braintap</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>exp+braintap</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.909994962274-9g993c0ma7tbhtdo6gjed1auv3hf5qsr</string>
 			</array>
 		</dict>
 	</array>

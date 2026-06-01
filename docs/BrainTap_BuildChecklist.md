@@ -38,9 +38,9 @@ Bu checklist `BrainTap_ProjectDoc.md`'ye dayanır, ancak projenin **Expo (SDK 56
 
 ## FAZ 3 — Firebase backend & Auth
 
-- [~] Firebase Console (`braintap-b0486`): Auth (Anonymous + Google + Apple), Firestore, Realtime DB etkinleştir — **HARİCİ (sen): Authentication henüz kapalı → `auth/configuration-not-found`**
-- [x] Güvenlik kuralları yazıldı: `firestore.rules` (`users/{uid}`) + `database.rules.json` (`leaderboard` read-only) + `firebase.json` + `.firebaserc` (§10) — _deploy pending_
-- [~] Google Sign-In: kod tam (`linkWithGoogle`), config plugin `GOOGLE_IOS_URL_SCHEME` env ile koşullu — **HARİCİ (sen): OAuth Web + iOS client ID**
+- [x] Firebase Console (`braintap-b0486`): Auth (Anonymous + Google + Apple) açıldı, Firestore (`eur`/europe-west1) + Realtime DB (europe-west1) oluşturuldu — anonim giriş doğrulandı ✓
+- [x] Güvenlik kuralları yazıldı + **deploy edildi**: `firestore.rules` (`users/{uid}`) + `database.rules.json` (`leaderboard` read-only) + `firebase.json` + `.firebaserc` (§10)
+- [~] Google Sign-In: kod tam (`linkWithGoogle`), config plugin `GOOGLE_IOS_URL_SCHEME` env ile koşullu — **HARİCİ (sen, Faz 10 öncesi): OAuth Web + iOS client ID**
 - [x] Apple Sign-In: `expo-apple-authentication` + `usesAppleSignIn` entitlement + nonce'lı `linkWithApple` (§11) — _Apple Developer "Sign in with Apple" capability prod'da gerekli_
 - [x] `services/firebase/auth.ts`: anonim giriş + Google/Apple link (merge, `credential-already-in-use` fallback) (§11)
 - [x] `services/firebase/firestore.ts`: `users/{uid}` ensure/CRUD + `UserDoc` tipi
