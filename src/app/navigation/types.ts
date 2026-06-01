@@ -12,6 +12,10 @@ export type RootStackParamList = {
     mode: GameMode;
     isNewRecord: boolean;
     rank?: number;
+    correct?: number;
+    wrong?: number;
+    avgReactionMs?: number;
+    level?: number;
   };
   Leaderboard: { mode?: GameMode };
   Profile: undefined;

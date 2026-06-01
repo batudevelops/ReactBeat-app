@@ -34,8 +34,16 @@ export function GameScreen() {
       <Header title={MODE_META[mode].label} onBack={() => navigation.goBack()} />
       <ModeComponent
         level={level}
-        onFinish={({ score, isNewRecord }) =>
-          navigation.replace('Result', { mode, score, isNewRecord })
+        onFinish={({ score, isNewRecord, correct, wrong, avgReactionMs }) =>
+          navigation.replace('Result', {
+            mode,
+            score,
+            isNewRecord,
+            correct,
+            wrong,
+            avgReactionMs,
+            level,
+          })
         }
       />
     </SafeLayout>

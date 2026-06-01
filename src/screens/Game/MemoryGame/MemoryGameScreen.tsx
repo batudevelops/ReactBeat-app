@@ -12,7 +12,9 @@ export function MemoryGameScreen({ level, onFinish }: GameModeScreenProps) {
       <Text style={styles.note}>Oyun motoru Faz 5-6'da bağlanacak.</Text>
       <Button
         label="Bitir (test)"
-        onPress={() => onFinish({ score: 3100, isNewRecord: false })}
+        onPress={() =>
+          onFinish({ score: 3100, isNewRecord: false, correct: 0, wrong: 0, avgReactionMs: 0 })
+        }
       />
     </View>
   );

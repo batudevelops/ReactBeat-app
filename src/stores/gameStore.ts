@@ -1,14 +1,14 @@
 import { create } from 'zustand';
 
 import { createSession } from '../engine/antiCheat';
+import { getLevelConfig } from '../engine/levelConfig';
+import { calculateScore } from '../engine/scorer';
 import type { GameMode } from '../types/game';
 import type { GameSession, TapEvent } from '../types/session';
 
 export type GameStatus = 'idle' | 'playing' | 'paused' | 'finished';
 
 const DEFAULT_LIVES = 3;
-const BASE_POINTS = 100;
-const COMBO_BONUS = 10;
 
 interface GameState {
   mode: GameMode | null;
@@ -64,8 +64,18 @@ export const useGameStore = create<GameState>((set, get) => ({
         correct: true,
         reactionMs,
       };
+      const cfg = s.mode ? getLevelConfig(s.mode, s.level) : null;
+      const points = cfg
+        ? calculateScore({
+            correct: true,
+            reactionMs,
+            timeLimit: cfg.timeLimit,
+            combo: s.combo,
+            comboBonus: cfg.comboBonus,
+          })
+        : 100;
       return {
-        score: s.score + BASE_POINTS + s.combo * COMBO_BONUS,
+        score: s.score + points,
         combo: s.combo + 1,
         streak: s.streak + 1,
         session: s.session

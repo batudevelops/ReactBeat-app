@@ -1,26 +1,72 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { Button } from '../../../components/ui';
-import { colors, spacing, typography } from '../../../theme';
+import { GameHud } from '../../../components/game';
+import { generateReflexRound, type ReflexRound } from '../../../engine/modes';
+import { colors, radius, spacing, typography } from '../../../theme';
 import type { GameModeScreenProps } from '../types';
+import { useGameController } from '../useGameController';
 
-export function ReflexGameScreen({ level, onFinish }: GameModeScreenProps) {
+export function ReflexGameScreen({ level, onFinish }: Readonly<GameModeScreenProps>) {
+  const { round, msLeft, timeLimit, score, combo, lives, submit } =
+    useGameController<ReflexRound, string>({
+      mode: 'reflex',
+      level,
+      generate: (cfg) => generateReflexRound(cfg),
+      isCorrect: (r, id) => id === r.correctId,
+      onFinish,
+    });
+
   return (
-    <View style={styles.center}>
-      <Text style={styles.title}>Reflex</Text>
-      <Text style={styles.level}>Level {level}</Text>
-      <Text style={styles.note}>Oyun motoru Faz 5-6'da bağlanacak.</Text>
-      <Button
-        label="Bitir (test)"
-        onPress={() => onFinish({ score: 4820, isNewRecord: true })}
+    <View style={styles.container}>
+      <GameHud
+        score={score}
+        combo={combo}
+        lives={lives}
+        msLeft={msLeft}
+        timeLimit={timeLimit}
       />
+
+      {round ? (
+        <View style={styles.play}>
+          <Text style={styles.promptLabel}>Bu renge tap’la</Text>
+          <Text style={styles.prompt}>{round.prompt}</Text>
+
+          <View style={styles.options}>
+            {round.options.map((opt) => (
+              <Pressable
+                key={opt.id}
+                style={[styles.tile, { backgroundColor: opt.hex }]}
+                onPress={() => submit(opt.id)}
+                accessibilityRole="button"
+                accessibilityLabel={opt.label}
+              />
+            ))}
+          </View>
+        </View>
+      ) : null}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: spacing.md },
-  title: { color: colors.textPrimary, fontSize: typography.heading1.fontSize, fontWeight: '800' },
-  level: { color: colors.amber400, fontSize: typography.heading3.fontSize },
-  note: { color: colors.textMuted, fontSize: typography.caption.fontSize, marginBottom: spacing.lg },
+  container: { flex: 1 },
+  play: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: spacing.lg },
+  promptLabel: { color: colors.textMuted, fontSize: typography.body.fontSize },
+  prompt: {
+    color: colors.textPrimary,
+    fontSize: typography.score.fontSize,
+    fontWeight: '800',
+  },
+  options: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    gap: spacing.md,
+    paddingHorizontal: spacing.lg,
+  },
+  tile: {
+    width: 88,
+    height: 88,
+    borderRadius: radius.lg,
+  },
 });
