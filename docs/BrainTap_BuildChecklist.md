@@ -88,7 +88,10 @@ Bu checklist `BrainTap_ProjectDoc.md`'ye dayanır, ancak projenin **Expo (SDK 56
 
 ## FAZ 9 — Dinamik config
 
-- [ ] Firestore tabanlı `config` dokümanı + 12 saatlik fetch (§18 default değerleri)
+- [x] Firestore `config/app` + `remoteConfig` servisi (defaults §18, merge + in-memory cache)
+- [x] `configStore` (Zustand persist `lastFetchedAt`) — Splash/auth açılışında `fetchIfStale`, 12 saat TTL
+- [x] `levelConfig` + `scorer` + leaderboard max size → RC değerlerine bağlandı
+- [ ] **HARİCİ (sen):** Firestore Console’da `config/app` dokümanını oluştur (`docs/firestore-config-app.seed.json` içeriğini yapıştır) + `firebase deploy --only firestore:rules` (config read kuralı)
 
 ## FAZ 10 — Monetizasyon
 

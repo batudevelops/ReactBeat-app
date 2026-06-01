@@ -19,6 +19,7 @@ import {
   signOut as authSignOut,
 } from '../services/firebase/auth';
 import { ensureUserDoc, getUserDoc } from '../services/firebase/firestore';
+import { useConfigStore } from '../stores/configStore';
 import { useUserStore } from '../stores/userStore';
 import type { UserDoc } from '../types/user';
 
@@ -63,6 +64,7 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
 
   useEffect(() => {
     mounted.current = true;
+    void useConfigStore.getState().fetchIfStale();
 
     const unsub = onAuthChange(async (u) => {
       if (!mounted.current) {

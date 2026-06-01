@@ -6,9 +6,10 @@ export interface ScoreParams {
   comboBonus: number;
 }
 
+import { getRemoteConfig } from '../services/firebase/remoteConfig';
+
 const BASE_SCORE = 100;
 const MAX_SPEED_BONUS = 50;
-const COMBO_MULTIPLIER_STEP = 0.1; // §18 combo_multiplier_step
 
 /**
  * Per-question score (§8).
@@ -21,7 +22,8 @@ export function calculateScore(params: ScoreParams): number {
   }
   const speedRatio = 1 - params.reactionMs / params.timeLimit;
   const speedBonus = Math.floor(clamp01(speedRatio) * MAX_SPEED_BONUS);
-  const comboMultiplier = 1 + params.combo * COMBO_MULTIPLIER_STEP;
+  const comboMultiplier =
+    1 + params.combo * getRemoteConfig().combo_multiplier_step;
   const flatComboBonus = params.combo * params.comboBonus;
   return Math.floor((BASE_SCORE + speedBonus) * comboMultiplier) + flatComboBonus;
 }

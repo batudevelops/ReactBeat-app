@@ -1,10 +1,8 @@
 import { onValue, ref, type Unsubscribe } from 'firebase/database';
 
 import { database } from '../../lib/firebase';
-import {
-  LEADERBOARD_MAX_ENTRIES,
-  type LeaderboardEntry,
-} from '../../types/leaderboard';
+import { getRemoteConfig } from './remoteConfig';
+import type { LeaderboardEntry } from '../../types/leaderboard';
 import type { GameMode, Period } from '../../types/game';
 
 type RawRow = {
@@ -29,7 +27,8 @@ export function parseLeaderboardSnapshot(
     ts: row.ts ?? 0,
   }));
   entries.sort((a, b) => b.score - a.score || b.ts - a.ts);
-  return entries.slice(0, LEADERBOARD_MAX_ENTRIES);
+  const max = getRemoteConfig().daily_leaderboard_size;
+  return entries.slice(0, max);
 }
 
 /** Realtime listener for one period + mode slice. */
@@ -79,5 +78,6 @@ export function provisionalRank(
   }
   const higher = entries.filter((e) => e.score > score).length;
   const rank = higher + 1;
-  return rank <= LEADERBOARD_MAX_ENTRIES ? rank : null;
+  const max = getRemoteConfig().daily_leaderboard_size;
+  return rank <= max ? rank : null;
 }

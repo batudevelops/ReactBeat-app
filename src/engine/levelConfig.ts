@@ -1,3 +1,4 @@
+import { getRemoteConfig } from '../services/firebase/remoteConfig';
 import type { GameMode } from '../types/game';
 
 export interface LevelConfig {
@@ -12,14 +13,19 @@ export interface LevelConfig {
 }
 
 const DEFAULT_LIVES = 3;
-const STREAK_THRESHOLD = 3; // §18 combo_threshold
+const HIGH_LEVEL = 31;
 
 function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value));
 }
 
-/** Reflex level table (§8). Level 31+ falls back to Remote Config defaults (§18). */
+function rc() {
+  return getRemoteConfig();
+}
+
+/** Reflex level table (§8). Level 31+ uses Firestore `config/app` (§18). */
 function reflexConfig(level: number): LevelConfig {
+  const remote = rc();
   let timeLimit: number;
   let options: number;
   let speedMultiplier: number;
@@ -36,8 +42,8 @@ function reflexConfig(level: number): LevelConfig {
     options = 4;
     speedMultiplier = 1.5;
   } else {
-    timeLimit = 1000; // reflex_level_31_timeLimit
-    options = 4; // reflex_level_31_options
+    timeLimit = remote.reflex_level_31_timeLimit;
+    options = remote.reflex_level_31_options;
     speedMultiplier = 1.8;
   }
   return {
@@ -46,42 +52,47 @@ function reflexConfig(level: number): LevelConfig {
     lives: DEFAULT_LIVES,
     speedMultiplier,
     comboBonus: 10,
-    streakThreshold: STREAK_THRESHOLD,
+    streakThreshold: remote.combo_threshold,
   };
 }
 
 function memoryConfig(level: number): LevelConfig {
-  // Grid grows 9 -> 16; reveal shrinks 800 -> 500ms.
-  const gridSize = clamp(9 + Math.floor((level - 1) / 5), 9, 16);
-  const showDuration = clamp(800 - (level - 1) * 10, 500, 800);
+  const remote = rc();
+  const capGrid = level >= HIGH_LEVEL ? remote.memory_level_31_gridSize : 16;
+  const floorShow =
+    level >= HIGH_LEVEL ? remote.memory_level_31_showDuration : 500;
+  const gridSize = clamp(9 + Math.floor((level - 1) / 5), 9, capGrid);
+  const showDuration = clamp(800 - (level - 1) * 10, floorShow, 800);
   return {
     timeLimit: 4000,
     options: gridSize,
     lives: DEFAULT_LIVES,
     speedMultiplier: clamp(1 + (level - 1) * 0.02, 1, 1.8),
     comboBonus: 12,
-    streakThreshold: STREAK_THRESHOLD,
+    streakThreshold: remote.combo_threshold,
     gridSize,
     showDuration,
   };
 }
 
 function patternConfig(level: number): LevelConfig {
-  // Reveal shrinks 1500 -> 400ms.
-  const showDuration = clamp(1500 - (level - 1) * 40, 400, 1500);
+  const remote = rc();
+  const floorShow =
+    level >= HIGH_LEVEL ? remote.pattern_level_31_showDuration : 400;
+  const showDuration = clamp(1500 - (level - 1) * 40, floorShow, 1500);
   return {
     timeLimit: 3000,
     options: 4,
     lives: DEFAULT_LIVES,
     speedMultiplier: clamp(1 + (level - 1) * 0.02, 1, 1.8),
     comboBonus: 10,
-    streakThreshold: STREAK_THRESHOLD,
+    streakThreshold: remote.combo_threshold,
     showDuration,
   };
 }
 
 function colorConflictConfig(level: number): LevelConfig {
-  // Options grow 2 -> 6; time shrinks 2200 -> 900ms.
+  const remote = rc();
   const options = clamp(2 + Math.floor((level - 1) / 6), 2, 6);
   const timeLimit = clamp(2200 - (level - 1) * 40, 900, 2200);
   return {
@@ -90,12 +101,12 @@ function colorConflictConfig(level: number): LevelConfig {
     lives: DEFAULT_LIVES,
     speedMultiplier: clamp(1 + (level - 1) * 0.03, 1, 2),
     comboBonus: 14,
-    streakThreshold: STREAK_THRESHOLD,
+    streakThreshold: remote.combo_threshold,
   };
 }
 
 function oddOneOutConfig(level: number): LevelConfig {
-  // Grid grows 4 -> 9; time shrinks 2500 -> 1000ms.
+  const remote = rc();
   const gridSize = clamp(4 + Math.floor((level - 1) / 5), 4, 9);
   const timeLimit = clamp(2500 - (level - 1) * 45, 1000, 2500);
   return {
@@ -104,7 +115,7 @@ function oddOneOutConfig(level: number): LevelConfig {
     lives: DEFAULT_LIVES,
     speedMultiplier: clamp(1 + (level - 1) * 0.03, 1, 2),
     comboBonus: 14,
-    streakThreshold: STREAK_THRESHOLD,
+    streakThreshold: remote.combo_threshold,
     gridSize,
   };
 }
