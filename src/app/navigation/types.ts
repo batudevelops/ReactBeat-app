@@ -1,3 +1,6 @@
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { RouteProp } from '@react-navigation/native';
+
 import type { GameMode, Period } from '../../types/game';
 
 export type RootStackParamList = {
@@ -17,3 +20,10 @@ export type RootStackParamList = {
 };
 
 export type LeaderboardTab = { period: Period; mode: GameMode };
+
+export type RootNavProp = NativeStackNavigationProp<RootStackParamList>;
+
+export type RootScreenProps<T extends keyof RootStackParamList> = {
+  navigation: NativeStackNavigationProp<RootStackParamList, T>;
+  route: RouteProp<RootStackParamList, T>;
+};
