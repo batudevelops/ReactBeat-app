@@ -1,4 +1,14 @@
 PODS:
+  - AppAuth (2.0.0):
+    - AppAuth/Core (= 2.0.0)
+    - AppAuth/ExternalUserAgent (= 2.0.0)
+  - AppAuth/Core (2.0.0)
+  - AppAuth/ExternalUserAgent (2.0.0):
+    - AppAuth/Core
+  - AppCheckCore (11.2.0):
+    - GoogleUtilities/Environment (~> 8.0)
+    - GoogleUtilities/UserDefaults (~> 8.0)
+    - PromisesObjC (~> 2.4)
   - EXConstants (56.0.16):
     - ExpoModulesCore
   - EXJSONUtils (56.0.0)
@@ -178,9 +188,17 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
+  - ExpoAdapterGoogleSignIn (16.1.2):
+    - ExpoModulesCore
+    - GoogleSignIn (~> 9.0)
+    - React-Core
+  - ExpoAppleAuthentication (56.0.4):
+    - ExpoModulesCore
   - ExpoAsset (56.0.15):
     - ExpoModulesCore
   - ExpoAudio (56.0.11):
+    - ExpoModulesCore
+  - ExpoCrypto (56.0.4):
     - ExpoModulesCore
   - ExpoDomWebView (56.0.5):
     - ExpoModulesCore
@@ -229,6 +247,24 @@ PODS:
   - EXUpdatesInterface (56.0.2):
     - ExpoModulesCore
   - FBLazyVector (0.85.3)
+  - GoogleSignIn (9.1.0):
+    - AppAuth (~> 2.0)
+    - AppCheckCore (~> 11.0)
+    - GTMAppAuth (~> 5.0)
+    - GTMSessionFetcher/Core (~> 3.3)
+  - GoogleUtilities/Environment (8.1.0):
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Logger (8.1.0):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Privacy (8.1.0)
+  - GoogleUtilities/UserDefaults (8.1.0):
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Privacy
+  - GTMAppAuth (5.0.0):
+    - AppAuth/Core (~> 2.0)
+    - GTMSessionFetcher/Core (< 4.0, >= 3.3)
+  - GTMSessionFetcher/Core (3.5.0)
   - hermes-engine (250829098.0.10):
     - hermes-engine/Pre-built (= 250829098.0.10)
   - hermes-engine/Pre-built (250829098.0.10)
@@ -256,6 +292,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
+  - PromisesObjC (2.4.0)
   - RCTDeprecation (0.85.3)
   - RCTRequired (0.85.3)
   - RCTSwiftUI (0.85.3)
@@ -2153,6 +2190,29 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
+  - RNGoogleSignin (16.1.2):
+    - GoogleSignIn (~> 9.0)
+    - hermes-engine
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-Core-prebuilt
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - ReactNativeDependencies
+    - Yoga
   - RNReanimated (4.3.1):
     - hermes-engine
     - RCTRequired
@@ -2381,8 +2441,11 @@ DEPENDENCIES:
   - expo-dev-launcher (from `../node_modules/expo-dev-launcher`)
   - expo-dev-menu (from `../node_modules/expo-dev-menu`)
   - expo-dev-menu-interface (from `../node_modules/expo-dev-menu-interface/ios`)
+  - "ExpoAdapterGoogleSignIn (from `../node_modules/@react-native-google-signin/google-signin/expo/ios`)"
+  - ExpoAppleAuthentication (from `../node_modules/expo-apple-authentication/ios`)
   - ExpoAsset (from `../node_modules/expo-asset/ios`)
   - ExpoAudio (from `../node_modules/expo-audio/ios`)
+  - ExpoCrypto (from `../node_modules/expo-crypto/ios`)
   - "ExpoDomWebView (from `../node_modules/expo/node_modules/@expo/dom-webview/ios`)"
   - ExpoFileSystem (from `../node_modules/expo/node_modules/expo-file-system/ios`)
   - ExpoFont (from `../node_modules/expo/node_modules/expo-font/ios`)
@@ -2472,6 +2535,7 @@ DEPENDENCIES:
   - ReactNativeDependencies (from `../node_modules/react-native/third-party-podspecs/ReactNativeDependencies.podspec`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
@@ -2480,7 +2544,14 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - AppAuth
+    - AppCheckCore
+    - GoogleSignIn
+    - GoogleUtilities
+    - GTMAppAuth
+    - GTMSessionFetcher
     - lottie-ios
+    - PromisesObjC
     - Sentry
 
 EXTERNAL SOURCES:
@@ -2500,10 +2571,16 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-dev-menu"
   expo-dev-menu-interface:
     :path: "../node_modules/expo-dev-menu-interface/ios"
+  ExpoAdapterGoogleSignIn:
+    :path: "../node_modules/@react-native-google-signin/google-signin/expo/ios"
+  ExpoAppleAuthentication:
+    :path: "../node_modules/expo-apple-authentication/ios"
   ExpoAsset:
     :path: "../node_modules/expo-asset/ios"
   ExpoAudio:
     :path: "../node_modules/expo-audio/ios"
+  ExpoCrypto:
+    :path: "../node_modules/expo-crypto/ios"
   ExpoDomWebView:
     :path: "../node_modules/expo/node_modules/@expo/dom-webview/ios"
   ExpoFileSystem:
@@ -2681,6 +2758,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNGoogleSignin:
+    :path: "../node_modules/@react-native-google-signin/google-signin"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -2693,6 +2772,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  AppAuth: 1c1a8afa7e12f2ec3a294d9882dfa5ab7d3cb063
+  AppCheckCore: cc8fd0a3a230ddd401f326489c99990b013f0c4f
   EXConstants: 5388ff782cff8df2578c313d5473d0eea9d4bbf4
   EXJSONUtils: dba2755f4e24009eaf87a876b2d615ea06c16e42
   EXManifests: 9548f57656823662ca8f2708d76b986abd417273
@@ -2701,8 +2782,11 @@ SPEC CHECKSUMS:
   expo-dev-launcher: 0d92583f44e1f10eaed91220f22cdbb0d33f2b81
   expo-dev-menu: 65963fc78bcae505c0e2665074ae71e11bbc3b18
   expo-dev-menu-interface: 65402d4affb8b418aa6cec29b3abb0e313c8f443
+  ExpoAdapterGoogleSignIn: 3332ac2d96d803350f53f84047244b35e2efc994
+  ExpoAppleAuthentication: b81047ca57c710e6a6a6eff5a634b01839720e3e
   ExpoAsset: 9f0e1f1b3f721162184314e9d9ef5d0ce15a0427
   ExpoAudio: ba9d9e5cf35a90b1831071347d7127620f119f25
+  ExpoCrypto: ae4972f8cbd915f8b8068a357d20812cb1bc311b
   ExpoDomWebView: 1d046ffae836cdb4221a46bc72a93df7b994ab8e
   ExpoFileSystem: 866c675f75c2e3f61b4db6bd8f1da1e686a08cec
   ExpoFont: 1ef53003394eeb9ec65eb8e0b4ca22b2ef39db99
@@ -2715,9 +2799,14 @@ SPEC CHECKSUMS:
   ExpoModulesWorklets: 3268242d88c2ada46fc5ee0e075c994efffb1a52
   EXUpdatesInterface: 211042a76ef49beec0de793aa4439de3164c4fd4
   FBLazyVector: 24e62c765683b8d89006a88a2c8f5cf019f0074d
+  GoogleSignIn: fcee2257188d5eda57a5e2b6a715550ffff9206d
+  GoogleUtilities: 00c88b9a86066ef77f0da2fab05f65d7768ed8e1
+  GTMAppAuth: 217a876b249c3c585a54fd6f73e6b58c4f5c4238
+  GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
   hermes-engine: 43076ec16a5d5454cf9415c0acc8522ce1d0d347
   lottie-ios: 8f959969761e9c45d70353667d00af0e5b9cadb3
   lottie-react-native: 116398d27ee6f92ad2adb51f581da7ed30cf2b86
+  PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   RCTDeprecation: a4c521821fab57cbb125b36effe84d897d0dfa12
   RCTRequired: 9f3a7e5645d4bc3f551593de7550bb66ab6e42bc
   RCTSwiftUI: 239ed2eb9e73de5a6f518810630f0c95e01c8702
@@ -2792,6 +2881,7 @@ SPEC CHECKSUMS:
   ReactNativeDependencies: 81e039e8fdceb81196526f8dea5875368eff688c
   RNCAsyncStorage: 0f84413588571e74ef9cff6e3b669346e3abf9cb
   RNGestureHandler: acf7db8499c11193d9b4b6b1cc1439ff4f01a693
+  RNGoogleSignin: 7b48b915471868fcc2a160aaaa26ad27a6e6d484
   RNReanimated: 59bf185693b7294a0c515e19a6d1be54def61363
   RNScreens: 032083414633a4d94cbcf08f8ab5019d72d1ba36
   RNSentry: 859c1702fe09e25c24747a5feedecab1d5138074

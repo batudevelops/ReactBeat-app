@@ -1,14 +1,12 @@
-import { useState } from 'react';
-
+import { useAuth } from '../../hooks/useAuth';
 import { SplashScreen } from '../../screens/Splash/SplashScreen';
 import { GameNavigator } from './GameNavigator';
 
 export function RootNavigator() {
-  // TODO (Faz 3): Splash gerçek auth/config yüklemesini yapınca ready olacak.
-  const [ready, setReady] = useState(false);
+  const { status } = useAuth();
 
-  if (!ready) {
-    return <SplashScreen onReady={() => setReady(true)} />;
+  if (status === 'loading') {
+    return <SplashScreen />;
   }
 
   return <GameNavigator />;

@@ -1,25 +1,19 @@
-import { useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 
 import { SafeLayout } from '../../components/shared/SafeLayout';
 import { colors, spacing, typography } from '../../theme';
 
-export interface SplashScreenProps {
-  onReady: () => void;
-}
-
-export function SplashScreen({ onReady }: SplashScreenProps) {
-  useEffect(() => {
-    // TODO (Faz 3): anonim auth + remote/firestore config + kullanıcı yükle.
-    const t = setTimeout(onReady, 1200);
-    return () => clearTimeout(t);
-  }, [onReady]);
-
+/**
+ * Pure splash display. Readiness is driven by AuthProvider via RootNavigator
+ * (anonymous auth + user doc load happen there).
+ */
+export function SplashScreen() {
   return (
     <SafeLayout>
       <View style={styles.center}>
         <Text style={styles.logo}>BrainTap</Text>
         <Text style={styles.tagline}>REACT · REMEMBER · BEAT</Text>
+        <ActivityIndicator color={colors.orange500} style={styles.spinner} />
       </View>
     </SafeLayout>
   );
@@ -41,5 +35,8 @@ const styles = StyleSheet.create({
     color: colors.textMuted,
     fontSize: typography.caption.fontSize,
     letterSpacing: 2,
+  },
+  spinner: {
+    marginTop: spacing.lg,
   },
 });

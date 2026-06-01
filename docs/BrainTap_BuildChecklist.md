@@ -22,28 +22,29 @@ Bu checklist `BrainTap_ProjectDoc.md`'ye dayanır, ancak projenin **Expo (SDK 56
 
 ## FAZ 1 — Proje temeli & dev ortamı
 
-- [ ] Core kütüphaneler: `react-native-reanimated`, `react-native-gesture-handler`, `react-native-screens`, `lottie-react-native`, `zustand`, `expo-linear-gradient`, `expo-haptics`, `expo-audio`
-- [ ] `babel-preset-expo` reanimated plugin'ini içeriyor mu doğrula (gerekirse `react-native-reanimated/plugin` ekle) + prebuild
-- [ ] `src/` klasör iskeleti (ProjectDoc §3)
-- [ ] Tema: `theme/colors.ts`, `typography.ts`, `spacing.ts`, `index.ts` (§4)
-- [ ] Tipler: `GameMode`, `RootStackParamList` (§5)
-- [ ] UI bileşenleri: `Button`, `Card`, `Badge`, `Modal`, `ProgressBar`, `Avatar` (§16)
-- [ ] Shared: `SafeLayout`, `Header`, `Loader`
+- [x] Core kütüphaneler: `react-native-reanimated`, `react-native-gesture-handler`, `react-native-screens`, `lottie-react-native`, `zustand`, `expo-linear-gradient`, `expo-haptics`, `expo-audio`
+- [x] `babel-preset-expo` reanimated plugin'ini içeriyor mu doğrula (gerekirse `react-native-reanimated/plugin` ekle) + prebuild
+- [x] `src/` klasör iskeleti (ProjectDoc §3)
+- [x] Tema: `theme/colors.ts`, `typography.ts`, `spacing.ts`, `index.ts` (§4)
+- [x] Tipler: `GameMode`, `RootStackParamList` (§5)
+- [x] UI bileşenleri: `Button`, `Card`, `Badge`, `Modal`, `ProgressBar`, `Avatar` (§16)
+- [x] Shared: `SafeLayout`, `Header`, `Loader`
 
 ## FAZ 2 — Navigation & ekran iskeletleri
 
-- [ ] `@react-navigation/native` + `native-stack` + `bottom-tabs` kurulumu (provider, gesture-handler import)
-- [ ] `RootNavigator` (auth gate), `GameNavigator`
-- [ ] Tüm ekran stub'ları: Splash, Home, ModeSelect, 5×Game, Result, Leaderboard, Profile, Settings, Paywall
+- [x] `@react-navigation/native` + `native-stack` + `bottom-tabs` kurulumu (provider, gesture-handler import)
+- [x] `RootNavigator` (auth gate), `GameNavigator`
+- [x] Tüm ekran stub'ları: Splash, Home, ModeSelect, 5×Game, Result, Leaderboard, Profile, Settings, Paywall
 
 ## FAZ 3 — Firebase backend & Auth
 
-- [ ] Firebase Console (`braintap-b0486`): Auth (Anonymous + Google + Apple), Firestore, Realtime DB etkinleştir
-- [ ] Güvenlik kuralları: Firestore `users/{uid}` + RTDB `leaderboard` read-only (§10)
-- [ ] Google Sign-In: OAuth Web + iOS client ID, `iosUrlScheme` plugin, `GoogleService-Info.plist`/`google-services.json`
-- [ ] Apple Sign-In: `expo-apple-authentication` + entitlement + Apple Developer "Sign in with Apple"
-- [ ] `services/firebase/auth.ts`: anonim giriş + Google/Apple link (merge) (§11)
-- [ ] `useAuth` hook + Splash lazy auth akışı
+- [~] Firebase Console (`braintap-b0486`): Auth (Anonymous + Google + Apple), Firestore, Realtime DB etkinleştir — **HARİCİ (sen): Authentication henüz kapalı → `auth/configuration-not-found`**
+- [x] Güvenlik kuralları yazıldı: `firestore.rules` (`users/{uid}`) + `database.rules.json` (`leaderboard` read-only) + `firebase.json` + `.firebaserc` (§10) — _deploy pending_
+- [~] Google Sign-In: kod tam (`linkWithGoogle`), config plugin `GOOGLE_IOS_URL_SCHEME` env ile koşullu — **HARİCİ (sen): OAuth Web + iOS client ID**
+- [x] Apple Sign-In: `expo-apple-authentication` + `usesAppleSignIn` entitlement + nonce'lı `linkWithApple` (§11) — _Apple Developer "Sign in with Apple" capability prod'da gerekli_
+- [x] `services/firebase/auth.ts`: anonim giriş + Google/Apple link (merge, `credential-already-in-use` fallback) (§11)
+- [x] `services/firebase/firestore.ts`: `users/{uid}` ensure/CRUD + `UserDoc` tipi
+- [x] `useAuth` hook (AuthProvider) + Splash lazy auth akışı (anon hata → degraded, app yine açılır)
 
 ## FAZ 4 — State management
 

@@ -8,6 +8,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { RootNavigator } from './src/app/navigation/RootNavigator';
+import { AuthProvider } from './src/hooks/useAuth';
 import { colors } from './src/theme';
 import './src/lib/firebase';
 
@@ -28,9 +29,11 @@ export default function App() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
         <StatusBar style="light" />
-        <NavigationContainer theme={navTheme}>
-          <RootNavigator />
-        </NavigationContainer>
+        <AuthProvider>
+          <NavigationContainer theme={navTheme}>
+            <RootNavigator />
+          </NavigationContainer>
+        </AuthProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );
