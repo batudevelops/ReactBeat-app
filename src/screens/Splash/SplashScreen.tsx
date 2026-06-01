@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 
 import { SafeLayout } from '../../components/shared/SafeLayout';
@@ -8,11 +9,12 @@ import { colors, spacing, typography } from '../../theme';
  * (anonymous auth + user doc load happen there).
  */
 export function SplashScreen() {
+  const { t } = useTranslation();
   return (
     <SafeLayout>
       <View style={styles.center}>
         <Text style={styles.logo}>BrainTap</Text>
-        <Text style={styles.tagline}>REACT · REMEMBER · BEAT</Text>
+        <Text style={styles.tagline}>{t('splash.tagline')}</Text>
         <ActivityIndicator color={colors.orange500} style={styles.spinner} />
       </View>
     </SafeLayout>

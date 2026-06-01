@@ -1,4 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '../../components/ui';
@@ -6,44 +7,49 @@ import { SafeLayout } from '../../components/shared/SafeLayout';
 import type { RootNavProp } from '../../app/navigation/types';
 import { colors, spacing, typography } from '../../theme';
 
-const PERKS = [
-  '5 oyun moduna tam erişim',
-  'Reklamsız deneyim',
-  'Sınırsız can',
-  'Tüm zamanlar leaderboard',
-];
+const PERK_KEYS = [
+  'paywall.perkModes',
+  'paywall.perkNoAds',
+  'paywall.perkLives',
+  'paywall.perkLeaderboard',
+] as const;
 
 export function PaywallScreen() {
   const navigation = useNavigation<RootNavProp>();
+  const { t } = useTranslation();
 
   return (
     <SafeLayout>
       <View style={styles.body}>
-        <Text style={styles.title}>BrainTap Premium</Text>
+        <Text style={styles.title}>{t('paywall.title')}</Text>
 
         <View style={styles.perks}>
-          {PERKS.map((p) => (
-            <Text key={p} style={styles.perk}>
-              ✓ {p}
+          {PERK_KEYS.map((key) => (
+            <Text key={key} style={styles.perk}>
+              ✓ {t(key)}
             </Text>
           ))}
         </View>
 
         <View style={styles.priceBox}>
-          <Text style={styles.priceLabel}>TEK SEFERLİK</Text>
+          <Text style={styles.priceLabel}>{t('paywall.oneTime')}</Text>
           <Text style={styles.price}>$1.99</Text>
         </View>
 
         <View style={styles.spacer} />
 
         <Button
-          label="Satın Al"
+          label={t('paywall.buy')}
           onPress={() => {
             // TODO (Faz 10): RevenueCat purchasePackage.
           }}
         />
-        <Button label="Restore Purchases" variant="secondary" onPress={() => {}} />
-        <Button label="Kapat" variant="ghost" onPress={() => navigation.goBack()} />
+        <Button label={t('paywall.restore')} variant="secondary" onPress={() => {}} />
+        <Button
+          label={t('common.close')}
+          variant="ghost"
+          onPress={() => navigation.goBack()}
+        />
       </View>
     </SafeLayout>
   );

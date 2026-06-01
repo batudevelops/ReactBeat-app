@@ -1,0 +1,112 @@
+{
+  "common": {
+    "back": "Back",
+    "close": "Close"
+  },
+  "splash": {
+    "tagline": "REACT · REMEMBER · BEAT"
+  },
+  "home": {
+    "greeting": "Hi, {{name}} 👋",
+    "streak": "🔥 {{value}}-day streak",
+    "leaderboard": "Leaderboard",
+    "profile": "Profile"
+  },
+  "modes": {
+    "reflex": {
+      "label": "Reflex",
+      "description": "Tap the right option as fast as you can."
+    },
+    "memory": {
+      "label": "Memory",
+      "description": "Memorize the shown sequence and repeat it."
+    },
+    "pattern": {
+      "label": "Pattern",
+      "description": "Find the pattern shown briefly."
+    },
+    "colorConflict": {
+      "label": "Color Conflict",
+      "description": "Tap the shape’s real color."
+    },
+    "oddOneOut": {
+      "label": "Odd One Out",
+      "description": "Spot the different one."
+    }
+  },
+  "modeSelect": {
+    "personalBest": "Personal best: {{value}}",
+    "weeklyRank": "Weekly rank: {{value}}",
+    "watchAd": "🎥 Watch ad → +1 life",
+    "play": "▶ Play"
+  },
+  "game": {
+    "reflexPrompt": "Tap this color",
+    "colorConflictHint": "Tap the shape’s real color",
+    "oddOneOutHint": "Tap the different one",
+    "patternMemorize": "Memorize the pattern",
+    "patternWhich": "Which one was it?",
+    "memoryWatch": "Watch the sequence",
+    "memoryRepeat": "Repeat ({{current}}/{{total}})"
+  },
+  "result": {
+    "newRecord": "🎉 NEW RECORD!",
+    "scoreLabel": "Your {{mode}} score",
+    "correctWrong": "Correct: {{correct}}  Wrong: {{wrong}}",
+    "avgReaction": "Avg. reaction: {{ms}} ms",
+    "avgReactionEmpty": "Avg. reaction: —",
+    "weeklyRank": "Your weekly rank: #{{rank}}",
+    "playAgain": "Play Again",
+    "viewLeaderboard": "View Leaderboard",
+    "mainMenu": "Main Menu"
+  },
+  "leaderboard": {
+    "title": "Leaderboard",
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "alltime": "All-time",
+    "comingSoon": "List will load from Realtime DB in Phase 7.",
+    "yourRank": "Your rank: —"
+  },
+  "profile": {
+    "title": "Profile",
+    "defaultName": "Player",
+    "premium": "★ Premium",
+    "totalGames": "Total games: {{value}}",
+    "totalXP": "Total XP: {{value}}",
+    "longestStreak": "Longest streak: {{value}}",
+    "bestScores": "Best scores",
+    "linkGoogle": "Link with Google",
+    "linkApple": "Link with Apple",
+    "linking": "Linking…",
+    "linked": "Account linked ✓",
+    "linkSuccessTitle": "Success",
+    "linkSuccessBody": "Your account is linked, your progress is now safe.",
+    "linkFailTitle": "Couldn’t link",
+    "linkFailBody": "Something went wrong while linking."
+  },
+  "settings": {
+    "title": "Settings",
+    "sound": "Sound effects",
+    "haptic": "Haptic feedback",
+    "notifications": "Notifications",
+    "language": "Language",
+    "buyPremium": "Buy Premium",
+    "restore": "Restore purchases",
+    "version": "BrainTap v{{version}}"
+  },
+  "paywall": {
+    "title": "BrainTap Premium",
+    "perkModes": "Full access to all 5 game modes",
+    "perkNoAds": "Ad-free experience",
+    "perkLives": "Unlimited lives",
+    "perkLeaderboard": "All-time leaderboard",
+    "oneTime": "ONE-TIME",
+    "buy": "Buy",
+    "restore": "Restore Purchases"
+  },
+  "languages": {
+    "tr": "Türkçe",
+    "en": "English"
+  }
+}

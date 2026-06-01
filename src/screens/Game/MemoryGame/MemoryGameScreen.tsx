@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { GameHud } from '../../../components/game';
@@ -19,6 +20,7 @@ export function MemoryGameScreen({
   level,
   onFinish,
 }: Readonly<GameModeScreenProps>) {
+  const { t } = useTranslation();
   const { round, msLeft, timeLimit, score, combo, lives, submit } =
     useGameController<MemoryRound, number[]>({
       mode: 'memory',
@@ -92,8 +94,11 @@ export function MemoryGameScreen({
         <View style={styles.play}>
           <Text style={styles.hint}>
             {phase === 'show'
-              ? 'Sırayı izle'
-              : `Tekrarla (${tapCount}/${round.sequence.length})`}
+              ? t('game.memoryWatch')
+              : t('game.memoryRepeat', {
+                  current: tapCount,
+                  total: round.sequence.length,
+                })}
           </Text>
           <View style={[styles.grid, { maxWidth: cols * 80 }]}>
             {Array.from({ length: round.gridSize }, (_, i) => (

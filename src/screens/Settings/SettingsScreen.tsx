@@ -1,12 +1,14 @@
 import { useNavigation } from '@react-navigation/native';
-import { StyleSheet, Switch, Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { Pressable, StyleSheet, Switch, Text, View } from 'react-native';
 
 import { Button } from '../../components/ui';
 import { Header } from '../../components/shared/Header';
 import { SafeLayout } from '../../components/shared/SafeLayout';
 import type { RootNavProp } from '../../app/navigation/types';
+import { SUPPORTED_LANGUAGES } from '../../i18n';
 import { useSettingsStore } from '../../stores';
-import { colors, spacing, typography } from '../../theme';
+import { colors, radius, spacing, typography } from '../../theme';
 
 function Row({
   label,
@@ -31,33 +33,58 @@ function Row({
 
 export function SettingsScreen() {
   const navigation = useNavigation<RootNavProp>();
+  const { t } = useTranslation();
   const soundEnabled = useSettingsStore((s) => s.soundEnabled);
   const hapticEnabled = useSettingsStore((s) => s.hapticEnabled);
   const notificationsEnabled = useSettingsStore((s) => s.notificationsEnabled);
+  const language = useSettingsStore((s) => s.language);
   const toggleSound = useSettingsStore((s) => s.toggleSound);
   const toggleHaptic = useSettingsStore((s) => s.toggleHaptic);
   const toggleNotifications = useSettingsStore((s) => s.toggleNotifications);
+  const setLanguage = useSettingsStore((s) => s.setLanguage);
 
   return (
     <SafeLayout>
-      <Header title="Ayarlar" onBack={() => navigation.goBack()} />
+      <Header title={t('settings.title')} onBack={() => navigation.goBack()} />
       <View style={styles.body}>
-        <Row label="Ses efektleri" value={soundEnabled} onValueChange={toggleSound} />
-        <Row label="Haptic feedback" value={hapticEnabled} onValueChange={toggleHaptic} />
+        <Row label={t('settings.sound')} value={soundEnabled} onValueChange={toggleSound} />
+        <Row label={t('settings.haptic')} value={hapticEnabled} onValueChange={toggleHaptic} />
         <Row
-          label="Bildirimler"
+          label={t('settings.notifications')}
           value={notificationsEnabled}
           onValueChange={toggleNotifications}
         />
 
+        <View style={styles.row}>
+          <Text style={styles.rowLabel}>{t('settings.language')}</Text>
+          <View style={styles.langGroup}>
+            {SUPPORTED_LANGUAGES.map((lang) => (
+              <Pressable
+                key={lang}
+                onPress={() => setLanguage(lang)}
+                style={[styles.langChip, language === lang && styles.langChipActive]}
+              >
+                <Text
+                  style={[
+                    styles.langChipText,
+                    language === lang && styles.langChipTextActive,
+                  ]}
+                >
+                  {t(`languages.${lang}`)}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
+        </View>
+
         <View style={styles.spacer} />
 
         <Button
-          label="Premium satın al"
+          label={t('settings.buyPremium')}
           onPress={() => navigation.navigate('Paywall')}
         />
-        <Button label="Restore purchases" variant="ghost" onPress={() => {}} />
-        <Text style={styles.version}>BrainTap v1.0.0</Text>
+        <Button label={t('settings.restore')} variant="ghost" onPress={() => {}} />
+        <Text style={styles.version}>{t('settings.version', { version: '1.0.0' })}</Text>
       </View>
     </SafeLayout>
   );
@@ -72,6 +99,16 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.sm,
   },
   rowLabel: { color: colors.textPrimary, fontSize: typography.body.fontSize },
+  langGroup: { flexDirection: 'row', gap: spacing.sm },
+  langChip: {
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.xs,
+    borderRadius: radius.full,
+    backgroundColor: colors.bgSurface,
+  },
+  langChipActive: { backgroundColor: colors.orange500 },
+  langChipText: { color: colors.textSecondary, fontSize: typography.caption.fontSize },
+  langChipTextActive: { color: colors.textPrimary, fontWeight: '700' },
   spacer: { flex: 1 },
   version: {
     color: colors.textMuted,

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { GameHud } from '../../../components/game';
@@ -7,6 +8,7 @@ import type { GameModeScreenProps } from '../types';
 import { useGameController } from '../useGameController';
 
 export function ReflexGameScreen({ level, onFinish }: Readonly<GameModeScreenProps>) {
+  const { t } = useTranslation();
   const { round, msLeft, timeLimit, score, combo, lives, submit } =
     useGameController<ReflexRound, string>({
       mode: 'reflex',
@@ -28,7 +30,7 @@ export function ReflexGameScreen({ level, onFinish }: Readonly<GameModeScreenPro
 
       {round ? (
         <View style={styles.play}>
-          <Text style={styles.promptLabel}>Bu renge tap’la</Text>
+          <Text style={styles.promptLabel}>{t('game.reflexPrompt')}</Text>
           <Text style={styles.prompt}>{round.prompt}</Text>
 
           <View style={styles.options}>

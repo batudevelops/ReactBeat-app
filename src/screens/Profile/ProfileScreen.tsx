@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Alert, Platform, StyleSheet, Text, View } from 'react-native';
 
 import { Avatar, Button, Card } from '../../components/ui';
@@ -9,12 +10,13 @@ import type { RootNavProp } from '../../app/navigation/types';
 import { useAuth } from '../../hooks/useAuth';
 import { useUserStore } from '../../stores';
 import { colors, spacing, typography } from '../../theme';
-import { GAME_MODES, MODE_META } from '../../types/game';
+import { GAME_MODES } from '../../types/game';
 
 export function ProfileScreen() {
   const navigation = useNavigation<RootNavProp>();
   const { user, linkGoogle, linkApple } = useAuth();
   const profile = useUserStore();
+  const { t } = useTranslation();
   const [busy, setBusy] = useState<null | 'google' | 'apple'>(null);
 
   const isAnonymous = user?.isAnonymous ?? true;
@@ -27,11 +29,11 @@ export function ProfileScreen() {
       } else {
         await linkApple();
       }
-      Alert.alert('Başarılı', 'Hesabın bağlandı, ilerlemen artık güvende.');
+      Alert.alert(t('profile.linkSuccessTitle'), t('profile.linkSuccessBody'));
     } catch (e) {
       const message =
-        (e as { message?: string }).message ?? 'Bağlama sırasında hata oluştu.';
-      Alert.alert('Bağlanamadı', message);
+        (e as { message?: string }).message ?? t('profile.linkFailBody');
+      Alert.alert(t('profile.linkFailTitle'), message);
     } finally {
       setBusy(null);
     }
@@ -39,24 +41,26 @@ export function ProfileScreen() {
 
   return (
     <SafeLayout>
-      <Header title="Profil" onBack={() => navigation.goBack()} />
+      <Header title={t('profile.title')} onBack={() => navigation.goBack()} />
       <View style={styles.identity}>
         <Avatar index={profile.avatar} size={72} />
-        <Text style={styles.name}>{profile.displayName || 'Oyuncu'}</Text>
-        {profile.isPremium ? <Text style={styles.premium}>★ Premium</Text> : null}
+        <Text style={styles.name}>{profile.displayName || t('profile.defaultName')}</Text>
+        {profile.isPremium ? (
+          <Text style={styles.premium}>{t('profile.premium')}</Text>
+        ) : null}
       </View>
 
       <Card style={styles.block}>
-        <Text style={styles.stat}>Toplam oyun: {profile.totalGames}</Text>
-        <Text style={styles.stat}>Toplam XP: {profile.totalXP}</Text>
-        <Text style={styles.stat}>En uzun seri: {profile.streak}</Text>
+        <Text style={styles.stat}>{t('profile.totalGames', { value: profile.totalGames })}</Text>
+        <Text style={styles.stat}>{t('profile.totalXP', { value: profile.totalXP })}</Text>
+        <Text style={styles.stat}>{t('profile.longestStreak', { value: profile.streak })}</Text>
       </Card>
 
       <Card style={styles.block}>
-        <Text style={styles.blockTitle}>En iyi skorlar</Text>
+        <Text style={styles.blockTitle}>{t('profile.bestScores')}</Text>
         {GAME_MODES.map((m) => (
           <Text key={m} style={styles.stat}>
-            {MODE_META[m].label}: {profile.bestScores[m]}
+            {t(`modes.${m}.label`)}: {profile.bestScores[m]}
           </Text>
         ))}
       </Card>
@@ -65,14 +69,14 @@ export function ProfileScreen() {
       {isAnonymous ? (
         <>
           <Button
-            label={busy === 'google' ? 'Bağlanıyor…' : 'Google ile bağla'}
+            label={busy === 'google' ? t('profile.linking') : t('profile.linkGoogle')}
             variant="secondary"
             disabled={busy !== null}
             onPress={() => handleLink('google')}
           />
           {Platform.OS === 'ios' ? (
             <Button
-              label={busy === 'apple' ? 'Bağlanıyor…' : 'Apple ile bağla'}
+              label={busy === 'apple' ? t('profile.linking') : t('profile.linkApple')}
               variant="secondary"
               disabled={busy !== null}
               onPress={() => handleLink('apple')}
@@ -80,7 +84,7 @@ export function ProfileScreen() {
           ) : null}
         </>
       ) : (
-        <Text style={styles.linked}>Hesabın bağlı ✓</Text>
+        <Text style={styles.linked}>{t('profile.linked')}</Text>
       )}
     </SafeLayout>
   );

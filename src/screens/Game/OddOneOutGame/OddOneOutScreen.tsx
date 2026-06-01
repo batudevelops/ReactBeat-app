@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { GameHud } from '../../../components/game';
@@ -17,6 +18,7 @@ export function OddOneOutScreen({
   level,
   onFinish,
 }: Readonly<GameModeScreenProps>) {
+  const { t } = useTranslation();
   const { round, msLeft, timeLimit, score, combo, lives, submit } =
     useGameController<OddOneOutRound, string>({
       mode: 'oddOneOut',
@@ -40,7 +42,7 @@ export function OddOneOutScreen({
 
       {round ? (
         <View style={styles.play}>
-          <Text style={styles.hint}>Farklı olana tap’la</Text>
+          <Text style={styles.hint}>{t('game.oddOneOutHint')}</Text>
           <View style={[styles.grid, { maxWidth: cols * 84 }]}>
             {round.items.map((item) => (
               <Pressable

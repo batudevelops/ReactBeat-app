@@ -1,12 +1,12 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
 import type { ComponentType } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Header } from '../../components/shared/Header';
 import { SafeLayout } from '../../components/shared/SafeLayout';
 import type { RootNavProp, RootStackParamList } from '../../app/navigation/types';
 import type { GameMode } from '../../types/game';
-import { MODE_META } from '../../types/game';
 import { ColorConflictScreen } from './ColorConflictGame/ColorConflictScreen';
 import { MemoryGameScreen } from './MemoryGame/MemoryGameScreen';
 import { OddOneOutScreen } from './OddOneOutGame/OddOneOutScreen';
@@ -25,13 +25,14 @@ const MODE_SCREENS: Record<GameMode, ComponentType<GameModeScreenProps>> = {
 export function GameScreen() {
   const navigation = useNavigation<RootNavProp>();
   const route = useRoute<RouteProp<RootStackParamList, 'Game'>>();
+  const { t } = useTranslation();
   const { mode, level } = route.params;
 
   const ModeComponent = MODE_SCREENS[mode];
 
   return (
     <SafeLayout>
-      <Header title={MODE_META[mode].label} onBack={() => navigation.goBack()} />
+      <Header title={t(`modes.${mode}.label`)} onBack={() => navigation.goBack()} />
       <ModeComponent
         level={level}
         onFinish={({ score, isNewRecord, correct, wrong, avgReactionMs }) =>

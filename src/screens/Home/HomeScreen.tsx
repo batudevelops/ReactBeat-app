@@ -1,4 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { Badge } from '../../components/ui';
@@ -10,7 +11,8 @@ import { GAME_MODES, MODE_META } from '../../types/game';
 
 export function HomeScreen() {
   const navigation = useNavigation<RootNavProp>();
-  const displayName = useUserStore((s) => s.displayName) || 'Oyuncu';
+  const { t } = useTranslation();
+  const displayName = useUserStore((s) => s.displayName) || t('profile.defaultName');
   const streak = useUserStore((s) => s.streak);
   const isPremium = useUserStore((s) => s.isPremium);
 
@@ -18,8 +20,8 @@ export function HomeScreen() {
     <SafeLayout>
       <View style={styles.headerRow}>
         <View>
-          <Text style={styles.hello}>Merhaba, {displayName} 👋</Text>
-          <Text style={styles.streak}>🔥 {streak} günlük seri</Text>
+          <Text style={styles.hello}>{t('home.greeting', { name: displayName })}</Text>
+          <Text style={styles.streak}>{t('home.streak', { value: streak })}</Text>
         </View>
       </View>
 
@@ -38,12 +40,12 @@ export function HomeScreen() {
               }
             >
               <View style={styles.modeTop}>
-                <Text style={styles.modeLabel}>{meta.label}</Text>
+                <Text style={styles.modeLabel}>{t(`modes.${mode}.label`)}</Text>
                 {meta.premium ? (
                   <Badge label={locked ? '🔒 Premium' : 'Premium'} tone="special" />
                 ) : null}
               </View>
-              <Text style={styles.modeDesc}>{meta.description}</Text>
+              <Text style={styles.modeDesc}>{t(`modes.${mode}.description`)}</Text>
             </Pressable>
           );
         })}
@@ -51,10 +53,10 @@ export function HomeScreen() {
 
       <View style={styles.bottomBar}>
         <Pressable onPress={() => navigation.navigate('Leaderboard', {})}>
-          <Text style={styles.barItem}>Leaderboard</Text>
+          <Text style={styles.barItem}>{t('home.leaderboard')}</Text>
         </Pressable>
         <Pressable onPress={() => navigation.navigate('Profile')}>
-          <Text style={styles.barItem}>Profil</Text>
+          <Text style={styles.barItem}>{t('home.profile')}</Text>
         </Pressable>
         <Pressable onPress={() => navigation.navigate('Settings')}>
           <Text style={styles.barItem}>⚙️</Text>

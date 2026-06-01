@@ -113,6 +113,10 @@ Bu checklist `BrainTap_ProjectDoc.md`'ye dayanır, ancak projenin **Expo (SDK 56
 - [ ] Gizlilik politikası + kullanım şartları + App Privacy beyanı
 - [ ] TestFlight + Play internal testing
 
+## Ekstra altyapı
+
+- [x] **i18n** (Fluo gibi): `i18next` + `react-i18next`, `src/i18n/` + `tr.json`/`en.json`; tüm ekran metinleri taşındı; cihaz dili otomatik algılama (core RN bridge, native modül yok), `settingsStore.language` (persist) + Settings'te dil seçici. Not: tam doğru çoğul kuralları için ileride `Intl.PluralRules` polyfill eklenebilir.
+
 ---
 
 *Kaynak: `BrainTap_ProjectDoc.md` · Uyarlama: Expo SDK 56 + Firebase JS SDK + Sentry*

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { GameHud } from '../../../components/game';
@@ -37,6 +38,7 @@ export function PatternGameScreen({
   level,
   onFinish,
 }: Readonly<GameModeScreenProps>) {
+  const { t } = useTranslation();
   const { round, msLeft, timeLimit, score, combo, lives, submit } =
     useGameController<PatternRound, string>({
       mode: 'pattern',
@@ -72,12 +74,12 @@ export function PatternGameScreen({
         <View style={styles.play}>
           {revealed ? (
             <>
-              <Text style={styles.hint}>Deseni ezberle</Text>
+              <Text style={styles.hint}>{t('game.patternMemorize')}</Text>
               <PatternGrid cells={round.target} tile={56} active />
             </>
           ) : (
             <>
-              <Text style={styles.hint}>Hangisiydi?</Text>
+              <Text style={styles.hint}>{t('game.patternWhich')}</Text>
               <View style={styles.options}>
                 {round.options.map((opt) => (
                   <Pressable

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { GameHud } from '../../../components/game';
@@ -13,6 +14,7 @@ export function ColorConflictScreen({
   level,
   onFinish,
 }: Readonly<GameModeScreenProps>) {
+  const { t } = useTranslation();
   const { round, msLeft, timeLimit, score, combo, lives, submit } =
     useGameController<ColorConflictRound, string>({
       mode: 'colorConflict',
@@ -34,7 +36,7 @@ export function ColorConflictScreen({
 
       {round ? (
         <View style={styles.play}>
-          <Text style={styles.hint}>Şeklin gerçek rengine tap’la</Text>
+          <Text style={styles.hint}>{t('game.colorConflictHint')}</Text>
           <View style={[styles.stage, { backgroundColor: round.backgroundHex }]}>
             <View style={[styles.shape, { backgroundColor: round.shapeColorHex }]} />
           </View>

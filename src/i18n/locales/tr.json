@@ -1,0 +1,112 @@
+{
+  "common": {
+    "back": "Geri",
+    "close": "Kapat"
+  },
+  "splash": {
+    "tagline": "REACT · REMEMBER · BEAT"
+  },
+  "home": {
+    "greeting": "Merhaba, {{name}} 👋",
+    "streak": "🔥 {{value}} günlük seri",
+    "leaderboard": "Leaderboard",
+    "profile": "Profil"
+  },
+  "modes": {
+    "reflex": {
+      "label": "Reflex",
+      "description": "Doğru seçeneğe en hızlı sen tap’la."
+    },
+    "memory": {
+      "label": "Memory",
+      "description": "Gösterilen sırayı ezberle ve tekrarla."
+    },
+    "pattern": {
+      "label": "Pattern",
+      "description": "Kısa süre görünen deseni bul."
+    },
+    "colorConflict": {
+      "label": "Color Conflict",
+      "description": "Şeklin gerçek rengine tap’la."
+    },
+    "oddOneOut": {
+      "label": "Odd One Out",
+      "description": "Farklı olanı yakala."
+    }
+  },
+  "modeSelect": {
+    "personalBest": "Kişisel en iyi: {{value}}",
+    "weeklyRank": "Haftalık sıra: {{value}}",
+    "watchAd": "🎥 Reklam izle → +1 can",
+    "play": "▶ Oyna"
+  },
+  "game": {
+    "reflexPrompt": "Bu renge tap’la",
+    "colorConflictHint": "Şeklin gerçek rengine tap’la",
+    "oddOneOutHint": "Farklı olana tap’la",
+    "patternMemorize": "Deseni ezberle",
+    "patternWhich": "Hangisiydi?",
+    "memoryWatch": "Sırayı izle",
+    "memoryRepeat": "Tekrarla ({{current}}/{{total}})"
+  },
+  "result": {
+    "newRecord": "🎉 YENİ REKOR!",
+    "scoreLabel": "{{mode}} skorun",
+    "correctWrong": "Doğru: {{correct}}  Yanlış: {{wrong}}",
+    "avgReaction": "Ort. tepki: {{ms}} ms",
+    "avgReactionEmpty": "Ort. tepki: —",
+    "weeklyRank": "Bu haftaki sıran: #{{rank}}",
+    "playAgain": "Tekrar Oyna",
+    "viewLeaderboard": "Leaderboard’a bak",
+    "mainMenu": "Ana Menü"
+  },
+  "leaderboard": {
+    "title": "Liderlik Tablosu",
+    "daily": "Günlük",
+    "weekly": "Haftalık",
+    "alltime": "Tüm",
+    "comingSoon": "Liste Faz 7’de Realtime DB’den gelecek.",
+    "yourRank": "Senin sıran: —"
+  },
+  "profile": {
+    "title": "Profil",
+    "defaultName": "Oyuncu",
+    "premium": "★ Premium",
+    "totalGames": "Toplam oyun: {{value}}",
+    "totalXP": "Toplam XP: {{value}}",
+    "longestStreak": "En uzun seri: {{value}}",
+    "bestScores": "En iyi skorlar",
+    "linkGoogle": "Google ile bağla",
+    "linkApple": "Apple ile bağla",
+    "linking": "Bağlanıyor…",
+    "linked": "Hesabın bağlı ✓",
+    "linkSuccessTitle": "Başarılı",
+    "linkSuccessBody": "Hesabın bağlandı, ilerlemen artık güvende.",
+    "linkFailTitle": "Bağlanamadı",
+    "linkFailBody": "Bağlama sırasında hata oluştu."
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "sound": "Ses efektleri",
+    "haptic": "Haptic feedback",
+    "notifications": "Bildirimler",
+    "language": "Dil",
+    "buyPremium": "Premium satın al",
+    "restore": "Restore purchases",
+    "version": "BrainTap v{{version}}"
+  },
+  "paywall": {
+    "title": "BrainTap Premium",
+    "perkModes": "5 oyun moduna tam erişim",
+    "perkNoAds": "Reklamsız deneyim",
+    "perkLives": "Sınırsız can",
+    "perkLeaderboard": "Tüm zamanlar leaderboard",
+    "oneTime": "TEK SEFERLİK",
+    "buy": "Satın Al",
+    "restore": "Restore Purchases"
+  },
+  "languages": {
+    "tr": "Türkçe",
+    "en": "English"
+  }
+}

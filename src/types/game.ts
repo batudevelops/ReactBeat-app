@@ -15,36 +15,24 @@ export const GAME_MODES: GameMode[] = [
 
 export const PREMIUM_MODES: GameMode[] = ['colorConflict', 'oddOneOut'];
 
-export const MODE_META: Record<
-  GameMode,
-  { label: string; description: string; premium: boolean }
-> = {
-  reflex: {
-    label: 'Reflex',
-    description: 'Doğru seçeneğe en hızlı sen tap’la.',
-    premium: false,
-  },
-  memory: {
-    label: 'Memory',
-    description: 'Gösterilen sırayı ezberle ve tekrarla.',
-    premium: false,
-  },
-  pattern: {
-    label: 'Pattern',
-    description: 'Kısa süre görünen deseni bul.',
-    premium: false,
-  },
-  colorConflict: {
-    label: 'Color Conflict',
-    description: 'Şeklin gerçek rengine tap’la.',
-    premium: true,
-  },
-  oddOneOut: {
-    label: 'Odd One Out',
-    description: 'Farklı olanı yakala.',
-    premium: true,
-  },
+/** Static per-mode metadata. User-facing label/description live in i18n
+ * (`modes.<mode>.label` / `.description`). */
+export const MODE_META: Record<GameMode, { premium: boolean }> = {
+  reflex: { premium: false },
+  memory: { premium: false },
+  pattern: { premium: false },
+  colorConflict: { premium: true },
+  oddOneOut: { premium: true },
 };
+
+/** i18n key helpers for a mode's label/description. */
+export function modeLabelKey(mode: GameMode): string {
+  return `modes.${mode}.label`;
+}
+
+export function modeDescriptionKey(mode: GameMode): string {
+  return `modes.${mode}.description`;
+}
 
 export type Period = 'daily' | 'weekly' | 'alltime';
 

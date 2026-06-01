@@ -11,6 +11,7 @@ import { RootNavigator } from './src/app/navigation/RootNavigator';
 import { AuthProvider } from './src/hooks/useAuth';
 import { colors } from './src/theme';
 import './src/lib/firebase';
+import './src/i18n';
 
 const navTheme: NavTheme = {
   ...DarkTheme,

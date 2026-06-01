@@ -1,40 +1,38 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { Header } from '../../components/shared/Header';
 import { SafeLayout } from '../../components/shared/SafeLayout';
 import type { RootNavProp, RootStackParamList } from '../../app/navigation/types';
 import { colors, radius, spacing, typography } from '../../theme';
-import { GAME_MODES, MODE_META, type GameMode, type Period } from '../../types/game';
+import { GAME_MODES, type GameMode, type Period } from '../../types/game';
 
-const PERIODS: { key: Period; label: string }[] = [
-  { key: 'daily', label: 'Günlük' },
-  { key: 'weekly', label: 'Haftalık' },
-  { key: 'alltime', label: 'Tüm' },
-];
+const PERIOD_KEYS: Period[] = ['daily', 'weekly', 'alltime'];
 
 export function LeaderboardScreen() {
   const navigation = useNavigation<RootNavProp>();
   const route = useRoute<RouteProp<RootStackParamList, 'Leaderboard'>>();
+  const { t } = useTranslation();
 
   const [period, setPeriod] = useState<Period>('weekly');
   const [mode, setMode] = useState<GameMode>(route.params?.mode ?? 'reflex');
 
   return (
     <SafeLayout>
-      <Header title="Liderlik Tablosu" onBack={() => navigation.goBack()} />
+      <Header title={t('leaderboard.title')} onBack={() => navigation.goBack()} />
 
       <View style={styles.tabRow}>
-        {PERIODS.map((p) => (
+        {PERIOD_KEYS.map((p) => (
           <Pressable
-            key={p.key}
-            style={[styles.tab, period === p.key && styles.tabActive]}
-            onPress={() => setPeriod(p.key)}
+            key={p}
+            style={[styles.tab, period === p && styles.tabActive]}
+            onPress={() => setPeriod(p)}
           >
-            <Text style={[styles.tabText, period === p.key && styles.tabTextActive]}>
-              {p.label}
+            <Text style={[styles.tabText, period === p && styles.tabTextActive]}>
+              {t(`leaderboard.${p}`)}
             </Text>
           </Pressable>
         ))}
@@ -52,7 +50,7 @@ export function LeaderboardScreen() {
             onPress={() => setMode(m)}
           >
             <Text style={[styles.chipText, mode === m && styles.chipTextActive]}>
-              {MODE_META[m].label}
+              {t(`modes.${m}.label`)}
             </Text>
           </Pressable>
         ))}
@@ -60,15 +58,13 @@ export function LeaderboardScreen() {
 
       <View style={styles.placeholder}>
         <Text style={styles.placeholderText}>
-          {MODE_META[mode].label} · {period}
+          {t(`modes.${mode}.label`)} · {t(`leaderboard.${period}`)}
         </Text>
-        <Text style={styles.placeholderMuted}>
-          Liste Faz 7'de Realtime DB'den gelecek.
-        </Text>
+        <Text style={styles.placeholderMuted}>{t('leaderboard.comingSoon')}</Text>
       </View>
 
       <View style={styles.myRank}>
-        <Text style={styles.myRankText}>Senin sıran: — </Text>
+        <Text style={styles.myRankText}>{t('leaderboard.yourRank')}</Text>
       </View>
     </SafeLayout>
   );
