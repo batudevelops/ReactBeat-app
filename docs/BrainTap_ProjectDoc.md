@@ -92,7 +92,8 @@ react-native-purchases
 ```
 
 ### Firebase Proje
-- Proje adı: `braintap`
+- Görünen ad (home screen / splash): **BrainTap**
+- Expo slug / URL scheme (teknik, küçük harf): `braintap`
 - Cloud Functions region: `europe-west1`
 
 ---
@@ -547,7 +548,7 @@ Her liste maksimum 100 kullanıcı gösterir.
 
 ```
 ┌─────────────────────────────┐
-│  braintap Premium           │
+│  BrainTap Premium           │
 ├─────────────────────────────┤
 │  ✓ 5 oyun moduna tam erişim │
 │  ✓ Reklamsız deneyim        │

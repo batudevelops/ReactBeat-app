@@ -1,6 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
+import { APP_NAME } from '../constants/app';
 import { useSettingsStore } from '../stores/settingsStore';
 import { DEFAULT_LANGUAGE } from './languages';
 import en from './locales/en.json';
@@ -35,7 +36,7 @@ void i18n.use(quietLogger).use(initReactI18next).init({
   },
   lng: useSettingsStore.getState().language,
   fallbackLng: DEFAULT_LANGUAGE,
-  interpolation: { escapeValue: false },
+  interpolation: { escapeValue: false, defaultVariables: { appName: APP_NAME } },
   returnNull: false,
 });
 

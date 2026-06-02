@@ -105,10 +105,10 @@
     "restore": "Restore purchases",
     "privacy": "Privacy policy",
     "terms": "Terms of use",
-    "version": "BrainTap v{{version}}"
+    "version": "{{appName}} v{{version}}"
   },
   "paywall": {
-    "title": "BrainTap Premium",
+    "title": "{{appName}} Premium",
     "perkModes": "Full access to all 5 game modes",
     "perkNoAds": "Ad-free experience",
     "perkLives": "Unlimited lives",

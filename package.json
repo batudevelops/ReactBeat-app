@@ -8,6 +8,13 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "prebuild": "expo prebuild",
+    "build:dev": "eas build --profile development --platform all",
+    "build:dev:ios": "eas build --profile development --platform ios",
+    "build:dev:android": "eas build --profile development --platform android",
+    "build:preview": "eas build --profile preview --platform all",
+    "build:prod": "eas build --profile production --platform all",
+    "submit:ios": "eas submit --platform ios --profile production",
+    "submit:android": "eas submit --platform android --profile production",
     "lint": "eslint .",
     "test": "jest"
   },
@@ -27,6 +34,7 @@
     "expo-dev-client": "~56.0.18",
     "expo-haptics": "~56.0.3",
     "expo-linear-gradient": "~56.0.4",
+    "expo-splash-screen": "~56.0.10",
     "expo-status-bar": "~56.0.4",
     "firebase": "^12.14.0",
     "i18next": "^23.16.8",
@@ -64,5 +72,6 @@
   },
   "engines": {
     "node": ">= 22.11.0"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

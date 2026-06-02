@@ -1,25 +1,30 @@
-import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Image, StyleSheet, View } from 'react-native';
 
 import { SafeLayout } from '../../components/shared/SafeLayout';
-import { colors, spacing, typography } from '../../theme';
+import { images } from '../../constants/assets';
+import { colors, spacing } from '../../theme';
 
 /**
- * Pure splash display. Readiness is driven by AuthProvider via RootNavigator
- * (anonymous auth + user doc load happen there).
+ * In-app loading state while auth hydrates. Native splash (splash.png) stays
+ * visible until RootNavigator hides it; this screen matches the same branding.
  */
 export function SplashScreen() {
-  const { t } = useTranslation();
   return (
-    <SafeLayout>
+    <SafeLayout padded={false}>
       <View style={styles.center}>
-        <Text style={styles.logo}>BrainTap</Text>
-        <Text style={styles.tagline}>{t('splash.tagline')}</Text>
+        <Image
+          source={images.logo}
+          style={styles.logo}
+          resizeMode="contain"
+          accessibilityLabel="BrainTap"
+        />
         <ActivityIndicator color={colors.orange500} style={styles.spinner} />
       </View>
     </SafeLayout>
   );
 }
+
+const LOGO_ASPECT = 3116 / 872;
 
 const styles = StyleSheet.create({
   center: {
@@ -29,14 +34,9 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   logo: {
-    color: colors.orange500,
-    fontSize: typography.score.fontSize,
-    fontWeight: '800',
-  },
-  tagline: {
-    color: colors.textMuted,
-    fontSize: typography.caption.fontSize,
-    letterSpacing: 2,
+    width: '72%',
+    maxWidth: 320,
+    aspectRatio: LOGO_ASPECT,
   },
   spinner: {
     marginTop: spacing.lg,

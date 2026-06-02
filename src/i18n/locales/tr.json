@@ -105,10 +105,10 @@
     "restore": "Restore purchases",
     "privacy": "Gizlilik politikası",
     "terms": "Kullanım şartları",
-    "version": "BrainTap v{{version}}"
+    "version": "{{appName}} v{{version}}"
   },
   "paywall": {
-    "title": "BrainTap Premium",
+    "title": "{{appName}} Premium",
     "perkModes": "5 oyun moduna tam erişim",
     "perkNoAds": "Reklamsız deneyim",
     "perkLives": "Sınırsız can",

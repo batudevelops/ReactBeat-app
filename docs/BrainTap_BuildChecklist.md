@@ -4,6 +4,18 @@ Bu checklist `BrainTap_ProjectDoc.md`'ye dayanır, ancak projenin **Expo (SDK 56
 
 > Durum işaretleri: `[ ]` yapılacak · `[x]` tamamlandı · `[~]` kısmen
 
+## Önerilen sıra (güncel)
+
+1. [x] App icon + splash + native prebuild
+2. [ ] **Sen — Firebase Blaze** → `firebase deploy --only functions` (`functions/README.md`)
+3. [ ] **Sen — Firestore Console** → `config/app` seed (`docs/firestore-config-app.seed.json`)
+4. [x] `eas.json` + npm build script'leri (EAS secret: `SENTRY_AUTH_TOKEN` prod/preview için)
+5. [ ] Simülatör smoke test (1 oyun → Result → Leaderboard → Profile)
+6. [ ] Faz 10 — AdMob + RevenueCat + Paywall
+7. [ ] Faz 12 — Jest birim testleri (`scorer`, `antiCheat`, `levelConfig`)
+8. [ ] Faz 11 — Analytics sarmalayıcı + sağlayıcı
+9. [ ] EAS preview build → TestFlight + Play internal (`npm run build:preview`)
+
 ---
 
 ## FAZ 0 — Stack uyumlama kararları (kesinleşti)
@@ -114,9 +126,9 @@ Bu checklist `BrainTap_ProjectDoc.md`'ye dayanır, ancak projenin **Expo (SDK 56
 
 ## FAZ 13 — Release
 
-- [ ] App icon + splash (`expo-splash-screen`)
-- [ ] `eas.json` + EAS Build profilleri (dev/preview/production)
-- [ ] Sentry source map upload'ı EAS'a bağla (`SENTRY_AUTH_TOKEN` secret)
+- [x] App icon + splash (`expo-splash-screen`) — `assets/icon.png`, `splash.png`, `logo.png`; native splash + in-app loading
+- [x] `eas.json` + EAS Build profilleri (`development`, `development-simulator`, `preview`, `production`) + npm script'ler
+- [ ] Sentry source map upload'ı EAS'a bağla — `eas secret:create --name SENTRY_AUTH_TOKEN --value <token>` (preview + production build'lerde)
 - [ ] Gizlilik politikası + kullanım şartları + App Privacy beyanı
 - [ ] TestFlight + Play internal testing
 

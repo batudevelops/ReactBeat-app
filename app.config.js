@@ -7,6 +7,9 @@
  * runtime through expo-constants (Constants.expoConfig.extra.firebase).
  */
 
+const APP_NAME = 'BrainTap';
+const SPLASH_BG = '#0c0a08';
+
 // Google OAuth client IDs come from the Firebase iOS app's GoogleService-Info.plist
 // (CLIENT_ID / REVERSED_CLIENT_ID) and the project web client (google-services.json,
 // client_type 3). These are public values embedded in the app, so they are kept
@@ -23,6 +26,18 @@ const googleIosUrlScheme =
   'com.googleusercontent.apps.909994962274-9g993c0ma7tbhtdo6gjed1auv3hf5qsr';
 
 const plugins = [
+  [
+    'expo-splash-screen',
+    {
+      backgroundColor: SPLASH_BG,
+      image: './assets/splash.png',
+      resizeMode: 'contain',
+      dark: {
+        backgroundColor: SPLASH_BG,
+        image: './assets/splash.png',
+      },
+    },
+  ],
   'expo-audio',
   'expo-apple-authentication',
   [
@@ -41,23 +56,35 @@ const plugins = [
 
 module.exports = {
   expo: {
-    name: 'BrainTap',
+    name: APP_NAME,
     slug: 'braintap',
     version: '1.0.0',
     orientation: 'portrait',
     scheme: 'braintap',
     userInterfaceStyle: 'automatic',
     newArchEnabled: true,
+    icon: './assets/icon.png',
+    splash: {
+      image: './assets/splash.png',
+      resizeMode: 'contain',
+      backgroundColor: SPLASH_BG,
+    },
     ios: {
       supportsTablet: false,
       bundleIdentifier: 'com.batudevelops.braintap',
       usesAppleSignIn: true,
       infoPlist: {
+        CFBundleDisplayName: APP_NAME,
         ITSAppUsesNonExemptEncryption: false,
       },
     },
     android: {
       package: 'com.batudevelops.braintap',
+      label: APP_NAME,
+      adaptiveIcon: {
+        foregroundImage: './assets/icon.png',
+        backgroundColor: SPLASH_BG,
+      },
     },
     // Sentry org/project live in the EU region (url => https://de.sentry.io).
     // Source map upload at build time needs SENTRY_AUTH_TOKEN in the environment.
@@ -84,6 +111,7 @@ module.exports = {
       sentryDsn:
         process.env.SENTRY_DSN ||
         'https://fb0d7a668f3b0af296b1f144912e76f4@o4510990539948032.ingest.de.sentry.io/4511491185639504',
+      appName: APP_NAME,
     },
   },
 };

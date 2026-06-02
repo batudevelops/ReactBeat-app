@@ -3,6 +3,7 @@ import {
   NavigationContainer,
   type Theme as NavTheme,
 } from '@react-navigation/native';
+import * as ExpoSplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -12,6 +13,10 @@ import { AuthProvider } from './src/hooks/useAuth';
 import { colors } from './src/theme';
 import './src/lib/firebase';
 import './src/i18n';
+
+ExpoSplashScreen.preventAutoHideAsync().catch(() => {
+  /* Dev reload can reject if splash is already hidden. */
+});
 
 const navTheme: NavTheme = {
   ...DarkTheme,
