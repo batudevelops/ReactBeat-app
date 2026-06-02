@@ -26,6 +26,9 @@
       "channel": "preview",
       "android": {
         "buildType": "apk"
+      },
+      "env": {
+        "APP_ENV": "preview"
       }
     },
     "production": {
@@ -33,19 +36,9 @@
       "channel": "production",
       "android": {
         "buildType": "app-bundle"
-      }
-    }
-  },
-  "submit": {
-    "production": {
-      "ios": {
-        "appleId": "",
-        "ascAppId": "",
-        "appleTeamId": ""
       },
-      "android": {
-        "serviceAccountKeyPath": "",
-        "track": "internal"
+      "env": {
+        "APP_ENV": "production"
       }
     }
   }

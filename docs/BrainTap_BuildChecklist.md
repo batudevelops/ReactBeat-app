@@ -7,10 +7,10 @@ Bu checklist `BrainTap_ProjectDoc.md`'ye dayanır, ancak projenin **Expo (SDK 56
 ## Önerilen sıra (güncel)
 
 1. [x] App icon + splash + native prebuild
-2. [ ] **Sen — Firebase Blaze** → `firebase deploy --only functions` (`functions/README.md`)
-3. [ ] **Sen — Firestore Console** → `config/app` seed (`docs/firestore-config-app.seed.json`)
-4. [x] `eas.json` + npm build script'leri (EAS secret: `SENTRY_AUTH_TOKEN` prod/preview için)
-5. [ ] Simülatör smoke test (1 oyun → Result → Leaderboard → Profile)
+2. [x] **Firebase Blaze** + `firebase deploy --only functions`
+3. [x] **Firestore Console** → `config/app` seed
+4. [~] `eas.json` + EAS project `@fatih_2062/braintap` link ✓ — secrets: `SENTRY_AUTH_TOKEN`, AdMob, RevenueCat (`.env.example`)
+5. [ ] Simülatör smoke test (1 oyun → Result → Leaderboard → Profile) — **ertelendi**
 6. [~] Faz 10 — AdMob + RevenueCat + Paywall (kod ✓; **HARİCİ:** AdMob app/ad unit ID'leri, RevenueCat API key + App Store / Play ürünleri)
 7. [~] Faz 12 — Jest birim testleri (`scorer`, `antiCheat`, `levelConfig`) ✓
 8. [~] Faz 11 — Analytics sarmalayıcı (`services/analytics.ts` no-op) ✓; sağlayıcı bağlantısı bekliyor
@@ -95,7 +95,7 @@ Bu checklist `BrainTap_ProjectDoc.md`'ye dayanır, ancak projenin **Expo (SDK 56
 - [x] `validateAndSaveScore` — callable: §13 anti-cheat + sunucu skor hesabı + RTDB daily/weekly/alltime upsert + haftalık sıra dönüşü
 - [x] `resetDailyLeaderboard` (CRON `0 0 * * *` UTC) / `resetWeeklyLeaderboard` (CRON `0 0 * * 1` UTC)
 - [x] Client: `submitValidatedScore` — oyun bitişinde CF çağrısı (`useGameController` → Result `rank`)
-- [ ] **HARİCİ (sen):** Firebase **Blaze** planı + `firebase deploy --only functions` (bkz. `functions/README.md`)
+- [x] **Deploy edildi:** Blaze + `firebase deploy --only functions` (3 fonksiyon, `europe-west1`)
 - [ ] Emülatör testi (`cd functions && npm run serve`) — isteğe bağlı doğrulama
 
 ## FAZ 9 — Dinamik config
@@ -103,7 +103,7 @@ Bu checklist `BrainTap_ProjectDoc.md`'ye dayanır, ancak projenin **Expo (SDK 56
 - [x] Firestore `config/app` + `remoteConfig` servisi (defaults §18, merge + in-memory cache)
 - [x] `configStore` (Zustand persist `lastFetchedAt`) — Splash/auth açılışında `fetchIfStale`, 12 saat TTL
 - [x] `levelConfig` + `scorer` + leaderboard max size → RC değerlerine bağlandı
-- [ ] **HARİCİ (sen):** Firestore Console’da `config/app` dokümanını oluştur (`docs/firestore-config-app.seed.json` içeriğini yapıştır) + `firebase deploy --only firestore:rules` (config read kuralı)
+- [x] Firestore Console `config/app` seed (`docs/firestore-config-app.seed.json`)
 
 ## FAZ 10 — Monetizasyon
 
@@ -129,7 +129,8 @@ Bu checklist `BrainTap_ProjectDoc.md`'ye dayanır, ancak projenin **Expo (SDK 56
 
 - [x] App icon + splash (`expo-splash-screen`) — `assets/icon.png`, `splash.png`, `logo.png`; native splash + in-app loading
 - [x] `eas.json` + EAS Build profilleri (`development`, `development-simulator`, `preview`, `production`) + npm script'ler
-- [ ] Sentry source map upload'ı EAS'a bağla — `eas secret:create --name SENTRY_AUTH_TOKEN --value <token>` (preview + production build'lerde)
+- [x] EAS project link (`extra.eas.projectId`, owner `fatih_2062`) → https://expo.dev/accounts/fatih_2062/projects/braintap
+- [ ] Sentry source map upload'ı EAS'a bağla — `eas secret:create --name SENTRY_AUTH_TOKEN --value <token>`
 - [ ] Gizlilik politikası + kullanım şartları + App Privacy beyanı
 - [ ] TestFlight + Play internal testing
 

@@ -19,7 +19,7 @@ export function OddOneOutScreen({
   onFinish,
 }: Readonly<GameModeScreenProps>) {
   const { t } = useTranslation();
-  const { round, msLeft, timeLimit, score, combo, lives, submit } =
+  const { round, msLeft, timeLimit, score, combo, lives, maxLives, submit } =
     useGameController<OddOneOutRound, string>({
       mode: 'oddOneOut',
       level,
@@ -36,6 +36,7 @@ export function OddOneOutScreen({
         score={score}
         combo={combo}
         lives={lives}
+        maxLives={maxLives}
         msLeft={msLeft}
         timeLimit={timeLimit}
       />

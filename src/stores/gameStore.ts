@@ -3,12 +3,11 @@ import { create } from 'zustand';
 import { createSession } from '../engine/antiCheat';
 import { getLevelConfig } from '../engine/levelConfig';
 import { calculateScore } from '../engine/scorer';
+import { DEFAULT_LIVES, PREMIUM_LIVES } from '../constants/monetization';
 import type { GameMode } from '../types/game';
 import type { GameSession, TapEvent } from '../types/session';
 
 export type GameStatus = 'idle' | 'playing' | 'paused' | 'finished';
-
-const DEFAULT_LIVES = 3;
 
 interface GameState {
   mode: GameMode | null;
@@ -17,6 +16,8 @@ interface GameState {
   combo: number;
   streak: number;
   lives: number;
+  maxLives: number;
+  unlimitedLives: boolean;
   status: GameStatus;
   session: GameSession | null;
 
@@ -36,6 +37,8 @@ const idleState = {
   combo: 0,
   streak: 0,
   lives: DEFAULT_LIVES,
+  maxLives: DEFAULT_LIVES,
+  unlimitedLives: false,
   status: 'idle' as GameStatus,
   session: null,
 };
@@ -43,7 +46,9 @@ const idleState = {
 export const useGameStore = create<GameState>((set, get) => ({
   ...idleState,
 
-  startGame: (mode, level, initialLives = DEFAULT_LIVES) =>
+  startGame: (mode, level, initialLives = DEFAULT_LIVES) => {
+    const unlimitedLives = initialLives >= PREMIUM_LIVES;
+    const maxLives = unlimitedLives ? DEFAULT_LIVES : initialLives;
     set({
       mode,
       level,
@@ -51,9 +56,12 @@ export const useGameStore = create<GameState>((set, get) => ({
       combo: 0,
       streak: 0,
       lives: initialLives,
+      maxLives,
+      unlimitedLives,
       status: 'playing',
       session: createSession(mode, level),
-    }),
+    });
+  },
 
   tapCorrect: (reactionMs, detail) =>
     set((s) => {
@@ -93,7 +101,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         correct: false,
         reactionMs: detail?.reactionMs ?? 0,
       };
-      if (s.lives > DEFAULT_LIVES) {
+      if (s.unlimitedLives) {
         return {
           combo: 0,
           session: s.session

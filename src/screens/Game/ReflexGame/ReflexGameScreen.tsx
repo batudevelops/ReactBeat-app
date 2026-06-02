@@ -9,7 +9,7 @@ import { useGameController } from '../useGameController';
 
 export function ReflexGameScreen({ level, onFinish }: Readonly<GameModeScreenProps>) {
   const { t } = useTranslation();
-  const { round, msLeft, timeLimit, score, combo, lives, submit } =
+  const { round, msLeft, timeLimit, score, combo, lives, maxLives, submit } =
     useGameController<ReflexRound, string>({
       mode: 'reflex',
       level,
@@ -24,6 +24,7 @@ export function ReflexGameScreen({ level, onFinish }: Readonly<GameModeScreenPro
         score={score}
         combo={combo}
         lives={lives}
+        maxLives={maxLives}
         msLeft={msLeft}
         timeLimit={timeLimit}
       />

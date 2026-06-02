@@ -7,6 +7,8 @@
  * runtime through expo-constants (Constants.expoConfig.extra.firebase).
  */
 
+require('dotenv').config();
+
 const APP_NAME = 'BrainTap';
 const SPLASH_BG = '#0c0a08';
 
@@ -71,6 +73,7 @@ module.exports = {
   expo: {
     name: APP_NAME,
     slug: 'braintap',
+    owner: 'fatih_2062',
     version: '1.0.0',
     orientation: 'portrait',
     scheme: 'braintap',
@@ -125,6 +128,9 @@ module.exports = {
         process.env.SENTRY_DSN ||
         'https://fb0d7a668f3b0af296b1f144912e76f4@o4510990539948032.ingest.de.sentry.io/4511491185639504',
       appName: APP_NAME,
+      eas: {
+        projectId: '7bf88fbd-d0e3-4a34-b8e7-be8150d5904f',
+      },
       revenueCat: {
         iosApiKey: process.env.REVENUECAT_IOS_API_KEY || '',
         androidApiKey: process.env.REVENUECAT_ANDROID_API_KEY || '',

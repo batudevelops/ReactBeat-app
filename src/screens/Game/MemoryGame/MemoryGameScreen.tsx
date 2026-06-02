@@ -21,7 +21,7 @@ export function MemoryGameScreen({
   onFinish,
 }: Readonly<GameModeScreenProps>) {
   const { t } = useTranslation();
-  const { round, msLeft, timeLimit, score, combo, lives, submit } =
+  const { round, msLeft, timeLimit, score, combo, lives, maxLives, submit } =
     useGameController<MemoryRound, number[]>({
       mode: 'memory',
       level,
@@ -86,6 +86,7 @@ export function MemoryGameScreen({
         score={score}
         combo={combo}
         lives={lives}
+        maxLives={maxLives}
         msLeft={msLeft}
         timeLimit={timeLimit}
       />

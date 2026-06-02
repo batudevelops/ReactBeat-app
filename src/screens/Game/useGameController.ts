@@ -29,6 +29,7 @@ interface ControllerState<TRound, TAnswer> {
   score: number;
   combo: number;
   lives: number;
+  maxLives: number;
   submit: (answer: TAnswer | null) => void;
 }
 
@@ -43,6 +44,8 @@ export function useGameController<TRound, TAnswer>(
   const score = useGameStore((s) => s.score);
   const combo = useGameStore((s) => s.combo);
   const lives = useGameStore((s) => s.lives);
+  const maxLives = useGameStore((s) => s.maxLives);
+  const unlimitedLives = useGameStore((s) => s.unlimitedLives);
 
   const [round, setRound] = useState<TRound | null>(null);
   const [msLeft, setMsLeft] = useState(config.timeLimit);
@@ -50,6 +53,7 @@ export function useGameController<TRound, TAnswer>(
   const roundStart = useRef(Date.now());
   const timeLimitRef = useRef(config.timeLimit);
   const finished = useRef(false);
+  const timeoutHandledRef = useRef(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const handleRef = useRef<(answer: TAnswer | null) => void>(() => {});
 
@@ -61,6 +65,7 @@ export function useGameController<TRound, TAnswer>(
   );
 
   const advance = useCallback(() => {
+    timeoutHandledRef.current = false;
     const next = generate(config, level);
     roundStart.current = Date.now();
     timeLimitRef.current = limitFor(next);
@@ -175,6 +180,7 @@ export function useGameController<TRound, TAnswer>(
     }
     useGameStore.getState().startGame(mode, level, initialLives);
     finished.current = false;
+    timeoutHandledRef.current = false;
     const first = generate(config, level);
     roundStart.current = Date.now();
     timeLimitRef.current = limitFor(first);
@@ -195,7 +201,11 @@ export function useGameController<TRound, TAnswer>(
     intervalRef.current = setInterval(() => {
       const left = timeLimitRef.current - (Date.now() - roundStart.current);
       if (left <= 0) {
-        handleRef.current(null);
+        setMsLeft(0);
+        if (!timeoutHandledRef.current) {
+          timeoutHandledRef.current = true;
+          handleRef.current(null);
+        }
       } else {
         setMsLeft(left);
       }
@@ -214,7 +224,8 @@ export function useGameController<TRound, TAnswer>(
     timeLimit: timeLimitRef.current,
     score,
     combo,
-    lives,
+    lives: unlimitedLives ? maxLives : lives,
+    maxLives,
     submit: (a) => handleRef.current(a),
   };
 }
