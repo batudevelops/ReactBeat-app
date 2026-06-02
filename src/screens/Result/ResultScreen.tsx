@@ -10,6 +10,9 @@ import { SafeLayout } from '../../components/shared/SafeLayout';
 import type { RootNavProp, RootStackParamList } from '../../app/navigation/types';
 import { useAuth } from '../../hooks/useAuth';
 import { useLeaderboard } from '../../hooks/useLeaderboard';
+import { showInterstitialAd } from '../../services/monetization';
+import { getRemoteConfig } from '../../services/firebase/remoteConfig';
+import { useUserStore } from '../../stores';
 import { colors, spacing, typography } from '../../theme';
 
 const TOP_RANK_LOGIN_THRESHOLD = 10;
@@ -19,6 +22,8 @@ export function ResultScreen() {
   const route = useRoute<RouteProp<RootStackParamList, 'Result'>>();
   const { t, i18n } = useTranslation();
   const { user, linkGoogle, linkApple } = useAuth();
+  const isPremium = useUserStore((s) => s.isPremium);
+  const totalGames = useUserStore((s) => s.totalGames);
   const { mode, score, isNewRecord, correct, wrong, avgReactionMs, level } =
     route.params;
 
@@ -42,6 +47,17 @@ export function ResultScreen() {
       setLoginModal(true);
     }
   }, [showLoginPrompt]);
+
+  useEffect(() => {
+    if (isPremium || totalGames === 0) {
+      return;
+    }
+    const threshold = getRemoteConfig().interstitial_threshold;
+    if (totalGames % threshold !== 0) {
+      return;
+    }
+    void showInterstitialAd();
+  }, [isPremium, totalGames]);
 
   async function handleLink(provider: 'google' | 'apple') {
     setLinkBusy(provider);

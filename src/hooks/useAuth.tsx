@@ -19,6 +19,7 @@ import {
   signOut as authSignOut,
 } from '../services/firebase/auth';
 import { ensureUserDoc, getUserDoc } from '../services/firebase/firestore';
+import { useMonetization } from './useMonetization';
 import { useConfigStore } from '../stores/configStore';
 import { useUserStore } from '../stores/userStore';
 import type { UserDoc } from '../types/user';
@@ -61,6 +62,8 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
   const [userDoc, setUserDoc] = useState<UserDoc | null>(null);
   const [error, setError] = useState<string | null>(null);
   const mounted = useRef(true);
+
+  useMonetization(user?.uid ?? null);
 
   useEffect(() => {
     mounted.current = true;

@@ -6,6 +6,7 @@ import { Button } from '../../components/ui';
 import { Header } from '../../components/shared/Header';
 import { SafeLayout } from '../../components/shared/SafeLayout';
 import type { RootNavProp } from '../../app/navigation/types';
+import { usePremiumActions } from '../../hooks/usePremiumActions';
 import { SUPPORTED_LANGUAGES } from '../../i18n';
 import { useSettingsStore } from '../../stores';
 import { colors, radius, spacing, typography } from '../../theme';
@@ -42,6 +43,7 @@ export function SettingsScreen() {
   const toggleHaptic = useSettingsStore((s) => s.toggleHaptic);
   const toggleNotifications = useSettingsStore((s) => s.toggleNotifications);
   const setLanguage = useSettingsStore((s) => s.setLanguage);
+  const { restore, busy, feedback } = usePremiumActions();
 
   return (
     <SafeLayout>
@@ -96,7 +98,8 @@ export function SettingsScreen() {
           label={t('settings.buyPremium')}
           onPress={() => navigation.navigate('Paywall')}
         />
-        <Button label={t('settings.restore')} variant="ghost" onPress={() => {}} />
+        <Button label={t('settings.restore')} variant="ghost" loading={busy} onPress={() => void restore()} />
+        {feedback ? <Text style={styles.feedback}>{feedback}</Text> : null}
         <Text style={styles.version}>{t('settings.version', { version: '1.0.0' })}</Text>
       </View>
     </SafeLayout>
@@ -129,6 +132,11 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
   spacer: { flex: 1 },
+  feedback: {
+    color: colors.textSecondary,
+    fontSize: typography.caption.fontSize,
+    textAlign: 'center',
+  },
   version: {
     color: colors.textMuted,
     fontSize: typography.caption.fontSize,

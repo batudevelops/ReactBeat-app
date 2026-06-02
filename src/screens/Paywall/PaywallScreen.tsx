@@ -5,6 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Button } from '../../components/ui';
 import { SafeLayout } from '../../components/shared/SafeLayout';
 import type { RootNavProp } from '../../app/navigation/types';
+import { usePremiumActions } from '../../hooks/usePremiumActions';
 import { colors, spacing, typography } from '../../theme';
 
 const PERK_KEYS = [
@@ -17,6 +18,7 @@ const PERK_KEYS = [
 export function PaywallScreen() {
   const navigation = useNavigation<RootNavProp>();
   const { t } = useTranslation();
+  const { purchase, restore, busy, feedback } = usePremiumActions();
 
   return (
     <SafeLayout>
@@ -36,15 +38,27 @@ export function PaywallScreen() {
           <Text style={styles.price}>$1.99</Text>
         </View>
 
+        {feedback ? <Text style={styles.feedback}>{feedback}</Text> : null}
+
         <View style={styles.spacer} />
 
         <Button
           label={t('paywall.buy')}
+          loading={busy}
           onPress={() => {
-            // TODO (Faz 10): RevenueCat purchasePackage.
+            void purchase().then((ok) => {
+              if (ok) {
+                navigation.goBack();
+              }
+            });
           }}
         />
-        <Button label={t('paywall.restore')} variant="secondary" onPress={() => {}} />
+        <Button
+          label={t('paywall.restore')}
+          variant="secondary"
+          loading={busy}
+          onPress={() => void restore()}
+        />
         <Button
           label={t('common.close')}
           variant="ghost"
@@ -68,5 +82,10 @@ const styles = StyleSheet.create({
   priceBox: { alignItems: 'center', gap: spacing.xs },
   priceLabel: { color: colors.textMuted, fontSize: typography.caption.fontSize, letterSpacing: 2 },
   price: { color: colors.amber400, fontSize: typography.score.fontSize, fontWeight: '800' },
+  feedback: {
+    color: colors.textSecondary,
+    fontSize: typography.caption.fontSize,
+    textAlign: 'center',
+  },
   spacer: { flex: 1 },
 });

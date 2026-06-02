@@ -11,9 +11,9 @@ Bu checklist `BrainTap_ProjectDoc.md`'ye dayanır, ancak projenin **Expo (SDK 56
 3. [ ] **Sen — Firestore Console** → `config/app` seed (`docs/firestore-config-app.seed.json`)
 4. [x] `eas.json` + npm build script'leri (EAS secret: `SENTRY_AUTH_TOKEN` prod/preview için)
 5. [ ] Simülatör smoke test (1 oyun → Result → Leaderboard → Profile)
-6. [ ] Faz 10 — AdMob + RevenueCat + Paywall
-7. [ ] Faz 12 — Jest birim testleri (`scorer`, `antiCheat`, `levelConfig`)
-8. [ ] Faz 11 — Analytics sarmalayıcı + sağlayıcı
+6. [~] Faz 10 — AdMob + RevenueCat + Paywall (kod ✓; **HARİCİ:** AdMob app/ad unit ID'leri, RevenueCat API key + App Store / Play ürünleri)
+7. [~] Faz 12 — Jest birim testleri (`scorer`, `antiCheat`, `levelConfig`) ✓
+8. [~] Faz 11 — Analytics sarmalayıcı (`services/analytics.ts` no-op) ✓; sağlayıcı bağlantısı bekliyor
 9. [ ] EAS preview build → TestFlight + Play internal (`npm run build:preview`)
 
 ---
@@ -22,7 +22,7 @@ Bu checklist `BrainTap_ProjectDoc.md`'ye dayanır, ancak projenin **Expo (SDK 56
 
 - [x] **Crashlytics → Sentry** (org `batu-e1` / project `braintap`, EU region) — tamam
 - [x] **Firebase: JS SDK** (`firebase`) — `@react-native-firebase` kullanılmıyor
-- [ ] **Analytics** → ince `services/analytics.ts` sarmalayıcı (şimdilik no-op/console); sağlayıcı (PostHog) sonra bağlanır
+- [ ] **Analytics** → ince `services/analytics.ts` sarmalayıcı (şimdilik no-op/console); sağlayıcı (PostHog) sonra bağlanır ✓ sarmalayıcı
 - [ ] **Remote Config** → Firestore tabanlı `config/levels` dokümanı + dinleyici
 - [ ] **Ses** → `expo-audio` (`react-native-sound` değil)
 - [ ] **Haptic** → `expo-haptics`
@@ -107,18 +107,19 @@ Bu checklist `BrainTap_ProjectDoc.md`'ye dayanır, ancak projenin **Expo (SDK 56
 
 ## FAZ 10 — Monetizasyon
 
-- [ ] AdMob: `react-native-google-mobile-ads` + plugin, app ID'ler, rewarded (+can) & interstitial (her 3 oyun) (§14)
-- [ ] RevenueCat: `react-native-purchases`, entitlement `premium`, ürün `braintap_premium_lifetime`
+- [~] AdMob: `react-native-google-mobile-ads` + plugin (test app id'leri); interstitial (Result, her N oyun) + rewarded (ModeSelect +1 can) — **HARİCİ:** prod ad unit ID env'leri
+- [~] RevenueCat: `react-native-purchases`, entitlement `premium`, ürün `braintap_premium_lifetime` — **HARİCİ:** `REVENUECAT_*_API_KEY` + dashboard offerings
 - [ ] App Store Connect + Play Console IAP ($1.99 lifetime)
-- [ ] `PaywallScreen` + satın alma/restore
+- [x] `PaywallScreen` + satın alma/restore (`usePremiumActions`, Firestore sync)
 
 ## FAZ 11 — Analytics
 
+- [x] `services/analytics.ts` sarmalayıcı (dev console log; sağlayıcıya hazır)
 - [ ] Seçilen sağlayıcıyla event'leri bağla (`game_started`, `game_finished`, `new_record`, ... §19)
 
 ## FAZ 12 — Test
 
-- [ ] Birim testleri: `scorer`, `levelConfig`, `antiCheat`, store'lar (Jest)
+- [x] Birim testleri: `scorer`, `levelConfig`, `antiCheat` (Jest)
 - [ ] Bileşen testleri (React Native Testing Library)
 - [ ] Cloud Function testleri (emülatör)
 - [ ] E2E (Maestro)

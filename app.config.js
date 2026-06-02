@@ -25,6 +25,12 @@ const googleIosUrlScheme =
   process.env.GOOGLE_IOS_URL_SCHEME ||
   'com.googleusercontent.apps.909994962274-9g993c0ma7tbhtdo6gjed1auv3hf5qsr';
 
+// Google AdMob test app ids (replace via env for production).
+const admobIosAppId =
+  process.env.ADMOB_IOS_APP_ID || 'ca-app-pub-3940256099942544~1458002511';
+const admobAndroidAppId =
+  process.env.ADMOB_ANDROID_APP_ID || 'ca-app-pub-3940256099942544~3347511713';
+
 const plugins = [
   [
     'expo-splash-screen',
@@ -40,6 +46,13 @@ const plugins = [
   ],
   'expo-audio',
   'expo-apple-authentication',
+  [
+    'react-native-google-mobile-ads',
+    {
+      androidAppId: admobAndroidAppId,
+      iosAppId: admobIosAppId,
+    },
+  ],
   [
     '@react-native-google-signin/google-signin',
     { iosUrlScheme: googleIosUrlScheme },
@@ -112,6 +125,16 @@ module.exports = {
         process.env.SENTRY_DSN ||
         'https://fb0d7a668f3b0af296b1f144912e76f4@o4510990539948032.ingest.de.sentry.io/4511491185639504',
       appName: APP_NAME,
+      revenueCat: {
+        iosApiKey: process.env.REVENUECAT_IOS_API_KEY || '',
+        androidApiKey: process.env.REVENUECAT_ANDROID_API_KEY || '',
+      },
+      admob: {
+        iosInterstitialId: process.env.ADMOB_IOS_INTERSTITIAL_ID || '',
+        androidInterstitialId: process.env.ADMOB_ANDROID_INTERSTITIAL_ID || '',
+        iosRewardedId: process.env.ADMOB_IOS_REWARDED_ID || '',
+        androidRewardedId: process.env.ADMOB_ANDROID_REWARDED_ID || '',
+      },
     },
   },
 };

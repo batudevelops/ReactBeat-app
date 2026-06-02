@@ -3,8 +3,10 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { getLevelConfig, type LevelConfig } from '../../engine/levelConfig';
 import { calculateXP } from '../../engine/scorer';
+import { DEFAULT_LIVES, PREMIUM_LIVES } from '../../constants/monetization';
 import { submitValidatedScore } from '../../services/firebase/scores';
 import { useGameStore } from '../../stores/gameStore';
+import { useMonetizationStore } from '../../stores/monetizationStore';
 import { useSettingsStore } from '../../stores/settingsStore';
 import { useUserStore } from '../../stores/userStore';
 import type { GameMode } from '../../types/game';
@@ -163,7 +165,15 @@ export function useGameController<TRound, TAnswer>(
 
   // Start the game + first round once.
   useEffect(() => {
-    useGameStore.getState().startGame(mode, level);
+    const isPremium = useUserStore.getState().isPremium;
+    const bonusLives = useMonetizationStore.getState().bonusLives;
+    const initialLives = isPremium
+      ? PREMIUM_LIVES
+      : DEFAULT_LIVES + bonusLives;
+    if (bonusLives > 0 && !isPremium) {
+      useMonetizationStore.getState().clearBonusLives();
+    }
+    useGameStore.getState().startGame(mode, level, initialLives);
     finished.current = false;
     const first = generate(config, level);
     roundStart.current = Date.now();

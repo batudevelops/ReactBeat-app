@@ -38,6 +38,7 @@
     "personalBest": "Kişisel en iyi: {{value}}",
     "weeklyRank": "Haftalık sıra: {{value}}",
     "watchAd": "🎥 Reklam izle → +1 can",
+    "bonusLives": "+{{count}} bonus can sıradaki oyunda",
     "play": "▶ Oyna"
   },
   "game": {
@@ -115,7 +116,13 @@
     "perkLeaderboard": "Tüm zamanlar leaderboard",
     "oneTime": "TEK SEFERLİK",
     "buy": "Satın Al",
-    "restore": "Restore Purchases"
+    "restore": "Restore Purchases",
+    "purchaseSuccess": "Premium aktif!",
+    "purchaseFailed": "Satın alma tamamlanamadı.",
+    "restoreSuccess": "Satın almalar geri yüklendi.",
+    "restoreEmpty": "Geri yüklenecek satın alma bulunamadı.",
+    "restoreFailed": "Geri yükleme başarısız.",
+    "signInRequired": "Satın alma için oturum gerekli."
   },
   "languages": {
     "tr": "Türkçe",

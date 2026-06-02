@@ -20,7 +20,7 @@ interface GameState {
   status: GameStatus;
   session: GameSession | null;
 
-  startGame: (mode: GameMode, level: number) => void;
+  startGame: (mode: GameMode, level: number, initialLives?: number) => void;
   tapCorrect: (reactionMs: number, detail?: Partial<TapEvent>) => void;
   tapWrong: (detail?: Partial<TapEvent>) => void;
   pauseGame: () => void;
@@ -43,14 +43,14 @@ const idleState = {
 export const useGameStore = create<GameState>((set, get) => ({
   ...idleState,
 
-  startGame: (mode, level) =>
+  startGame: (mode, level, initialLives = DEFAULT_LIVES) =>
     set({
       mode,
       level,
       score: 0,
       combo: 0,
       streak: 0,
-      lives: DEFAULT_LIVES,
+      lives: initialLives,
       status: 'playing',
       session: createSession(mode, level),
     }),
@@ -93,6 +93,14 @@ export const useGameStore = create<GameState>((set, get) => ({
         correct: false,
         reactionMs: detail?.reactionMs ?? 0,
       };
+      if (s.lives > DEFAULT_LIVES) {
+        return {
+          combo: 0,
+          session: s.session
+            ? { ...s.session, events: [...s.session.events, event] }
+            : s.session,
+        };
+      }
       const lives = Math.max(0, s.lives - 1);
       const finished = lives === 0;
       return {

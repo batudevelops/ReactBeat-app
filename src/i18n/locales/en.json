@@ -38,6 +38,7 @@
     "personalBest": "Personal best: {{value}}",
     "weeklyRank": "Weekly rank: {{value}}",
     "watchAd": "🎥 Watch ad → +1 life",
+    "bonusLives": "+{{count}} bonus lives for your next game",
     "play": "▶ Play"
   },
   "game": {
@@ -115,7 +116,13 @@
     "perkLeaderboard": "All-time leaderboard",
     "oneTime": "ONE-TIME",
     "buy": "Buy",
-    "restore": "Restore Purchases"
+    "restore": "Restore Purchases",
+    "purchaseSuccess": "Premium is active!",
+    "purchaseFailed": "Purchase could not be completed.",
+    "restoreSuccess": "Purchases restored.",
+    "restoreEmpty": "No purchases to restore.",
+    "restoreFailed": "Restore failed.",
+    "signInRequired": "Sign-in required to purchase."
   },
   "languages": {
     "tr": "Türkçe",
