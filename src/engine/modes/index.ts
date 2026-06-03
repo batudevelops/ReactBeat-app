@@ -8,6 +8,7 @@ export {
   generatePatternRound,
   type PatternRound,
   type PatternOption,
+  type PatternTransform,
 } from './pattern';
 export {
   generateColorConflictRound,

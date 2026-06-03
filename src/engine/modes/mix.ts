@@ -61,7 +61,7 @@ export function generateMixRound(level: number, previous?: MixSubMode): MixRound
     case 'memory':
       return { subMode, round: generateMemoryRound(cfg, level) };
     case 'pattern':
-      return { subMode, round: generatePatternRound(cfg) };
+      return { subMode, round: generatePatternRound(cfg, level) };
     case 'colorConflict':
       return { subMode, round: generateColorConflictRound(cfg) };
     case 'oddOneOut':

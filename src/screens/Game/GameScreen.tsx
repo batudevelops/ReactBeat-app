@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { Header } from '../../components/shared/Header';
 import { SafeLayout } from '../../components/shared/SafeLayout';
 import type { RootNavProp, RootStackParamList } from '../../app/navigation/types';
-import { hasLivesToPlay, useUserStore } from '../../stores';
+import { hasLivesToPlay, useGameStore, useUserStore } from '../../stores';
 import type { GameMode } from '../../types/game';
 import { ColorConflictScreen } from './ColorConflictGame/ColorConflictScreen';
 import { DirectionGameScreen } from './DirectionGame/DirectionGameScreen';
@@ -42,6 +42,13 @@ export function GameScreen() {
       navigation.goBack();
     }
   }, [navigation]);
+
+  useEffect(
+    () => () => {
+      useGameStore.getState().reset();
+    },
+    [],
+  );
 
   const ModeComponent = MODE_SCREENS[mode];
 

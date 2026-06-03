@@ -57,7 +57,7 @@ export function PatternGameScreen({
   } = useGameController<PatternRound, string>({
       mode: 'pattern',
       level,
-      generate: (cfg) => generatePatternRound(cfg),
+      generate: (cfg, lvl) => generatePatternRound(cfg, lvl),
       isCorrect: (r, id) => id === r.correctId,
       onFinish,
       getTimeLimit: (r, cfg) => cfg.timeLimit + r.showDuration,
@@ -96,12 +96,27 @@ export function PatternGameScreen({
             <Text style={styles.hint}>{t('game.patternBetween')}</Text>
           ) : revealed ? (
             <>
-              <Text style={styles.hint}>{t('game.patternMemorize')}</Text>
+              <Text style={styles.hint}>
+                {round.transform === 'match'
+                  ? t('game.patternMemorize')
+                  : t('game.patternMemorizeTransform', {
+                      transform: t(`game.patternTransform.${round.transform}`),
+                    })}
+              </Text>
               <PatternGrid cells={round.target} tile={56} active />
             </>
           ) : (
             <>
-              <Text style={styles.hint}>{t('game.patternWhich')}</Text>
+              {round.transform === 'match' ? (
+                <Text style={styles.hint}>{t('game.patternWhich')}</Text>
+              ) : (
+                <>
+                  <Text style={styles.hint}>{t('game.patternPickTransform')}</Text>
+                  <Text style={styles.transformBadge}>
+                    {t(`game.patternTransform.${round.transform}`)}
+                  </Text>
+                </>
+              )}
               <View style={styles.options}>
                 {round.options.map((opt) => (
                   <Pressable
@@ -126,6 +141,12 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   play: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: spacing.lg },
   hint: { color: colors.textMuted, fontSize: typography.body.fontSize },
+  transformBadge: {
+    color: colors.textPrimary,
+    fontSize: typography.score.fontSize,
+    fontWeight: '800',
+    letterSpacing: 2,
+  },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 4, justifyContent: 'center' },
   gridCell: { borderRadius: radius.sm },
   options: {

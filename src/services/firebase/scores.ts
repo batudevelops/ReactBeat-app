@@ -40,6 +40,9 @@ function callableErrorReason(error: unknown): string[] {
   if (code.includes('permission-denied') || code.includes('failed-precondition')) {
     return ['server_error'];
   }
+  if (code.includes('invalid-argument')) {
+    return ['invalid_session'];
+  }
   return ['network_error'];
 }
 

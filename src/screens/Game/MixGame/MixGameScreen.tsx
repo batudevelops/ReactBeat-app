@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
@@ -11,18 +11,17 @@ import {
   type MixAnswer,
   type MixRound,
 } from '../../../engine/modes';
+import { getMemoryInputDelayMs } from '../../../engine/modes/memoryTiming';
 import { formatLevelRules } from '../../../engine/levelSummary';
 import { colors, radius, spacing, typography } from '../../../theme';
 import { MODE_ACCENT, type MixSubMode } from '../../../types/game';
 import type { GameModeScreenProps } from '../types';
 import { useGameController } from '../useGameController';
+import { useMemorySequence } from '../useMemorySequence';
 
 const MEMORY_INTER_ROUND_MS = 900;
 const PATTERN_INTER_ROUND_MS = 700;
 const DEFAULT_INTER_ROUND_MS = 400;
-const SEQUENCE_CELL_GAP_MS = 400;
-const PRE_INPUT_PAUSE_MS = 500;
-const PRE_SEQUENCE_PAUSE_MS = 400;
 const PATTERN_GRID = 9;
 const PATTERN_COLS = 3;
 
@@ -89,6 +88,8 @@ export function MixGameScreen({ level, onFinish }: Readonly<GameModeScreenProps>
       }
       return cfg.timeLimit;
     },
+    getTimerStartDelay: (r) =>
+      r.subMode === 'memory' ? getMemoryInputDelayMs(r.round) : 0,
     getInterRoundDelay: (r) => {
       switch (r.subMode) {
         case 'memory':
@@ -101,48 +102,18 @@ export function MixGameScreen({ level, onFinish }: Readonly<GameModeScreenProps>
     },
   });
 
-  const [memoryPhase, setMemoryPhase] = useState<'show' | 'input'>('show');
-  const [memoryActiveCell, setMemoryActiveCell] = useState<number | null>(null);
-  const memoryTapsRef = useRef<number[]>([]);
-  const [memoryTapCount, setMemoryTapCount] = useState(0);
   const [patternRevealed, setPatternRevealed] = useState(true);
 
   const memoryRound =
     round?.subMode === 'memory' && !betweenRounds ? round.round : null;
 
-  useLayoutEffect(() => {
-    setMemoryActiveCell(null);
-    if (!memoryRound) {
-      return;
-    }
-    setMemoryPhase('show');
-    memoryTapsRef.current = [];
-    setMemoryTapCount(0);
-  }, [memoryRound]);
-
-  useEffect(() => {
-    if (!memoryRound) {
-      return;
-    }
-
-    const timers: ReturnType<typeof setTimeout>[] = [];
-    const cellOnMs = Math.round(memoryRound.showDuration * 0.7);
-    const stepMs = cellOnMs + SEQUENCE_CELL_GAP_MS;
-
-    memoryRound.sequence.forEach((cell, i) => {
-      const startAt = PRE_SEQUENCE_PAUSE_MS + i * stepMs;
-      timers.push(setTimeout(() => setMemoryActiveCell(cell), startAt));
-      timers.push(setTimeout(() => setMemoryActiveCell(null), startAt + cellOnMs));
-    });
-
-    const showEnd =
-      PRE_SEQUENCE_PAUSE_MS +
-      Math.max(0, memoryRound.sequence.length * stepMs - SEQUENCE_CELL_GAP_MS) +
-      PRE_INPUT_PAUSE_MS;
-    timers.push(setTimeout(() => setMemoryPhase('input'), showEnd));
-
-    return () => timers.forEach(clearTimeout);
-  }, [memoryRound]);
+  const {
+    phase: memoryPhase,
+    activeCell: memoryActiveCell,
+    tapCount: memoryTapCount,
+    canAcceptInput: memoryCanAcceptInput,
+    registerTap: registerMemoryTap,
+  } = useMemorySequence(memoryRound, betweenRounds);
 
   useEffect(() => {
     if (round?.subMode !== 'pattern' || betweenRounds || !round) {
@@ -162,17 +133,9 @@ export function MixGameScreen({ level, onFinish }: Readonly<GameModeScreenProps>
     : formatLevelRules('mix', currentLevel, t);
 
   const onMemoryCellPress = (index: number) => {
-    if (memoryPhase !== 'input' || betweenRounds || !memoryRound) {
-      return;
-    }
-    const taps = [...memoryTapsRef.current, index];
-    memoryTapsRef.current = taps;
-    setMemoryTapCount(taps.length);
-    setMemoryActiveCell(index);
-    setTimeout(() => setMemoryActiveCell(null), 180);
-    if (taps.length >= memoryRound.sequence.length) {
-      submit({ subMode: 'memory', value: taps });
-    }
+    registerMemoryTap(index, (taps) =>
+      submit({ subMode: 'memory', value: taps }),
+    );
   };
 
   const renderRound = () => {
@@ -214,11 +177,13 @@ export function MixGameScreen({ level, onFinish }: Readonly<GameModeScreenProps>
         return (
           <>
             <Text style={styles.hint}>{hint}</Text>
-            <View style={[styles.memoryGrid, { maxWidth: cols * 80 }]}>
+            <View
+              style={[styles.memoryGrid, { maxWidth: cols * 80 }]}
+              pointerEvents={memoryCanAcceptInput ? 'auto' : 'none'}
+            >
               {Array.from({ length: round.round.gridSize }, (_, i) => (
                 <Pressable
                   key={i}
-                  disabled={memoryPhase !== 'input' || betweenRounds}
                   onPress={() => onMemoryCellPress(i)}
                   style={[
                     styles.memoryCell,
@@ -227,6 +192,7 @@ export function MixGameScreen({ level, onFinish }: Readonly<GameModeScreenProps>
                       : { backgroundColor: colors.bgElevated },
                   ]}
                   accessibilityRole="button"
+                  accessibilityState={{ disabled: !memoryCanAcceptInput }}
                 />
               ))}
             </View>
@@ -241,14 +207,31 @@ export function MixGameScreen({ level, onFinish }: Readonly<GameModeScreenProps>
         if (patternRevealed) {
           return (
             <>
-              <Text style={styles.hint}>{t('game.patternMemorize')}</Text>
+              <Text style={styles.hint}>
+                {round.round.transform === 'match'
+                  ? t('game.patternMemorize')
+                  : t('game.patternMemorizeTransform', {
+                      transform: t(
+                        `game.patternTransform.${round.round.transform}`,
+                      ),
+                    })}
+              </Text>
               <PatternGrid cells={round.round.target} tile={56} active />
             </>
           );
         }
         return (
           <>
-            <Text style={styles.hint}>{t('game.patternWhich')}</Text>
+            {round.round.transform === 'match' ? (
+              <Text style={styles.hint}>{t('game.patternWhich')}</Text>
+            ) : (
+              <>
+                <Text style={styles.hint}>{t('game.patternPickTransform')}</Text>
+                <Text style={styles.transformBadge}>
+                  {t(`game.patternTransform.${round.round.transform}`)}
+                </Text>
+              </>
+            )}
             <View style={styles.patternOptions}>
               {round.round.options.map((opt) => (
                 <Pressable
@@ -395,6 +378,12 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   hint: { color: colors.textMuted, fontSize: typography.body.fontSize },
+  transformBadge: {
+    color: colors.textPrimary,
+    fontSize: typography.score.fontSize,
+    fontWeight: '800',
+    letterSpacing: 2,
+  },
   promptLabel: { color: colors.textMuted, fontSize: typography.body.fontSize },
   prompt: {
     color: colors.textPrimary,

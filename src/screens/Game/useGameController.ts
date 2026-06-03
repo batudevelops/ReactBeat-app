@@ -29,6 +29,8 @@ interface ControllerOptions<TRound, TAnswer> {
   getConfigMode?: (round: TRound) => GameMode;
   /** Delay before next round; defaults to interRoundDelayMs when omitted. */
   getInterRoundDelay?: (round: TRound) => number;
+  /** Delay before the round timer starts (e.g. memory sequence playback). */
+  getTimerStartDelay?: (round: TRound) => number;
   interRoundDelayMs?: number;
 }
 
@@ -61,11 +63,12 @@ export function useGameController<TRound, TAnswer>(
     getTimeLimit,
     getConfigMode,
     getInterRoundDelay,
+    getTimerStartDelay,
     interRoundDelayMs = 0,
   } = opts;
 
-  const [currentLevel, setCurrentLevel] = useState(startLevel);
   const [levelUpToken, setLevelUpToken] = useState(0);
+  const currentLevel = useGameStore((s) => s.level);
   const currentLevelRef = useRef(startLevel);
   const correctSinceLevelUp = useRef(0);
   const lastTickSecond = useRef(-1);
@@ -88,6 +91,8 @@ export function useGameController<TRound, TAnswer>(
   const timeoutHandledRef = useRef(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const advanceTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const timerStartTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const roundRef = useRef<TRound | null>(null);
   const handleRef = useRef<(answer: TAnswer | null) => void>(() => {});
   const prevStatus = useRef<GameStatus>('idle');
 
@@ -96,6 +101,21 @@ export function useGameController<TRound, TAnswer>(
   useEffect(() => {
     currentLevelRef.current = currentLevel;
   }, [currentLevel]);
+
+  useEffect(() => {
+    roundRef.current = round;
+  }, [round]);
+
+  const isActiveRun = useCallback(() => {
+    const state = useGameStore.getState();
+    return (
+      state.mode === mode &&
+      state.session !== null &&
+      (state.status === 'playing' ||
+        state.status === 'outOfLives' ||
+        state.status === 'paused')
+    );
+  }, [mode]);
 
   const limitFor = useCallback(
     (r: TRound) => {
@@ -143,17 +163,44 @@ export function useGameController<TRound, TAnswer>(
     }, TICK_MS);
   }, [hapticEnabled, stopTimer]);
 
+  const scheduleTimerStart = useCallback(
+    (r: TRound) => {
+      stopTimer();
+      if (timerStartTimeoutRef.current) {
+        clearTimeout(timerStartTimeoutRef.current);
+        timerStartTimeoutRef.current = null;
+      }
+
+      timeLimitRef.current = limitFor(r);
+      setMsLeft(timeLimitRef.current);
+
+      const begin = () => {
+        roundStart.current = Date.now();
+        startTimer();
+      };
+
+      const delay = getTimerStartDelay?.(r) ?? 0;
+      if (delay > 0) {
+        timerStartTimeoutRef.current = setTimeout(() => {
+          timerStartTimeoutRef.current = null;
+          begin();
+        }, delay);
+      } else {
+        begin();
+      }
+    },
+    [getTimerStartDelay, limitFor, startTimer, stopTimer],
+  );
+
   const applyNextRound = useCallback(() => {
     timeoutHandledRef.current = false;
     lastTickSecond.current = -1;
     const lvl = currentLevelRef.current;
     const cfg = getLevelConfig(mode, lvl);
     const next = generate(cfg, lvl);
-    roundStart.current = Date.now();
-    timeLimitRef.current = limitFor(next);
     setRound(next);
-    setMsLeft(timeLimitRef.current);
-  }, [generate, limitFor, mode]);
+    scheduleTimerStart(next);
+  }, [generate, mode, scheduleTimerStart]);
 
   const advance = useCallback(
     (options?: { immediate?: boolean }) => {
@@ -181,7 +228,6 @@ export function useGameController<TRound, TAnswer>(
         advanceTimeoutRef.current = null;
         setBetweenRounds(false);
         applyNextRound();
-        startTimer();
       }, delay);
     },
     [applyNextRound, getInterRoundDelay, interRoundDelayMs, round, startTimer, stopTimer],
@@ -191,15 +237,15 @@ export function useGameController<TRound, TAnswer>(
     correctSinceLevelUp.current += 1;
     if (correctSinceLevelUp.current >= CORRECT_PER_LEVEL_UP) {
       correctSinceLevelUp.current = 0;
-      const prev = currentLevelRef.current;
+      const prev = useGameStore.getState().level;
       const next = Math.min(MAX_MODE_LEVEL, prev + 1);
       if (next > prev) {
+        useGameStore.getState().bumpRunLevel();
         setLevelUpToken((token) => token + 1);
         if (hapticEnabled) {
           void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
         }
       }
-      setCurrentLevel(next);
     }
   }, [hapticEnabled]);
 
@@ -226,6 +272,10 @@ export function useGameController<TRound, TAnswer>(
       : 0;
 
     const levelCfg = getLevelConfig(mode, finalLevel);
+    const eventComboBonus = [...events]
+      .reverse()
+      .find((e) => e.correct && e.comboBonus != null)?.comboBonus;
+    const comboBonus = eventComboBonus ?? levelCfg.comboBonus;
     let rank: number | undefined;
     let scoreSaved = false;
     let scoreSaveReasons: string[] | undefined;
@@ -233,7 +283,7 @@ export function useGameController<TRound, TAnswer>(
       const cf = await submitValidatedScore(
         state.session,
         state.score,
-        levelCfg.comboBonus,
+        comboBonus,
       );
       if (cf.valid) {
         scoreSaved = true;
@@ -335,28 +385,45 @@ export function useGameController<TRound, TAnswer>(
   handleRef.current = handleAnswer;
 
   useEffect(() => {
-    const isPremium = useUserStore.getState().isPremium;
-    const initialLives = getSessionLives(isPremium);
-    useGameStore.getState().startGame(mode, startLevel, initialLives);
-    finished.current = false;
-    timeoutHandledRef.current = false;
-    correctSinceLevelUp.current = 0;
-    prevStatus.current = 'playing';
-    const cfg = getLevelConfig(mode, startLevel);
-    const first = generate(cfg, startLevel);
-    roundStart.current = Date.now();
-    timeLimitRef.current = limitFor(first);
-    setRound(first);
-    setMsLeft(timeLimitRef.current);
-    startTimer();
-
-    return () => {
+    const cleanupTimers = () => {
       stopTimer();
       if (advanceTimeoutRef.current) {
         clearTimeout(advanceTimeoutRef.current);
+        advanceTimeoutRef.current = null;
       }
-      useGameStore.getState().reset();
+      if (timerStartTimeoutRef.current) {
+        clearTimeout(timerStartTimeoutRef.current);
+        timerStartTimeoutRef.current = null;
+      }
     };
+
+    finished.current = false;
+    timeoutHandledRef.current = false;
+
+    if (isActiveRun()) {
+      const state = useGameStore.getState();
+      prevStatus.current = state.status;
+      currentLevelRef.current = state.level;
+      const cfg = getLevelConfig(mode, state.level);
+      const resumed = generate(cfg, state.level);
+      setRound(resumed);
+      if (state.status === 'playing') {
+        scheduleTimerStart(resumed);
+      }
+      return cleanupTimers;
+    }
+
+    correctSinceLevelUp.current = 0;
+    prevStatus.current = 'playing';
+    const isPremium = useUserStore.getState().isPremium;
+    const initialLives = getSessionLives(isPremium);
+    useGameStore.getState().startGame(mode, startLevel, initialLives);
+    const cfg = getLevelConfig(mode, startLevel);
+    const first = generate(cfg, startLevel);
+    setRound(first);
+    scheduleTimerStart(first);
+
+    return cleanupTimers;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -367,8 +434,15 @@ export function useGameController<TRound, TAnswer>(
     }
 
     if (prevStatus.current === 'outOfLives' && status === 'playing') {
-      advance({ immediate: true });
-      startTimer();
+      timeoutHandledRef.current = false;
+      lastTickSecond.current = -1;
+      setBetweenRounds(false);
+      const activeRound = roundRef.current;
+      if (activeRound) {
+        scheduleTimerStart(activeRound);
+      } else {
+        applyNextRound();
+      }
     }
 
     if (status === 'outOfLives') {
@@ -376,7 +450,7 @@ export function useGameController<TRound, TAnswer>(
     }
 
     prevStatus.current = status;
-  }, [status, advance, doFinish, startTimer, stopTimer]);
+  }, [status, applyNextRound, doFinish, scheduleTimerStart, stopTimer]);
 
   return {
     round,

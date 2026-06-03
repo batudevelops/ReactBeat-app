@@ -12,6 +12,8 @@ const GAME_MODES: GameMode[] = [
   'pattern',
   'colorConflict',
   'oddOneOut',
+  'mathSnap',
+  'direction',
   'mix',
 ];
 

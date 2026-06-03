@@ -77,6 +77,48 @@ describe('gameStore lives integration', () => {
     useGameStore.getState().resumeWithOneLife();
     expect(useGameStore.getState().status).toBe('playing');
     expect(useGameStore.getState().lives).toBe(1);
+    expect(useGameStore.getState().adContinueUsed).toBe(true);
+  });
+
+  it('bumpRunLevel increases run level without resetting the session', () => {
+    useGameStore.getState().startGame('reflex', 3, 2);
+    useGameStore.getState().bumpRunLevel();
+    useGameStore.getState().bumpRunLevel();
+
+    const state = useGameStore.getState();
+    expect(state.level).toBe(5);
+    expect(state.score).toBe(0);
+    expect(state.session?.mode).toBe('reflex');
+  });
+
+  it('resumeWithOneLife keeps the current run level', () => {
+    useGameStore.getState().startGame('reflex', 4, 1);
+    useGameStore.getState().bumpRunLevel();
+    useGameStore.getState().tapWrong();
+    expect(useGameStore.getState().level).toBe(5);
+
+    useGameStore.getState().resumeWithOneLife();
+    expect(useGameStore.getState().level).toBe(5);
+  });
+
+  it('allows only one in-run ad continue per session', () => {
+    useGameStore.getState().startGame('reflex', 1, 1);
+    useGameStore.getState().tapWrong();
+    useGameStore.getState().resumeWithOneLife();
+    useGameStore.getState().tapWrong();
+
+    expect(useGameStore.getState().status).toBe('outOfLives');
+    expect(useGameStore.getState().adContinueUsed).toBe(true);
+  });
+
+  it('resets ad continue flag on a new run', () => {
+    useGameStore.getState().startGame('reflex', 1, 1);
+    useGameStore.getState().tapWrong();
+    useGameStore.getState().resumeWithOneLife();
+    useGameStore.getState().reset();
+    useGameStore.getState().startGame('reflex', 1, 1);
+
+    expect(useGameStore.getState().adContinueUsed).toBe(false);
   });
 
   it('premium runs never drain the global pool', () => {

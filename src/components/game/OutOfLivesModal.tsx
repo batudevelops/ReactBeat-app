@@ -8,6 +8,7 @@ import { colors, spacing, typography } from '../../theme';
 interface OutOfLivesModalProps {
   visible: boolean;
   loading?: boolean;
+  showWatchAd?: boolean;
   onWatchAd: () => void;
   onEnd: () => void;
 }
@@ -15,6 +16,7 @@ interface OutOfLivesModalProps {
 export function OutOfLivesModal({
   visible,
   loading = false,
+  showWatchAd = true,
   onWatchAd,
   onEnd,
 }: OutOfLivesModalProps) {
@@ -22,14 +24,18 @@ export function OutOfLivesModal({
 
   return (
     <Modal visible={visible} onClose={onEnd} dismissable={false} title={t('game.outOfLivesTitle')}>
-      <Text style={styles.body}>{t('game.outOfLivesBody')}</Text>
+      <Text style={styles.body}>
+        {showWatchAd ? t('game.outOfLivesBody') : t('game.outOfLivesBodyNoContinue')}
+      </Text>
       <View style={styles.actions}>
-        <Button
-          label={t('game.outOfLivesWatchAd')}
-          variant="secondary"
-          loading={loading}
-          onPress={onWatchAd}
-        />
+        {showWatchAd ? (
+          <Button
+            label={t('game.outOfLivesWatchAd')}
+            variant="secondary"
+            loading={loading}
+            onPress={onWatchAd}
+          />
+        ) : null}
         <Button label={t('game.outOfLivesEnd')} variant="ghost" onPress={onEnd} />
       </View>
     </Modal>

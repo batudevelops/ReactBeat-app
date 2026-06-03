@@ -3,6 +3,7 @@ import { create } from 'zustand';
 import { createSession } from '../engine/antiCheat';
 import { getLevelConfig } from '../engine/levelConfig';
 import { calculateScore } from '../engine/scorer';
+import { MAX_MODE_LEVEL } from '../constants/game';
 import { DEFAULT_LIVES, PREMIUM_LIVES } from '../constants/monetization';
 import type { GameMode } from '../types/game';
 import type { GameSession, TapEvent } from '../types/session';
@@ -19,6 +20,8 @@ interface GameState {
   lives: number;
   maxLives: number;
   unlimitedLives: boolean;
+  /** True after the one allowed in-run ad continue was used this session. */
+  adContinueUsed: boolean;
   status: GameStatus;
   session: GameSession | null;
 
@@ -28,6 +31,7 @@ interface GameState {
   pauseGame: () => void;
   resumeGame: () => void;
   resumeWithOneLife: () => void;
+  bumpRunLevel: () => void;
   endGame: () => void;
   reset: () => void;
 }
@@ -41,6 +45,7 @@ const idleState = {
   lives: DEFAULT_LIVES,
   maxLives: DEFAULT_LIVES,
   unlimitedLives: false,
+  adContinueUsed: false,
   status: 'idle' as GameStatus,
   session: null,
 };
@@ -63,6 +68,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       lives: runLives,
       maxLives,
       unlimitedLives,
+      adContinueUsed: false,
       status: 'playing',
       session: createSession(mode, level),
     });
@@ -138,8 +144,15 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   resumeWithOneLife: () =>
     set((s) =>
-      s.status === 'outOfLives' ? { lives: 1, status: 'playing' } : s,
+      s.status === 'outOfLives'
+        ? { lives: 1, status: 'playing', adContinueUsed: true }
+        : s,
     ),
+
+  bumpRunLevel: () =>
+    set((s) => ({
+      level: Math.min(MAX_MODE_LEVEL, s.level + 1),
+    })),
 
   endGame: () =>
     set((s) => ({

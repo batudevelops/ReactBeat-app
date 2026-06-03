@@ -7,6 +7,7 @@ import { useGameStore, useLivesStore, useUserStore } from '../../stores';
 /** Shown during a run when global lives hit zero (GameScreen only). */
 export function GameOutOfLivesModal() {
   const status = useGameStore((s) => s.status);
+  const adContinueUsed = useGameStore((s) => s.adContinueUsed);
   const isPremium = useUserStore((s) => s.isPremium);
   const addLife = useLivesStore((s) => s.addLife);
   const resumeWithOneLife = useGameStore((s) => s.resumeWithOneLife);
@@ -32,6 +33,7 @@ export function GameOutOfLivesModal() {
     <OutOfLivesModal
       visible={visible}
       loading={adBusy}
+      showWatchAd={!adContinueUsed}
       onWatchAd={() => void handleWatchAd()}
       onEnd={endGame}
     />

@@ -85,10 +85,28 @@ export function formatLevelRules(
       });
     }
     case 'pattern':
-      return t('levelRules.pattern', {
-        time: (cfg.timeLimit / 1000).toFixed(1),
+      if (level <= 5) {
+        return t('levelRules.patternMatch', {
+          show: ((cfg.showDuration ?? 1500) / 1000).toFixed(1),
+        });
+      }
+      if (level <= 10) {
+        return t('levelRules.patternRotate90', {
+          show: ((cfg.showDuration ?? 1500) / 1000).toFixed(1),
+        });
+      }
+      if (level <= 15) {
+        return t('levelRules.patternRotateBoth', {
+          show: ((cfg.showDuration ?? 1500) / 1000).toFixed(1),
+        });
+      }
+      if (level <= 20) {
+        return t('levelRules.patternRotate180', {
+          show: ((cfg.showDuration ?? 1500) / 1000).toFixed(1),
+        });
+      }
+      return t('levelRules.patternRotateMixed', {
         show: ((cfg.showDuration ?? 1500) / 1000).toFixed(1),
-        count: cfg.options,
       });
     case 'oddOneOut':
       return t('levelRules.oddOneOut', {
