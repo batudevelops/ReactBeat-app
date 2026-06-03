@@ -19,7 +19,7 @@ describe('getLevelConfig', () => {
     const cfg = getLevelConfig('reflex', 1);
     expect(cfg.timeLimit).toBe(2000);
     expect(cfg.options).toBe(2);
-    expect(cfg.lives).toBe(3);
+    expect(cfg.lives).toBe(8);
   });
 
   it('uses remote config for reflex level 31+', () => {

@@ -12,12 +12,14 @@ export function theoreticalMaxScore(session: GameSession, comboBonus = 0): numbe
       combo = 0;
       continue;
     }
+    const timeLimit = event.timeLimitMs ?? 2000;
+    const eventComboBonus = event.comboBonus ?? comboBonus;
     total += calculateScore({
       correct: true,
       reactionMs: 0,
-      timeLimit: Math.max(1, event.reactionMs || 1),
+      timeLimit,
       combo,
-      comboBonus,
+      comboBonus: eventComboBonus,
     });
     combo += 1;
   }

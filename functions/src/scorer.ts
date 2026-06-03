@@ -28,7 +28,7 @@ function clamp01(value: number): number {
 }
 
 /** Replays tap events in order to compute the authoritative session score. */
-export function scoreFromSession(session: GameSession, comboBonus: number): number {
+export function scoreFromSession(session: GameSession, defaultComboBonus: number): number {
   let combo = 0;
   let total = 0;
   for (const event of session.events) {
@@ -36,7 +36,8 @@ export function scoreFromSession(session: GameSession, comboBonus: number): numb
       combo = 0;
       continue;
     }
-    const timeLimit = Math.max(1, event.reactionMs || 1000);
+    const timeLimit = event.timeLimitMs ?? 2000;
+    const comboBonus = event.comboBonus ?? defaultComboBonus;
     total += calculateScore({
       correct: true,
       reactionMs: event.reactionMs,

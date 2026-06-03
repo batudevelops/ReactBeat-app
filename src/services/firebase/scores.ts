@@ -25,15 +25,33 @@ const validateAndSaveScoreFn = httpsCallable<
   ValidateScoreResponse
 >(functions, 'validateAndSaveScore');
 
+function callableErrorReason(error: unknown): string[] {
+  const code =
+    error && typeof error === 'object' && 'code' in error
+      ? String((error as { code: string }).code)
+      : '';
+
+  if (code.includes('unauthenticated')) {
+    return ['auth_required'];
+  }
+  if (code.includes('unavailable') || code.includes('deadline-exceeded')) {
+    return ['network_error'];
+  }
+  if (code.includes('permission-denied') || code.includes('failed-precondition')) {
+    return ['server_error'];
+  }
+  return ['network_error'];
+}
+
 /**
  * Sends the finished session to the Cloud Function for anti-cheat validation
- * and RTDB leaderboard write (Faz 8). Fails gracefully when offline or not deployed.
+ * and RTDB leaderboard write (Faz 8). Returns CF payload or structured failure.
  */
 export async function submitValidatedScore(
   session: GameSession,
   claimedScore: number,
   comboBonus: number,
-): Promise<ValidateScoreResponse | null> {
+): Promise<ValidateScoreResponse> {
   try {
     const finalized = finalizeSession(session);
     const { data } = await validateAndSaveScoreFn({
@@ -44,6 +62,11 @@ export async function submitValidatedScore(
     return data;
   } catch (e) {
     Sentry.captureException(e);
-    return null;
+    return {
+      valid: false,
+      score: 0,
+      rank: null,
+      reasons: callableErrorReason(e),
+    };
   }
 }

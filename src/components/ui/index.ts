@@ -8,5 +8,5 @@ export { Modal } from './Modal';
 export type { ModalProps } from './Modal';
 export { ProgressBar } from './ProgressBar';
 export type { ProgressBarProps } from './ProgressBar';
-export { Avatar, AVATAR_COUNT } from './Avatar';
+export { Avatar, AVATAR_COUNT, AVATARS, getAvatarDefinition, normalizeAvatarIndex } from './Avatar';
 export type { AvatarProps } from './Avatar';

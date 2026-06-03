@@ -6,17 +6,17 @@ import { colors, spacing } from '../../theme';
 
 /**
  * In-app loading state while auth hydrates. Native splash (splash.png) stays
- * visible until RootNavigator hides it; this screen matches the same branding.
+ * visible until RootNavigator hides it; match the same full-bleed branding.
  */
 export function SplashScreen() {
   return (
     <SafeLayout padded={false}>
-      <View style={styles.center}>
+      <View style={styles.root}>
         <Image
-          source={images.logo}
-          style={styles.logo}
-          resizeMode="contain"
-          accessibilityLabel="BrainTap"
+          source={images.splash}
+          style={StyleSheet.absoluteFill}
+          resizeMode="cover"
+          accessibilityIgnoresInvertColors
         />
         <ActivityIndicator color={colors.orange500} style={styles.spinner} />
       </View>
@@ -24,21 +24,14 @@ export function SplashScreen() {
   );
 }
 
-const LOGO_ASPECT = 3116 / 872;
-
 const styles = StyleSheet.create({
-  center: {
+  root: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: spacing.sm,
-  },
-  logo: {
-    width: '72%',
-    maxWidth: 320,
-    aspectRatio: LOGO_ASPECT,
+    backgroundColor: colors.bgBase,
   },
   spinner: {
-    marginTop: spacing.lg,
+    position: 'absolute',
+    bottom: spacing.xl * 2,
+    alignSelf: 'center',
   },
 });

@@ -7,6 +7,10 @@ export interface TapEvent {
   answer: string;
   correct: boolean;
   reactionMs: number;
+  /** Question time limit at tap time — required for server score replay. */
+  timeLimitMs?: number;
+  /** Combo flat bonus from level config at tap time. */
+  comboBonus?: number;
 }
 
 /** Full play session captured client-side and validated by a Cloud Function (§13). */

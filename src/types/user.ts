@@ -11,7 +11,7 @@ export type BestScores = Record<GameMode, number>;
  */
 export interface UserDoc {
   displayName: string;
-  avatar: number; // 0-9 icon index
+  avatar: number; // built-in avatar index (see constants/avatars)
   isAnonymous: boolean;
   isPremium: boolean;
   createdAt: Timestamp | null;
@@ -28,4 +28,7 @@ export const EMPTY_BEST_SCORES: BestScores = {
   pattern: 0,
   colorConflict: 0,
   oddOneOut: 0,
+  mathSnap: 0,
+  direction: 0,
+  mix: 0,
 };

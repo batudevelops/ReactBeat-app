@@ -1,0 +1,201 @@
+{
+  "common": {
+    "back": "返回",
+    "close": "关闭"
+  },
+  "splash": {
+    "tagline": "REACT · REMEMBER · BEAT"
+  },
+  "home": {
+    "greeting": "你好，{{name}} 👋",
+    "streak": "🔥 连续 {{value}} 天",
+    "leaderboard": "排行榜",
+    "profile": "个人资料",
+    "lives": "❤️ {{current}}/{{max}}",
+    "quickPlay": "快速开始",
+    "skills": {
+      "speed": "速度",
+      "memory": "记忆",
+      "attention": "注意力",
+      "mix": "Brain Mix"
+    },
+    "nav": {
+      "leaderboard": "Ranks",
+      "profile": "Profile",
+      "settings": "Settings"
+    }
+  },
+  "modes": {
+    "reflex": {
+      "label": "反应",
+      "description": "尽可能快地点击正确选项。"
+    },
+    "memory": {
+      "label": "记忆",
+      "description": "记住显示的顺序并重复。"
+    },
+    "pattern": {
+      "label": "图案",
+      "description": "找出短暂显示的图案。"
+    },
+    "colorConflict": {
+      "label": "颜色冲突",
+      "description": "点击图形的真实颜色。"
+    },
+    "oddOneOut": {
+      "label": "找不同",
+      "description": "找出不同的那一个。"
+    },
+    "mix": {
+      "label": "Brain Mix",
+      "description": "每回合切换技能 — 所有模式共用等级。"
+    },
+    "mathSnap": {
+      "label": "Math Snap",
+      "description": "在时间结束前解出算式。"
+    },
+    "direction": {
+      "label": "Direction",
+      "description": "匹配箭头所指的方向。"
+    }
+  },
+  "modeSelect": {
+    "personalBest": "个人最佳：{{value}}",
+    "weeklyRank": "周排名：{{value}}",
+    "watchAd": "🎥 观看广告 → +1 生命",
+    "lives": "❤️ {{current}}/{{max}} 生命",
+    "noLivesHint": "观看广告获得 +1 生命",
+    "noLivesPlay": "没有生命",
+    "play": "▶ 开始"
+  },
+  "game": {
+    "reflexPrompt": "点击这个颜色",
+    "colorConflictHint": "点击图形的真实颜色",
+    "oddOneOutHint": "点击不同的那个",
+    "patternMemorize": "记住图案",
+    "patternWhich": "是哪一个？",
+    "memoryWatch": "观看顺序",
+    "memoryRepeat": "重复 ({{current}}/{{total}})",
+    "memoryBetween": "准备…",
+    "patternBetween": "准备…",
+    "mixSubMode": "{{mode}} 回合",
+    "mathSnapPrompt": "点击答案",
+    "directionPrompt": "匹配此箭头",
+    "outOfLivesTitle": "没有生命",
+    "outOfLivesBody": "观看广告获得 +1 生命继续，或结束本局。",
+    "outOfLivesWatchAd": "🎥 观看广告 → +1 生命",
+    "outOfLivesEnd": "结束"
+  },
+  "result": {
+    "newRecord": "🎉 新纪录！",
+    "scoreLabel": "你的 {{mode}} 分数",
+    "correctWrong": "正确：{{correct}}  错误：{{wrong}}",
+    "avgReaction": "平均反应：{{ms}} ms",
+    "avgReactionEmpty": "平均反应：—",
+    "weeklyRank": "你的周排名：#{{rank}}",
+    "saveScoreTitle": "保存你的分数！",
+    "saveScoreBody": "你已进入周榜前 {{rank}} — 绑定账号以保存分数。",
+    "saveScoreDismiss": "稍后",
+    "playAgain": "再玩一次",
+    "viewLeaderboard": "查看排行榜",
+    "mainMenu": "主菜单",
+    "levelReached": "Level reached: {{level}}"
+  },
+  "leaderboard": {
+    "title": "排行榜",
+    "daily": "日榜",
+    "weekly": "周榜",
+    "alltime": "总榜",
+    "empty": "还没有分数。成为第一个！",
+    "yourRank": "你的排名：—",
+    "yourRankValue": "你的排名：#{{rank}}",
+    "emptyTitle": "还没有分数。成为第一个！",
+    "notRanked": "Play this mode to appear on the board.",
+    "you": "You",
+    "restOfTop": "Ranks 4–{{count}}"
+  },
+  "profile": {
+    "title": "个人资料",
+    "defaultName": "玩家",
+    "premium": "★ Premium",
+    "totalGames": "总游戏数：{{value}}",
+    "totalXP": "总 XP：{{value}}",
+    "longestStreak": "最长连续：{{value}}",
+    "bestScores": "最佳分数",
+    "linkGoogle": "绑定 Google",
+    "linkApple": "绑定 Apple",
+    "linking": "绑定中…",
+    "linked": "账号已绑定 ✓",
+    "linkSuccessTitle": "成功",
+    "linkSuccessBody": "账号已绑定，进度已安全保存。",
+    "linkFailTitle": "绑定失败",
+    "linkFailBody": "绑定时发生错误。",
+    "chooseAvatar": "选择头像",
+    "editName": "显示名称",
+    "saveName": "保存名称",
+    "saving": "保存中…",
+    "saveFailTitle": "无法保存",
+    "saveFailBody": "更新个人资料时发生错误。"
+  },
+  "settings": {
+    "title": "设置",
+    "sound": "音效",
+    "haptic": "触觉反馈",
+    "notifications": "通知",
+    "language": "语言",
+    "buyPremium": "购买 Premium",
+    "restore": "恢复购买",
+    "privacy": "隐私政策",
+    "terms": "使用条款",
+    "version": "{{appName}} v{{version}}"
+  },
+  "paywall": {
+    "title": "{{appName}} Premium",
+    "perkModes": "全部游戏模式完整访问",
+    "perkNoAds": "无广告",
+    "perkLives": "无限生命",
+    "perkLeaderboard": "总排行榜",
+    "oneTime": "一次性",
+    "buy": "购买",
+    "restore": "恢复购买",
+    "purchaseSuccess": "Premium 已激活！",
+    "purchaseFailed": "无法完成购买。",
+    "restoreSuccess": "购买已恢复。",
+    "restoreEmpty": "没有可恢复的购买。",
+    "restoreFailed": "恢复失败。",
+    "signInRequired": "购买前需要登录。"
+  },
+  "level": {
+    "label": "Level {{level}}",
+    "upToast": "Level up!"
+  },
+  "levelRules": {
+    "timeOptions": "{{time}}s · {{count}} options",
+    "memory": "{{seq}} steps · {{grid}} grid · {{show}}s show",
+    "pattern": "{{time}}s · {{show}}s reveal · {{count}} choices",
+    "oddOneOut": "{{time}}s · {{grid}} tiles",
+    "mix": "全部技能 · Lv.{{level}}"
+  },
+  "avatars": {
+    "fox": "Swift Fox",
+    "owl": "Wise Owl",
+    "octopus": "Clever Octopus",
+    "lion": "Golden Lion",
+    "panda": "Calm Panda",
+    "robot": "Brain Bot",
+    "unicorn": "Spark Unicorn",
+    "bee": "Turbo Bee",
+    "frog": "Focus Frog",
+    "brain": "React Brain",
+    "cheetah": "Speed Cheetah",
+    "cat": "Wizard Cat",
+    "penguin": "Chill Penguin",
+    "dragon": "Mini Dragon",
+    "koala": "Sleepy Koala",
+    "shark": "Sharp Shark",
+    "monkey": "Jungle Monkey",
+    "alien": "Cosmic Alien",
+    "ghost": "Friendly Ghost",
+    "eagle": "Sharp Eagle"
+  }
+}

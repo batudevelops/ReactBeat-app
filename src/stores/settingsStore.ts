@@ -32,7 +32,7 @@ export const useSettingsStore = create<SettingsState>()(
       setLanguage: (lang) => set({ language: lang }),
     }),
     {
-      name: 'braintap.settings',
+      name: 'reactbeat.settings',
       storage: createJSONStorage(() => AsyncStorage),
     },
   ),

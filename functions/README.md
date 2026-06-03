@@ -1,4 +1,4 @@
-# BrainTap Cloud Functions (`europe-west1`)
+# ReactBeat Cloud Functions (`europe-west1`)
 
 ## Prerequisites
 

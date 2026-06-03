@@ -1,11 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '../../components/ui';
 import { SafeLayout } from '../../components/shared/SafeLayout';
 import type { RootNavProp } from '../../app/navigation/types';
 import { usePremiumActions } from '../../hooks/usePremiumActions';
+import { getPremiumPriceLabel } from '../../services/monetization';
 import { colors, spacing, typography } from '../../theme';
 
 const PERK_KEYS = [
@@ -19,6 +21,15 @@ export function PaywallScreen() {
   const navigation = useNavigation<RootNavProp>();
   const { t } = useTranslation();
   const { purchase, restore, busy, feedback } = usePremiumActions();
+  const [priceLabel, setPriceLabel] = useState('$1.99');
+
+  useEffect(() => {
+    void getPremiumPriceLabel().then((label) => {
+      if (label) {
+        setPriceLabel(label);
+      }
+    });
+  }, []);
 
   return (
     <SafeLayout>
@@ -35,7 +46,7 @@ export function PaywallScreen() {
 
         <View style={styles.priceBox}>
           <Text style={styles.priceLabel}>{t('paywall.oneTime')}</Text>
-          <Text style={styles.price}>$1.99</Text>
+          <Text style={styles.price}>{priceLabel}</Text>
         </View>
 
         {feedback ? <Text style={styles.feedback}>{feedback}</Text> : null}

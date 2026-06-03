@@ -1,6 +1,6 @@
-# BrainTap — Build Checklist
+# ReactBeat — Build Checklist
 
-Bu checklist `BrainTap_ProjectDoc.md`'ye dayanır, ancak projenin **Expo (SDK 56) + Firebase JS SDK + Sentry** stack'ine göre uyarlanmıştır. Dokümandaki eski stack (`@react-native-firebase` bare workflow, Crashlytics, native AdMob/RevenueCat) yerine geçen kararlar Faz 0'da listelenmiştir.
+Bu checklist `BrainTap_ProjectDoc.md`'ye dayanır (proje adı **ReactBeat** olarak güncellendi), ancak projenin **Expo (SDK 56) + Firebase JS SDK + Sentry** stack'ine göre uyarlanmıştır. Dokümandaki eski stack (`@react-native-firebase` bare workflow, Crashlytics, native AdMob/RevenueCat) yerine geçen kararlar Faz 0'da listelenmiştir.
 
 > Durum işaretleri: `[ ]` yapılacak · `[x]` tamamlandı · `[~]` kısmen
 
@@ -9,9 +9,9 @@ Bu checklist `BrainTap_ProjectDoc.md`'ye dayanır, ancak projenin **Expo (SDK 56
 1. [x] App icon + splash + native prebuild
 2. [x] **Firebase Blaze** + `firebase deploy --only functions`
 3. [x] **Firestore Console** → `config/app` seed
-4. [~] `eas.json` + EAS project `@fatih_2062/braintap` link ✓ — secrets: `SENTRY_AUTH_TOKEN`, AdMob, RevenueCat (`.env.example`)
+4. [~] `eas.json` + EAS project `@fatih_2062/reactbeat` link ✓ — secrets: `SENTRY_AUTH_TOKEN`, AdMob, RevenueCat (`.env.example`, `docs/RevenueCat_IAP_Setup.md`)
 5. [ ] Simülatör smoke test (1 oyun → Result → Leaderboard → Profile) — **ertelendi**
-6. [~] Faz 10 — AdMob + RevenueCat + Paywall (kod ✓; **HARİCİ:** AdMob app/ad unit ID'leri, RevenueCat API key + App Store / Play ürünleri)
+6. [~] Faz 10 — AdMob + store IAP + RevenueCat (kod ✓; **HARİCİ sıra:** ASC/Play uygulama + IAP → RevenueCat → API key)
 7. [~] Faz 12 — Jest birim testleri (`scorer`, `antiCheat`, `levelConfig`) ✓
 8. [~] Faz 11 — Analytics sarmalayıcı (`services/analytics.ts` no-op) ✓; sağlayıcı bağlantısı bekliyor
 9. [ ] EAS preview build → TestFlight + Play internal (`npm run build:preview`)
@@ -108,8 +108,8 @@ Bu checklist `BrainTap_ProjectDoc.md`'ye dayanır, ancak projenin **Expo (SDK 56
 ## FAZ 10 — Monetizasyon
 
 - [~] AdMob: `react-native-google-mobile-ads` + plugin (test app id'leri); interstitial (Result, her N oyun) + rewarded (ModeSelect +1 can) — **HARİCİ:** prod ad unit ID env'leri
-- [~] RevenueCat: `react-native-purchases`, entitlement `premium`, ürün `braintap_premium_lifetime` — **HARİCİ:** `REVENUECAT_*_API_KEY` + dashboard offerings
-- [ ] App Store Connect + Play Console IAP ($1.99 lifetime)
+- [~] RevenueCat: `react-native-purchases`, entitlement `premium`, ürün `reactbeat_premium_lifetime` — iOS `appl_...` ✓; Android `goog_...` bekliyor → `docs/RevenueCat_IAP_Setup.md`
+- [~] App Store Connect IAP ($1.99) — ürün var, metadata eksik; **Play Console IAP + RC Android** sıradaki
 - [x] `PaywallScreen` + satın alma/restore (`usePremiumActions`, Firestore sync)
 
 ## FAZ 11 — Analytics
@@ -129,15 +129,122 @@ Bu checklist `BrainTap_ProjectDoc.md`'ye dayanır, ancak projenin **Expo (SDK 56
 
 - [x] App icon + splash (`expo-splash-screen`) — `assets/icon.png`, `splash.png`, `logo.png`; native splash + in-app loading
 - [x] `eas.json` + EAS Build profilleri (`development`, `development-simulator`, `preview`, `production`) + npm script'ler
-- [x] EAS project link (`extra.eas.projectId`, owner `fatih_2062`) → https://expo.dev/accounts/fatih_2062/projects/braintap
+- [x] EAS project link (`extra.eas.projectId`, owner `fatih_2062`) → https://expo.dev/accounts/fatih_2062/projects/reactbeat
 - [ ] Sentry source map upload'ı EAS'a bağla — `eas secret:create --name SENTRY_AUTH_TOKEN --value <token>`
 - [ ] Gizlilik politikası + kullanım şartları + App Privacy beyanı
 - [ ] TestFlight + Play internal testing
 
 ## Ekstra altyapı
 
-- [x] **i18n** (Fluo gibi): `i18next` + `react-i18next`, `src/i18n/` + `tr.json`/`en.json`; tüm ekran metinleri taşındı; cihaz dili otomatik algılama (core RN bridge, native modül yok), `settingsStore.language` (persist) + Settings'te dil seçici. Not: tam doğru çoğul kuralları için ileride `Intl.PluralRules` polyfill eklenebilir.
+- [x] **i18n** (Fluo gibi): `i18next` + `react-i18next`, `src/i18n/` + 12 dil (`tr`, `en`, `es`, `de`, `fr`, `pt`, `it`, `ru`, `ja`, `ko`, `ar`, `zh`); tüm ekran metinleri; cihaz dili otomatik algılama, `settingsStore.language` (persist) + Settings’te sarmalanmış dil seçici.
 
 ---
 
-*Kaynak: `BrainTap_ProjectDoc.md` · Uyarlama: Expo SDK 56 + Firebase JS SDK + Sentry*
+## Release yol haritası — detaylı takip
+
+> Üstteki **Önerilen sıra (1–9)** maddelerinin alt görevleri. Agent veya sen bitirince `[x]` / `[~]` güncellenir.
+
+### 1. App icon + splash + native prebuild
+- [x] `assets/icon.png`, `splash.png`, `logo.png`
+- [x] `expo-splash-screen` + in-app splash
+- [x] Full-bleed native splash (Fluo pattern: `cover`, Android `splashscreen.xml`, iOS storyboard edge-to-edge)
+- [x] `npm run sync:native-splash` — asset değişince native splash yeniden uygula (prebuild sonrası da)
+- [x] `npx expo prebuild` (iOS + Android native)
+
+### 2. Firebase Blaze + Cloud Functions
+- [x] Blaze planı aktif
+- [x] `firebase deploy --only functions` (3 fonksiyon, `europe-west1`)
+- [x] `validateAndSaveScore` + günlük/haftalık reset CRON'ları live
+
+### 3. Firestore `config/app` seed
+- [x] Console'da `config/app` dokümanı
+- [x] `docs/firestore-config-app.seed.json` ile eşleşiyor
+
+### 4. EAS + build secrets
+- [x] `eas.json` profilleri (`development`, `preview`, `production`)
+- [x] EAS proje linki (`@fatih_2062/reactbeat`, `extra.eas.projectId`)
+- [x] `.env.example` + local `.env` şablonu
+- [ ] `eas secret:create` → `SENTRY_AUTH_TOKEN`
+- [ ] `eas secret:create` → `ADMOB_*` (6 ad unit / app id)
+- [ ] `eas secret:create` → `REVENUECAT_IOS_API_KEY` + `REVENUECAT_ANDROID_API_KEY`
+- [ ] Sentry source map upload EAS build'de doğrulandı
+
+### 5. Smoke test (simülatör veya gerçek cihaz)
+- [ ] Ana ekran → mod seç → 1 oyun oyna (Reflex yeterli)
+- [ ] Süre dolunca / yanlış cevapta can azalıyor
+- [ ] Result ekranı: skor, doğru/yanlış, haftalık sıra
+- [ ] Leaderboard listesi yükleniyor
+- [ ] Profile: istatistikler görünüyor
+- [ ] ModeSelect: rewarded ad → +1 can (sonraki oyunda 4 kalp)
+- [ ] Settings: dil değiştirme çalışıyor
+
+### 6. Faz 10 — Monetizasyon
+**Kod (tamam):**
+- [x] AdMob interstitial (Result) + rewarded (ModeSelect +1 can)
+- [x] RevenueCat `purchasePremium` / `restorePurchases` / entitlement sync
+- [x] Paywall + Settings restore
+- [x] Can/reklam bug fix (bonus can azalır; premium sınırsız)
+
+**Harici / panel (sırayla):**
+
+#### iOS — App Store Connect + RevenueCat (kısmen)
+- [x] **App Store Connect** — uygulama kaydı (`com.batudevelops.reactbeat`)
+- [~] **App Store Connect** — Non-Consumable IAP `reactbeat_premium_lifetime` ($1.99) — ürün oluştu; **Missing Metadata** (fiyat, localization, review info, Paid Apps Agreement)
+- [x] **RevenueCat** — proje ReactBeat, ASC API key, entitlement `premium`, offering `default` → Lifetime → iOS ürün
+- [x] `REVENUECAT_IOS_API_KEY` → local `.env` (`appl_...`)
+- [ ] **iOS sandbox IAP testi** — ASC metadata bitince → `npx expo run:ios --device` → sandbox Apple ID → Paywall Buy/Restore → RC Customers + Firestore `isPremium` *(ertelendi; smoke test sonrası)*
+
+#### Android — Google Play + RevenueCat *(sıradaki)*
+- [ ] **Google Play Console** — uygulama kaydı (`com.batudevelops.reactbeat`)
+- [ ] **Google Play Console** — one-time product `reactbeat_premium_lifetime` ($1.99, **Activate**)
+- [ ] **Google Play** — Play Console service account → RevenueCat Android app bağlantısı
+- [ ] **RevenueCat** — Android ürün import + `default` offering’e Play ürünü ekle
+- [ ] `REVENUECAT_ANDROID_API_KEY` → `.env` (`goog_...`; şimdilik `test_...`)
+- [ ] **Play internal track** — en az bir AAB/APK yükle → license tester → satın alma testi
+
+#### Ortak
+- [x] **Firebase Console** — ReactBeat iOS + Android app (`com.batudevelops.reactbeat`), `GoogleService-Info.plist` + `google-services.json` ✓
+- [x] AdMob app + ad unit ID'leri → local `.env`
+- [ ] `eas secret:create` → `REVENUECAT_IOS_API_KEY` (+ Android `goog_` hazır olunca)
+
+### 7. Faz 12 — Jest birim testleri
+- [x] `engine/scorer`
+- [x] `engine/levelConfig`
+- [x] `engine/antiCheat`
+- [ ] Bileşen testleri (RTL) — release sonrası
+- [ ] CF emülatör testi — isteğe bağlı
+- [ ] E2E (Maestro) — isteğe bağlı
+
+### 8. Faz 11 — Analytics
+- [x] `services/analytics.ts` sarmalayıcı (dev console)
+- [ ] Sağlayıcı seçimi (PostHog vb.)
+- [ ] Event'ler: `game_started`, `game_finished`, `new_record`, `purchase_*`
+
+### 9. EAS preview → TestFlight + Play internal
+- [ ] EAS secrets tamam (madde 4)
+- [ ] `npm run build:preview` (iOS + Android)
+- [ ] TestFlight internal testers
+- [ ] Play Console internal testing track
+- [ ] Gerçek cihazda prod build smoke test
+
+---
+
+### Plan dışı tamamlananlar (ekstra)
+- [x] Marka rename: BrainTap → **ReactBeat** (`com.batudevelops.reactbeat`, `reactbeat_premium_lifetime`)
+- [x] 12 dil i18n (`tr`, `en`, `es`, `de`, `fr`, `pt`, `it`, `ru`, `ja`, `ko`, `ar`, `zh`)
+- [x] Paywall mağaza fiyatını RevenueCat'ten çeker (fallback `$1.99`)
+- [x] `docs/RevenueCat_IAP_Setup.md` rehberi
+
+### Önerilen sıradaki adımlar
+1. [ ] **Google Play Console** — ReactBeat uygulaması + `reactbeat_premium_lifetime` IAP (madde 6, Android)
+2. [ ] **RevenueCat Android** — Play service account, ürün import, `goog_...` → `.env`
+3. [ ] **Play internal track** — AAB yükle + license tester ile IAP test
+4. [ ] **iOS sandbox IAP** — ASC IAP metadata bitince cihazda Buy/Restore (ertelendi)
+5. [ ] **Smoke test** — madde 5 (Android cihazda devam)
+6. [ ] **EAS secrets + preview build** — madde 4 + 9
+
+*Son güncelleme: 2026-06-02 (iOS RC key `.env`; Android Play sıradaki)*
+
+---
+
+*Kaynak: `BrainTap_ProjectDoc.md` (içerik ReactBeat) · Uyarlama: Expo SDK 56 + Firebase JS SDK + Sentry*

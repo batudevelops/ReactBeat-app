@@ -3,13 +3,15 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { GameHud } from '../../../components/game';
 import { generateReflexRound, type ReflexRound } from '../../../engine/modes';
+import { formatLevelRules } from '../../../engine/levelSummary';
 import { colors, radius, spacing, typography } from '../../../theme';
+import { MODE_ACCENT } from '../../../types/game';
 import type { GameModeScreenProps } from '../types';
 import { useGameController } from '../useGameController';
 
 export function ReflexGameScreen({ level, onFinish }: Readonly<GameModeScreenProps>) {
   const { t } = useTranslation();
-  const { round, msLeft, timeLimit, score, combo, lives, maxLives, submit } =
+  const { round, msLeft, timeLimit, score, combo, lives, maxLives, currentLevel, levelUpToken, submit } =
     useGameController<ReflexRound, string>({
       mode: 'reflex',
       level,
@@ -27,6 +29,10 @@ export function ReflexGameScreen({ level, onFinish }: Readonly<GameModeScreenPro
         maxLives={maxLives}
         msLeft={msLeft}
         timeLimit={timeLimit}
+        level={currentLevel}
+        levelRules={formatLevelRules('reflex', currentLevel, t)}
+        accentColor={MODE_ACCENT.reflex}
+        levelUpToken={levelUpToken}
       />
 
       {round ? (

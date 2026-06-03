@@ -3,6 +3,7 @@ export { applyPremiumStatus } from './premium';
 export {
   checkPremiumEntitlement,
   configureRevenueCat,
+  getPremiumPriceLabel,
   isRevenueCatConfigured,
   purchasePremium,
   restorePurchases,

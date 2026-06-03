@@ -1,0 +1,201 @@
+{
+  "common": {
+    "back": "戻る",
+    "close": "閉じる"
+  },
+  "splash": {
+    "tagline": "REACT · REMEMBER · BEAT"
+  },
+  "home": {
+    "greeting": "こんにちは、{{name}} 👋",
+    "streak": "🔥 {{value}}日連続",
+    "leaderboard": "ランキング",
+    "profile": "プロフィール",
+    "lives": "❤️ {{current}}/{{max}}",
+    "quickPlay": "クイックプレイ",
+    "skills": {
+      "speed": "速度",
+      "memory": "記憶",
+      "attention": "注意力",
+      "mix": "Brain Mix"
+    },
+    "nav": {
+      "leaderboard": "Ranks",
+      "profile": "Profile",
+      "settings": "Settings"
+    }
+  },
+  "modes": {
+    "reflex": {
+      "label": "反射",
+      "description": "正しい選択肢をできるだけ早くタップ。"
+    },
+    "memory": {
+      "label": "記憶",
+      "description": "表示された順番を覚えて再現しよう。"
+    },
+    "pattern": {
+      "label": "パターン",
+      "description": "一瞬表示されたパターンを見つけよう。"
+    },
+    "colorConflict": {
+      "label": "カラーコンフリクト",
+      "description": "形の本当の色をタップ。"
+    },
+    "oddOneOut": {
+      "label": "仲間はずれ",
+      "description": "違うものを見つけよう。"
+    },
+    "mix": {
+      "label": "Brain Mix",
+      "description": "毎ラウンドスキルが変わる — 全モード共通レベル。"
+    },
+    "mathSnap": {
+      "label": "Math Snap",
+      "description": "時間切れ前に計算問題を解こう。"
+    },
+    "direction": {
+      "label": "Direction",
+      "description": "矢印と同じ方向を選ぼう。"
+    }
+  },
+  "modeSelect": {
+    "personalBest": "自己ベスト: {{value}}",
+    "weeklyRank": "週間ランク: {{value}}",
+    "watchAd": "🎥 広告を見る → +1ライフ",
+    "lives": "❤️ {{current}}/{{max}} ライフ",
+    "noLivesHint": "広告を見て+1ライフ",
+    "noLivesPlay": "ライフがありません",
+    "play": "▶ プレイ"
+  },
+  "game": {
+    "reflexPrompt": "この色をタップ",
+    "colorConflictHint": "形の本当の色をタップ",
+    "oddOneOutHint": "違うものをタップ",
+    "patternMemorize": "パターンを覚えよう",
+    "patternWhich": "どれだった？",
+    "memoryWatch": "順番を見て",
+    "memoryRepeat": "再現 ({{current}}/{{total}})",
+    "memoryBetween": "準備…",
+    "patternBetween": "準備…",
+    "mixSubMode": "{{mode}}ラウンド",
+    "mathSnapPrompt": "答えをタップ",
+    "directionPrompt": "矢印を合わせよう",
+    "outOfLivesTitle": "ライフがありません",
+    "outOfLivesBody": "広告を見て+1ライフで続けるか、このランを終了してください。",
+    "outOfLivesWatchAd": "🎥 広告を見る → +1ライフ",
+    "outOfLivesEnd": "終了"
+  },
+  "result": {
+    "newRecord": "🎉 新記録！",
+    "scoreLabel": "{{mode}}スコア",
+    "correctWrong": "正解: {{correct}}  不正解: {{wrong}}",
+    "avgReaction": "平均反応: {{ms}} ms",
+    "avgReactionEmpty": "平均反応: —",
+    "weeklyRank": "週間ランク: #{{rank}}",
+    "saveScoreTitle": "スコアを保存！",
+    "saveScoreBody": "週間トップ{{rank}} — アカウントを連携してスコアを保存しよう。",
+    "saveScoreDismiss": "あとで",
+    "playAgain": "もう一度",
+    "viewLeaderboard": "ランキングを見る",
+    "mainMenu": "メインメニュー",
+    "levelReached": "Level reached: {{level}}"
+  },
+  "leaderboard": {
+    "title": "ランキング",
+    "daily": "デイリー",
+    "weekly": "ウィークリー",
+    "alltime": "全期間",
+    "empty": "まだスコアがありません。最初の一人になろう！",
+    "yourRank": "あなたのランク: —",
+    "yourRankValue": "あなたのランク: #{{rank}}",
+    "emptyTitle": "まだスコアがありません。最初の一人になろう！",
+    "notRanked": "Play this mode to appear on the board.",
+    "you": "You",
+    "restOfTop": "Ranks 4–{{count}}"
+  },
+  "profile": {
+    "title": "プロフィール",
+    "defaultName": "プレイヤー",
+    "premium": "★ Premium",
+    "totalGames": "総プレイ数: {{value}}",
+    "totalXP": "総XP: {{value}}",
+    "longestStreak": "最長連続: {{value}}",
+    "bestScores": "ベストスコア",
+    "linkGoogle": "Googleと連携",
+    "linkApple": "Appleと連携",
+    "linking": "連携中…",
+    "linked": "アカウント連携済み ✓",
+    "linkSuccessTitle": "成功",
+    "linkSuccessBody": "アカウントが連携され、進行状況が安全に保存されます。",
+    "linkFailTitle": "連携できませんでした",
+    "linkFailBody": "連携中にエラーが発生しました。",
+    "chooseAvatar": "アバターを選ぶ",
+    "editName": "表示名",
+    "saveName": "名前を保存",
+    "saving": "保存中…",
+    "saveFailTitle": "保存できませんでした",
+    "saveFailBody": "プロフィール更新中にエラーが発生しました。"
+  },
+  "settings": {
+    "title": "設定",
+    "sound": "効果音",
+    "haptic": "触覚フィードバック",
+    "notifications": "通知",
+    "language": "言語",
+    "buyPremium": "Premiumを購入",
+    "restore": "購入を復元",
+    "privacy": "プライバシーポリシー",
+    "terms": "利用規約",
+    "version": "{{appName}} v{{version}}"
+  },
+  "paywall": {
+    "title": "{{appName}} Premium",
+    "perkModes": "全ゲームモードへのフルアクセス",
+    "perkNoAds": "広告なし",
+    "perkLives": "無制限ライフ",
+    "perkLeaderboard": "全期間ランキング",
+    "oneTime": "買い切り",
+    "buy": "購入",
+    "restore": "購入を復元",
+    "purchaseSuccess": "Premiumが有効になりました！",
+    "purchaseFailed": "購入を完了できませんでした。",
+    "restoreSuccess": "購入を復元しました。",
+    "restoreEmpty": "復元する購入がありません。",
+    "restoreFailed": "復元に失敗しました。",
+    "signInRequired": "購入にはサインインが必要です。"
+  },
+  "level": {
+    "label": "Level {{level}}",
+    "upToast": "Level up!"
+  },
+  "levelRules": {
+    "timeOptions": "{{time}}s · {{count}} options",
+    "memory": "{{seq}} steps · {{grid}} grid · {{show}}s show",
+    "pattern": "{{time}}s · {{show}}s reveal · {{count}} choices",
+    "oddOneOut": "{{time}}s · {{grid}} tiles",
+    "mix": "全スキル · Lv.{{level}}"
+  },
+  "avatars": {
+    "fox": "Swift Fox",
+    "owl": "Wise Owl",
+    "octopus": "Clever Octopus",
+    "lion": "Golden Lion",
+    "panda": "Calm Panda",
+    "robot": "Brain Bot",
+    "unicorn": "Spark Unicorn",
+    "bee": "Turbo Bee",
+    "frog": "Focus Frog",
+    "brain": "React Brain",
+    "cheetah": "Speed Cheetah",
+    "cat": "Wizard Cat",
+    "penguin": "Chill Penguin",
+    "dragon": "Mini Dragon",
+    "koala": "Sleepy Koala",
+    "shark": "Sharp Shark",
+    "monkey": "Jungle Monkey",
+    "alien": "Cosmic Alien",
+    "ghost": "Friendly Ghost",
+    "eagle": "Sharp Eagle"
+  }
+}

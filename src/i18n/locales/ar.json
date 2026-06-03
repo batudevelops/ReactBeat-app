@@ -1,0 +1,201 @@
+{
+  "common": {
+    "back": "رجوع",
+    "close": "إغلاق"
+  },
+  "splash": {
+    "tagline": "REACT · REMEMBER · BEAT"
+  },
+  "home": {
+    "greeting": "مرحبًا، {{name}} 👋",
+    "streak": "🔥 سلسلة {{value}} أيام",
+    "leaderboard": "لوحة المتصدرين",
+    "profile": "الملف الشخصي",
+    "lives": "❤️ {{current}}/{{max}}",
+    "quickPlay": "لعب سريع",
+    "skills": {
+      "speed": "السرعة",
+      "memory": "الذاكرة",
+      "attention": "الانتباه",
+      "mix": "Brain Mix"
+    },
+    "nav": {
+      "leaderboard": "Ranks",
+      "profile": "Profile",
+      "settings": "Settings"
+    }
+  },
+  "modes": {
+    "reflex": {
+      "label": "الانعكاس",
+      "description": "اضغط على الخيار الصحيح بأسرع ما يمكن."
+    },
+    "memory": {
+      "label": "الذاكرة",
+      "description": "احفظ التسلسل وكرره."
+    },
+    "pattern": {
+      "label": "النمط",
+      "description": "اعثر على النمط المعروض لفترة وجيزة."
+    },
+    "colorConflict": {
+      "label": "تعارض الألوان",
+      "description": "اضغط على اللون الحقيقي للشكل."
+    },
+    "oddOneOut": {
+      "label": "المختلف",
+      "description": "اعثر على العنصر المختلف."
+    },
+    "mix": {
+      "label": "Brain Mix",
+      "description": "كل جولة تغيّر المهارة — مستوى واحد لجميع الأوضاع."
+    },
+    "mathSnap": {
+      "label": "Math Snap",
+      "description": "حل المعادلة قبل انتهاء الوقت."
+    },
+    "direction": {
+      "label": "الاتجاه",
+      "description": "طابق السهم مع الاتجاه الصحيح."
+    }
+  },
+  "modeSelect": {
+    "personalBest": "أفضل شخصي: {{value}}",
+    "weeklyRank": "الترتيب الأسبوعي: {{value}}",
+    "watchAd": "🎥 شاهد إعلانًا → +1 حياة",
+    "lives": "❤️ {{current}}/{{max}} حياة",
+    "noLivesHint": "شاهد إعلانًا للحصول على +1 حياة",
+    "noLivesPlay": "لا توجد حياة",
+    "play": "▶ العب"
+  },
+  "game": {
+    "reflexPrompt": "اضغط على هذا اللون",
+    "colorConflictHint": "اضغط على اللون الحقيقي للشكل",
+    "oddOneOutHint": "اضغط على المختلف",
+    "patternMemorize": "احفظ النمط",
+    "patternWhich": "أيهما كان؟",
+    "memoryWatch": "راقب التسلسل",
+    "memoryRepeat": "كرر ({{current}}/{{total}})",
+    "memoryBetween": "استعد…",
+    "patternBetween": "استعد…",
+    "mixSubMode": "جولة {{mode}}",
+    "mathSnapPrompt": "اضغط على الإجابة",
+    "directionPrompt": "طابق هذا السهم",
+    "outOfLivesTitle": "لا توجد حياة",
+    "outOfLivesBody": "شاهد إعلانًا للحصول على +1 حياة والمتابعة، أو أنهِ الجولة.",
+    "outOfLivesWatchAd": "🎥 شاهد إعلانًا → +1 حياة",
+    "outOfLivesEnd": "إنهاء"
+  },
+  "result": {
+    "newRecord": "🎉 رقم قياسي جديد!",
+    "scoreLabel": "نتيجتك في {{mode}}",
+    "correctWrong": "صحيح: {{correct}}  خطأ: {{wrong}}",
+    "avgReaction": "متوسط التفاعل: {{ms}} ms",
+    "avgReactionEmpty": "متوسط التفاعل: —",
+    "weeklyRank": "ترتيبك الأسبوعي: #{{rank}}",
+    "saveScoreTitle": "احفظ نتيجتك!",
+    "saveScoreBody": "أنت في أفضل {{rank}} أسبوعيًا — اربط حسابك لحفظ نتيجتك.",
+    "saveScoreDismiss": "لاحقًا",
+    "playAgain": "العب مجددًا",
+    "viewLeaderboard": "عرض المتصدرين",
+    "mainMenu": "القائمة الرئيسية",
+    "levelReached": "Level reached: {{level}}"
+  },
+  "leaderboard": {
+    "title": "لوحة المتصدرين",
+    "daily": "يومي",
+    "weekly": "أسبوعي",
+    "alltime": "كل الأوقات",
+    "empty": "لا توجد نتائج بعد. كن الأول!",
+    "yourRank": "ترتيبك: —",
+    "yourRankValue": "ترتيبك: #{{rank}}",
+    "emptyTitle": "لا توجد نتائج بعد",
+    "notRanked": "Play this mode to appear on the board.",
+    "you": "You",
+    "restOfTop": "Ranks 4–{{count}}"
+  },
+  "profile": {
+    "title": "الملف الشخصي",
+    "defaultName": "لاعب",
+    "premium": "★ Premium",
+    "totalGames": "إجمالي الألعاب: {{value}}",
+    "totalXP": "إجمالي XP: {{value}}",
+    "longestStreak": "أطول سلسلة: {{value}}",
+    "bestScores": "أفضل النتائج",
+    "linkGoogle": "الربط مع Google",
+    "linkApple": "الربط مع Apple",
+    "linking": "جارٍ الربط…",
+    "linked": "تم ربط الحساب ✓",
+    "linkSuccessTitle": "نجاح",
+    "linkSuccessBody": "تم ربط حسابك، تقدمك الآن آمن.",
+    "linkFailTitle": "تعذر الربط",
+    "linkFailBody": "حدث خطأ أثناء الربط.",
+    "chooseAvatar": "اختر صورة رمزية",
+    "editName": "الاسم المعروض",
+    "saveName": "حفظ الاسم",
+    "saving": "جارٍ الحفظ…",
+    "saveFailTitle": "تعذر الحفظ",
+    "saveFailBody": "حدث خطأ أثناء تحديث الملف الشخصي."
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "sound": "المؤثرات الصوتية",
+    "haptic": "اللمس الاهتزازي",
+    "notifications": "الإشعارات",
+    "language": "اللغة",
+    "buyPremium": "شراء Premium",
+    "restore": "استعادة المشتريات",
+    "privacy": "سياسة الخصوصية",
+    "terms": "شروط الاستخدام",
+    "version": "{{appName}} v{{version}}"
+  },
+  "paywall": {
+    "title": "{{appName}} Premium",
+    "perkModes": "وصول كامل لجميع أوضاع اللعب",
+    "perkNoAds": "بدون إعلانات",
+    "perkLives": "حيوات غير محدودة",
+    "perkLeaderboard": "لوحة كل الأوقات",
+    "oneTime": "دفعة واحدة",
+    "buy": "شراء",
+    "restore": "استعادة المشتريات",
+    "purchaseSuccess": "Premium مفعّل!",
+    "purchaseFailed": "تعذر إتمام الشراء.",
+    "restoreSuccess": "تمت استعادة المشتريات.",
+    "restoreEmpty": "لا توجد مشتريات للاستعادة.",
+    "restoreFailed": "فشلت الاستعادة.",
+    "signInRequired": "يلزم تسجيل الدخول للشراء."
+  },
+  "level": {
+    "label": "Level {{level}}",
+    "upToast": "Level up!"
+  },
+  "levelRules": {
+    "timeOptions": "{{time}}s · {{count}} options",
+    "memory": "{{seq}} steps · {{grid}} grid · {{show}}s show",
+    "pattern": "{{time}}s · {{show}}s reveal · {{count}} choices",
+    "oddOneOut": "{{time}}s · {{grid}} tiles",
+    "mix": "جميع المهارات · مستوى {{level}}"
+  },
+  "avatars": {
+    "fox": "Swift Fox",
+    "owl": "Wise Owl",
+    "octopus": "Clever Octopus",
+    "lion": "Golden Lion",
+    "panda": "Calm Panda",
+    "robot": "Brain Bot",
+    "unicorn": "Spark Unicorn",
+    "bee": "Turbo Bee",
+    "frog": "Focus Frog",
+    "brain": "React Brain",
+    "cheetah": "Speed Cheetah",
+    "cat": "Wizard Cat",
+    "penguin": "Chill Penguin",
+    "dragon": "Mini Dragon",
+    "koala": "Sleepy Koala",
+    "shark": "Sharp Shark",
+    "monkey": "Jungle Monkey",
+    "alien": "Cosmic Alien",
+    "ghost": "Friendly Ghost",
+    "eagle": "Sharp Eagle"
+  }
+}

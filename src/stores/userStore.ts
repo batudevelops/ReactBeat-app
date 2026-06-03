@@ -61,7 +61,7 @@ export const useUserStore = create<UserState>()(
       clear: () => set({ ...initialState, bestScores: { ...EMPTY_BEST_SCORES } }),
     }),
     {
-      name: 'braintap.user',
+      name: 'reactbeat.user',
       storage: createJSONStorage(() => AsyncStorage),
     },
   ),

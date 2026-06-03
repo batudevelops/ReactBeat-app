@@ -43,7 +43,7 @@ export const useConfigStore = create<ConfigState>()(
       },
     }),
     {
-      name: 'braintap.config',
+      name: 'reactbeat.config',
       storage: createJSONStorage(() => AsyncStorage),
       onRehydrateStorage: () => (state) => {
         if (state) {

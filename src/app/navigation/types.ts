@@ -16,6 +16,8 @@ export type RootStackParamList = {
     wrong?: number;
     avgReactionMs?: number;
     level?: number;
+    scoreSaved?: boolean;
+    scoreSaveReasons?: string[];
   };
   Leaderboard: { mode?: GameMode };
   Profile: undefined;

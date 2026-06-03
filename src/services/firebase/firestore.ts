@@ -1,3 +1,5 @@
+import type { User } from 'firebase/auth';
+
 import {
   type DocumentReference,
   doc,
@@ -8,6 +10,7 @@ import {
 } from 'firebase/firestore';
 
 import { firestore } from '../../lib/firebase';
+import { AVATAR_COUNT } from '../../constants/avatars';
 import { EMPTY_BEST_SCORES, type UserDoc } from '../../types/user';
 
 function userRef(uid: string): DocumentReference {
@@ -31,7 +34,7 @@ export async function createUserDoc(
 ): Promise<void> {
   await setDoc(userRef(uid), {
     displayName: randomDisplayName(),
-    avatar: Math.floor(Math.random() * 10),
+    avatar: Math.floor(Math.random() * AVATAR_COUNT),
     isAnonymous: true,
     isPremium: false,
     createdAt: serverTimestamp(),
@@ -54,6 +57,10 @@ export async function ensureUserDoc(
 ): Promise<UserDoc> {
   const existing = await getUserDoc(uid);
   if (existing) {
+    if (Object.keys(overrides).length > 0) {
+      await updateUserDoc(uid, overrides);
+      return { ...existing, ...overrides };
+    }
     return existing;
   }
   await createUserDoc(uid, overrides);
@@ -70,4 +77,15 @@ export async function updateUserDoc(
   data: Partial<UserDoc>,
 ): Promise<void> {
   await updateDoc(userRef(uid), data);
+}
+
+/** Keeps Firestore profile in sync after Google/Apple account linking. */
+export async function syncAuthProfileToFirestore(user: User): Promise<void> {
+  const patch: Partial<UserDoc> = {
+    isAnonymous: user.isAnonymous,
+  };
+  if (user.displayName) {
+    patch.displayName = user.displayName;
+  }
+  await updateUserDoc(user.uid, patch);
 }

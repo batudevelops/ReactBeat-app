@@ -12,11 +12,12 @@ import {
   View,
 } from 'react-native';
 
-import { Avatar, AVATAR_COUNT, Button, Card } from '../../components/ui';
+import { Avatar, AVATARS, Button, Card } from '../../components/ui';
 import { Header } from '../../components/shared/Header';
 import { SafeLayout } from '../../components/shared/SafeLayout';
 import type { RootNavProp } from '../../app/navigation/types';
 import { useAuth } from '../../hooks/useAuth';
+import { isAuthCancelledError } from '../../services/firebase/auth';
 import { updateUserDoc } from '../../services/firebase/firestore';
 import { useUserStore } from '../../stores';
 import { colors, radius, spacing, typography } from '../../theme';
@@ -72,6 +73,9 @@ export function ProfileScreen() {
       }
       Alert.alert(t('profile.linkSuccessTitle'), t('profile.linkSuccessBody'));
     } catch (e) {
+      if (isAuthCancelledError(e)) {
+        return;
+      }
       const message =
         (e as { message?: string }).message ?? t('profile.linkFailBody');
       Alert.alert(t('profile.linkFailTitle'), message);
@@ -85,16 +89,25 @@ export function ProfileScreen() {
       <Header title={t('profile.title')} onBack={() => navigation.goBack()} />
       <ScrollView contentContainerStyle={styles.scroll}>
         <View style={styles.identity}>
-          <Avatar index={profile.avatar} size={72} />
+          <Avatar index={profile.avatar} size={88} selected />
+          <Text style={styles.avatarName}>
+            {t(`avatars.${AVATARS[profile.avatar]?.nameKey ?? 'fox'}`)}
+          </Text>
           <Text style={styles.sectionLabel}>{t('profile.chooseAvatar')}</Text>
-          <View style={styles.avatarRow}>
-            {Array.from({ length: AVATAR_COUNT }, (_, i) => (
+          <View style={styles.avatarGrid}>
+            {AVATARS.map((avatar) => (
               <Pressable
-                key={i}
-                onPress={() => saveAvatar(i)}
-                style={[styles.avatarChip, profile.avatar === i && styles.avatarChipActive]}
+                key={avatar.id}
+                accessibilityRole="button"
+                accessibilityLabel={t(`avatars.${avatar.nameKey}`)}
+                onPress={() => saveAvatar(avatar.id)}
+                style={styles.avatarCell}
               >
-                <Avatar index={i} size={44} />
+                <Avatar
+                  index={avatar.id}
+                  size={56}
+                  selected={profile.avatar === avatar.id}
+                />
               </Pressable>
             ))}
           </View>
@@ -162,25 +175,28 @@ export function ProfileScreen() {
 const styles = StyleSheet.create({
   scroll: { paddingBottom: spacing.xl, gap: spacing.md },
   identity: { alignItems: 'center', gap: spacing.sm, paddingVertical: spacing.md },
+  avatarName: {
+    color: colors.orange400,
+    fontSize: typography.body.fontSize,
+    fontWeight: '800',
+  },
   sectionLabel: {
     color: colors.textMuted,
     fontSize: typography.caption.fontSize,
     alignSelf: 'flex-start',
     marginTop: spacing.sm,
   },
-  avatarRow: {
+  avatarGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
     gap: spacing.sm,
+    maxWidth: 360,
   },
-  avatarChip: {
-    borderRadius: radius.full,
-    padding: 2,
-    borderWidth: 2,
-    borderColor: 'transparent',
+  avatarCell: {
+    width: 68,
+    alignItems: 'center',
   },
-  avatarChipActive: { borderColor: colors.orange500 },
   nameInput: {
     width: '100%',
     backgroundColor: colors.bgElevated,

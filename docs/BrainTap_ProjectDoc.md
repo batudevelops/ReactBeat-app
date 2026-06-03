@@ -1,7 +1,7 @@
 # BrainTap — Proje Dokümantasyonu
 
-**Versiyon:** 1.0  
-**Platform:** iOS + Android (React Native bare workflow)  
+**Versiyon:** 1.1  
+**Platform:** iOS + Android (Expo SDK 56)  
 **Durum:** Aktif geliştirme
 
 ---
@@ -33,20 +33,24 @@
 
 ## 1. Proje Genel Bakış
 
-BrainTap, refleks, hafıza ve algı odaklı 5 farklı oyun modunu barındıran hyper-casual bir beyin antrenmanı oyunudur. Fluo eğitim uygulamasının yanına bağımsız bir oyun olarak geliştirilmektedir.
+BrainTap, refleks, hafıza ve dikkat odaklı 8 oyun modunu barındıran hyper-casual bir beyin antrenmanı oyunudur (ReactBeat / Expo). Fluo eğitim uygulamasının yanına bağımsız bir oyun olarak geliştirilmektedir.
 
 ### Temel Özellikler
 
-- 5 oyun modu (3 ücretsiz, 2 premium)
-- Gerçek zamanlı leaderboard (günlük / haftalık / tüm zamanlar)
+- **8 oyun modu** + **Brain Mix** (hızlı oyna) — 6 ücretsiz çekirdek, 2 premium dikkat modu
+- Ana sayfa **beceri grupları**: Hız · Hafıza · Dikkat + üstte Brain Mix
+- Gerçek zamanlı leaderboard (günlük / haftalık / tüm zamanlar*) — modlar gruplu filtre
 - Lazy auth: anonim başla, top 10'da sosyal login tetikle
-- Reklamsız premium: tek seferlik $1.99
+- **Hibrit premium** ($1.99 tek seferlik): reklamsız + sınırsız can + all-time leaderboard + premium modlar
+- Ücretsiz: **8 can** (5 dk regen), reklam ile +1 (max 9)
 - Server-side skor doğrulama (anti-cheat)
-- Remote Config ile dinamik level ayarları
+- Firestore tabanlı dinamik level ayarları
+
+\* Tüm zamanlar leaderboard yalnızca premium.
 
 ### Bundle ID
-- iOS: `com.braintap.app`
-- Android: `com.braintap`
+- iOS: `com.batudevelops.reactbeat`
+- Android: `com.batudevelops.reactbeat`
 
 ---
 
@@ -340,35 +344,41 @@ export type RootStackParamList = {
 
 ### 6.2 HomeScreen
 
-**Amaç:** Ana menü. Mod seçimi, günlük seri, hızlı istatistik.
+**Amaç:** Ana menü. Brain Mix hızlı oyna, beceri grupları, can sayacı.
 
 **İçerik:**
 
 ```
 ┌─────────────────────────────┐
 │  Merhaba, [displayName] 👋   │
-│  🔥 7 günlük seri            │
+│  🔥 7 günlük seri    ❤️ 6/8  │
 ├─────────────────────────────┤
-│  [Reflex]  [Memory] [Pattern]│
-│  [Color Conflict] [Odd One Out] → 🔒 Premium │
+│  [Brain Mix — Quick Play]    │  ← tam genişlik
 ├─────────────────────────────┤
-│  En iyi skorların:           │
-│  Reflex: 4,820  Memory: 3,100│
+│  HIZ                         │
+│  [Reflex] [Math Snap]        │
+│  [Direction]                 │
+├─────────────────────────────┤
+│  HAFIZA                      │
+│  [Memory]  [Pattern]         │
+├─────────────────────────────┤
+│  DİKKAT                      │
+│  [Color Conflict 🔒] [Odd One Out 🔒] │
 ├─────────────────────────────┤
 │  [Leaderboard] [Profil] [⚙️] │
 └─────────────────────────────┘
 ```
 
 **Bileşenler:**
-- `StreakBadge` — günlük seri
-- `ModeCard` — 5 adet, premium olanlar kilit ikonu
-- `ScoreSummary` — en iyi 3 skor
-- `BottomBar` — Leaderboard / Profil / Ayarlar
+- `ModeCard` — gruplu 2 sütun grid; Brain Mix featured kart
+- Can sayacı — premium hariç, regen geri sayımı
+- `BottomNavBar` — Leaderboard / Profil / Ayarlar
 
 **Mantık:**
-- Premium kullanıcı → Color Conflict ve Odd One Out açık
-- Ücretsiz kullanıcı → kilitlere tıklayınca PaywallScreen modal
-- Günlük streak Firebase'den gelir
+- **Brain Mix** her zaman ücretsiz (ana giriş kapısı)
+- Premium → Color Conflict + Odd One Out açılır
+- Kilitli mod → PaywallScreen
+- Ücretsiz oyuncu: 8 can, 5 dk'da 1 regen, reklam +1 (max 9)
 
 ---
 
@@ -404,7 +414,7 @@ export type RootStackParamList = {
 
 ---
 
-### 6.4 Game Screens (5 adet)
+### 6.4 Game Screens (8 mod + Mix router)
 
 Her oyun ekranı ortak bir Game Layout kullanır:
 
@@ -424,7 +434,7 @@ Her oyun ekranı ortak bir Game Layout kullanır:
 
 **Ortak Bileşenler:**
 - `CircularTimer` — dairesel geri sayım, son 3s kırmızı pulse
-- `LivesBar` — 3 kalp, can kaybında shake + fade
+- `LivesBar` — session canları; global pool premium hariç
 - `ScoreDisplay` — anlık skor
 - `ComboIndicator` — combo arttıkça scale bounce animasyonu
 
@@ -478,9 +488,9 @@ Her oyun ekranı ortak bir Game Layout kullanır:
 ```
 ┌─────────────────────────────┐
 │  Liderlik Tablosu           │
-│  [Günlük] [Haftalık] [Tüm] │
-│  [Reflex] [Memory] [Pattern]│
-│  [Color] [Odd One Out]      │
+│  [Günlük] [Haftalık] [Tüm 🔒]│
+│  [Hız][Hafıza][Dikkat][Mix]  │  ← beceri grubu
+│  [Reflex][Math Snap][Direction]│ ← gruba göre alt modlar
 ├─────────────────────────────┤
 │  🥇 Ali       9,200         │
 │  🥈 Veli      8,750         │
@@ -495,8 +505,9 @@ Her oyun ekranı ortak bir Game Layout kullanır:
 
 **Veri Kaynağı:** Firebase Realtime Database (anlık okuma)
 
-**Tab Kombinasyonları:** 3 zaman × 5 mod = 15 farklı liste
-Her liste maksimum 100 kullanıcı gösterir.
+**Filtreleme:** 3 zaman × 8 mod (+ Mix) = 24 liste; UI'da 4 beceri grubu + alt mod seçici
+
+Her liste maksimum 100 kullanıcı gösterir. Premium modlar kilitli kullanıcıya Paywall. All-time premium gerektirir.
 
 ---
 
@@ -550,7 +561,7 @@ Her liste maksimum 100 kullanıcı gösterir.
 ┌─────────────────────────────┐
 │  BrainTap Premium           │
 ├─────────────────────────────┤
-│  ✓ 5 oyun moduna tam erişim │
+│  ✓ Tüm oyun modlarına erişim │
 │  ✓ Reklamsız deneyim        │
 │  ✓ Sınırsız can             │
 │  ✓ Tüm zamanlar leaderboard │
@@ -647,6 +658,35 @@ Her liste maksimum 100 kullanıcı gösterir.
 - Grid büyür
 - Fark incelir (renk tonu, şekil boyutu)
 - Süre kısalır
+
+---
+
+### 7.6 Math Snap — *Ücretsiz (Hız)*
+
+**Mekanik:** Basit toplama/çıkarma sorusu gösterilir; doğru sayıya tap'la.
+
+**Zorluk artışı:**
+- Sayı aralığı büyür
+- Seçenek sayısı artar (2 → 4)
+- Süre kısalır
+
+---
+
+### 7.7 Direction — *Ücretsiz (Hız)*
+
+**Mekanik:** Ekranda bir ok (↑↓←→) belirir; aynı yön butonuna tap'la.
+
+**Zorluk artışı:**
+- Seçenek sayısı artar (2 → 4 yön)
+- Süre kısalır
+
+---
+
+### 7.8 Brain Mix — *Ücretsiz (Quick Play)*
+
+**Mekanik:** Tek level track; her tur rastgele alt mod (Reflex, Memory, Pattern, Color Conflict, Odd One Out, Math Snap, Direction). Alt mod zorluğu mix level'ına göre gelir.
+
+**Not:** Mix ana giriş kapısı — premium yapılmaz. Premium alt modlar (Color Conflict, Odd One Out) mix içinde de premium kullanıcıya açık; ücretsiz oyuncu mix'te yalnızca ücretsiz alt modlar döner (ileride filtrelenebilir).
 
 ---
 
@@ -979,18 +1019,25 @@ interface TapEvent {
 
 ## 14. Monetizasyon
 
-### Paket Yapısı
+### Paket Yapısı (Hibrit Model)
+
+Premium **yalnızca reklam kaldırmak için değil** — oynanabilir ücretsiz çekirdek + prestij/rahatlık katmanı.
 
 | Özellik | Ücretsiz | Premium ($1.99) |
 |---------|----------|-----------------|
-| Reflex | ✓ | ✓ |
-| Memory | ✓ | ✓ |
-| Pattern Match | ✓ | ✓ |
+| Brain Mix | ✓ | ✓ |
+| Reflex, Memory, Pattern | ✓ | ✓ |
+| Math Snap, Direction | ✓ | ✓ |
 | Color Conflict | ✗ | ✓ |
 | Odd One Out | ✗ | ✓ |
 | Reklamlar | Her 3 oyun interstitial | ✗ |
-| Can | 3 (reklam ile +1) | Sınırsız |
+| Can | **8** (5 dk regen, reklam +1 → max 9) | Sınırsız |
 | Leaderboard | Günlük + Haftalık | + Tüm Zamanlar |
+
+**Tasarım ilkeleri:**
+- Mix premium yapılmaz (ana giriş)
+- Tüm oyunu kilitleme — en az 5 mod ücretsiz
+- Premium modlar = gelişmiş dikkat oyunları (Color Conflict, Odd One Out)
 
 ### AdMob
 
@@ -1010,7 +1057,7 @@ const INTERSTITIAL_THRESHOLD = 3
 // services/revenuecat.ts
 
 const ENTITLEMENT_ID = 'premium'
-const PRODUCT_ID = 'braintap_premium_lifetime'
+const PRODUCT_ID = 'reactbeat_premium_lifetime'
 
 async function purchasePremium(): Promise<boolean>
 async function restorePurchases(): Promise<boolean>

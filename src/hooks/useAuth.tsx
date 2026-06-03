@@ -18,7 +18,11 @@ import {
   signInAnonymously,
   signOut as authSignOut,
 } from '../services/firebase/auth';
-import { ensureUserDoc, getUserDoc } from '../services/firebase/firestore';
+import {
+  ensureUserDoc,
+  getUserDoc,
+  syncAuthProfileToFirestore,
+} from '../services/firebase/firestore';
 import { useMonetization } from './useMonetization';
 import { useConfigStore } from '../stores/configStore';
 import { useUserStore } from '../stores/userStore';
@@ -123,14 +127,26 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
   }, [user]);
 
   const linkGoogle = useCallback(async () => {
-    await linkWithGoogle();
-    await refreshUserDoc();
-  }, [refreshUserDoc]);
+    const linked = await linkWithGoogle();
+    await syncAuthProfileToFirestore(linked);
+    const doc = await getUserDoc(linked.uid);
+    if (mounted.current && doc) {
+      setUser(linked);
+      setUserDoc(doc);
+      hydrateUserStore(linked.uid, doc);
+    }
+  }, []);
 
   const linkApple = useCallback(async () => {
-    await linkWithApple();
-    await refreshUserDoc();
-  }, [refreshUserDoc]);
+    const linked = await linkWithApple();
+    await syncAuthProfileToFirestore(linked);
+    const doc = await getUserDoc(linked.uid);
+    if (mounted.current && doc) {
+      setUser(linked);
+      setUserDoc(doc);
+      hydrateUserStore(linked.uid, doc);
+    }
+  }, []);
 
   const signOut = useCallback(async () => {
     await authSignOut();

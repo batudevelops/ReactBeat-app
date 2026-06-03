@@ -4,12 +4,15 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { GameHud } from '../../../components/game';
 import { generatePatternRound, type PatternRound } from '../../../engine/modes';
+import { formatLevelRules } from '../../../engine/levelSummary';
 import { colors, radius, spacing, typography } from '../../../theme';
+import { MODE_ACCENT } from '../../../types/game';
 import type { GameModeScreenProps } from '../types';
 import { useGameController } from '../useGameController';
 
 const GRID = 9;
 const COLS = 3;
+const INTER_ROUND_DELAY_MS = 700;
 
 function PatternGrid({
   cells,
@@ -39,26 +42,38 @@ export function PatternGameScreen({
   onFinish,
 }: Readonly<GameModeScreenProps>) {
   const { t } = useTranslation();
-  const { round, msLeft, timeLimit, score, combo, lives, maxLives, submit } =
-    useGameController<PatternRound, string>({
+  const {
+    round,
+    msLeft,
+    timeLimit,
+    score,
+    combo,
+    lives,
+    maxLives,
+    betweenRounds,
+    currentLevel,
+    levelUpToken,
+    submit,
+  } = useGameController<PatternRound, string>({
       mode: 'pattern',
       level,
       generate: (cfg) => generatePatternRound(cfg),
       isCorrect: (r, id) => id === r.correctId,
       onFinish,
       getTimeLimit: (r, cfg) => cfg.timeLimit + r.showDuration,
+      interRoundDelayMs: INTER_ROUND_DELAY_MS,
     });
 
   const [revealed, setRevealed] = useState(true);
 
   useEffect(() => {
-    if (!round) {
+    if (!round || betweenRounds) {
       return;
     }
     setRevealed(true);
     const t = setTimeout(() => setRevealed(false), round.showDuration);
     return () => clearTimeout(t);
-  }, [round]);
+  }, [round, betweenRounds]);
 
   return (
     <View style={styles.container}>
@@ -69,11 +84,17 @@ export function PatternGameScreen({
         maxLives={maxLives}
         msLeft={msLeft}
         timeLimit={timeLimit}
+        level={currentLevel}
+        levelRules={formatLevelRules('pattern', currentLevel, t)}
+        accentColor={MODE_ACCENT.pattern}
+        levelUpToken={levelUpToken}
       />
 
       {round ? (
         <View style={styles.play}>
-          {revealed ? (
+          {betweenRounds ? (
+            <Text style={styles.hint}>{t('game.patternBetween')}</Text>
+          ) : revealed ? (
             <>
               <Text style={styles.hint}>{t('game.patternMemorize')}</Text>
               <PatternGrid cells={round.target} tile={56} active />

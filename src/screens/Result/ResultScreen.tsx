@@ -2,20 +2,44 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Alert, Platform, StyleSheet, Text, View } from 'react-native';
 
 import { RecordCelebration } from '../../components/game/RecordCelebration';
 import { Badge, Button, Card, Modal } from '../../components/ui';
+import { ScreenFooter } from '../../components/shared/BottomNavBar';
 import { SafeLayout } from '../../components/shared/SafeLayout';
 import type { RootNavProp, RootStackParamList } from '../../app/navigation/types';
 import { useAuth } from '../../hooks/useAuth';
+import { isAuthCancelledError } from '../../services/firebase/auth';
 import { useLeaderboard } from '../../hooks/useLeaderboard';
-import { showInterstitialAd } from '../../services/monetization';
+import { useLivesRegen } from '../../hooks/useLivesRegen';
+import { showInterstitialAd, showRewardedAd } from '../../services/monetization';
 import { getRemoteConfig } from '../../services/firebase/remoteConfig';
-import { useUserStore } from '../../stores';
-import { colors, spacing, typography } from '../../theme';
+import {
+  getStartLevel,
+  hasLivesToPlay,
+  MAX_LIVES,
+  useLivesStore,
+  useUserStore,
+} from '../../stores';
+import { colors, radius, spacing, typography } from '../../theme';
 
 const TOP_RANK_LOGIN_THRESHOLD = 10;
+
+function scoreSaveMessage(
+  reasons: string[] | undefined,
+  t: (key: string) => string,
+): string {
+  const reason = reasons?.[0];
+  if (reason) {
+    const key = `result.scoreSaveReasons.${reason}`;
+    const translated = t(key);
+    if (translated !== key) {
+      return translated;
+    }
+  }
+  return t('result.scoreSaveFailedGeneric');
+}
 
 export function ResultScreen() {
   const navigation = useNavigation<RootNavProp>();
@@ -24,14 +48,24 @@ export function ResultScreen() {
   const { user, linkGoogle, linkApple } = useAuth();
   const isPremium = useUserStore((s) => s.isPremium);
   const totalGames = useUserStore((s) => s.totalGames);
-  const { mode, score, isNewRecord, correct, wrong, avgReactionMs, level } =
+  const remainingLives = useLivesStore((s) => s.remaining);
+  const addLife = useLivesStore((s) => s.addLife);
+  const { regenCap, regenCountdown } = useLivesRegen();
+  const { mode, score, isNewRecord, correct, wrong, avgReactionMs, level, scoreSaved, scoreSaveReasons } =
     route.params;
 
+  const canPlay = hasLivesToPlay(isPremium);
+  const atMaxLives = !isPremium && remainingLives >= MAX_LIVES;
+  const startLevel = getStartLevel(mode);
+
+  const [adBusy, setAdBusy] = useState(false);
   const { myRank, loading: rankLoading } = useLeaderboard('weekly', mode, {
     scoreHint: score,
   });
 
-  const displayRank = route.params.rank ?? myRank;
+  const displayRank =
+    scoreSaved === true ? (route.params.rank ?? myRank) : null;
+  const showScoreSaveWarning = score > 0 && scoreSaved === false;
   const isAnonymous = user?.isAnonymous ?? true;
   const showLoginPrompt =
     !rankLoading &&
@@ -49,6 +83,12 @@ export function ResultScreen() {
   }, [showLoginPrompt]);
 
   useEffect(() => {
+    if (!isAnonymous) {
+      setLoginModal(false);
+    }
+  }, [isAnonymous]);
+
+  useEffect(() => {
     if (isPremium || totalGames === 0) {
       return;
     }
@@ -59,6 +99,18 @@ export function ResultScreen() {
     void showInterstitialAd();
   }, [isPremium, totalGames]);
 
+  async function handleWatchAd() {
+    setAdBusy(true);
+    try {
+      const earned = await showRewardedAd();
+      if (earned) {
+        addLife();
+      }
+    } finally {
+      setAdBusy(false);
+    }
+  }
+
   async function handleLink(provider: 'google' | 'apple') {
     setLinkBusy(provider);
     try {
@@ -68,15 +120,20 @@ export function ResultScreen() {
         await linkApple();
       }
       setLoginModal(false);
-    } catch {
-      // Profile screen shows detailed errors; keep modal open here.
+    } catch (e) {
+      if (isAuthCancelledError(e)) {
+        return;
+      }
+      const message =
+        (e as { message?: string }).message ?? t('profile.linkFailBody');
+      Alert.alert(t('profile.linkFailTitle'), message);
     } finally {
       setLinkBusy(null);
     }
   }
 
   return (
-    <SafeLayout>
+    <SafeLayout edges={['top', 'left', 'right']}>
       <View style={styles.body}>
         {isNewRecord ? (
           <>
@@ -93,6 +150,16 @@ export function ResultScreen() {
         </View>
 
         <Card style={styles.stats}>
+          {showScoreSaveWarning ? (
+            <View style={styles.saveWarning}>
+              <Text style={styles.saveWarningTitle}>
+                {t('result.scoreSaveFailedTitle')}
+              </Text>
+              <Text style={styles.saveWarningBody}>
+                {scoreSaveMessage(scoreSaveReasons, t)}
+              </Text>
+            </View>
+          ) : null}
           <Text style={styles.statLine}>
             {t('result.correctWrong', { correct: correct ?? '—', wrong: wrong ?? '—' })}
           </Text>
@@ -106,13 +173,54 @@ export function ResultScreen() {
               {t('result.weeklyRank', { rank: displayRank })}
             </Text>
           )}
+          {level != null ? (
+            <Text style={styles.statLine}>
+              {t('result.levelReached', { level })}
+            </Text>
+          ) : null}
+          {!isPremium ? (
+            <>
+              <Text style={styles.livesLine}>
+                {t('modeSelect.lives', {
+                  current: remainingLives,
+                  max: regenCap,
+                })}
+              </Text>
+              {regenCountdown ? (
+                <Text style={styles.regenLine}>
+                  {t('lives.nextIn', { time: regenCountdown })}
+                </Text>
+              ) : null}
+            </>
+          ) : null}
+          {!isPremium && !canPlay ? (
+            <Text style={styles.noLivesLine}>
+              {regenCountdown
+                ? t('modeSelect.noLivesRegen', { time: regenCountdown })
+                : t('modeSelect.noLivesHint')}
+            </Text>
+          ) : null}
         </Card>
 
         <View style={styles.spacer} />
+      </View>
 
+      <ScreenFooter>
+        {!isPremium ? (
+          <Button
+            label={t('modeSelect.watchAd')}
+            variant="secondary"
+            loading={adBusy}
+            disabled={atMaxLives}
+            onPress={() => void handleWatchAd()}
+          />
+        ) : null}
         <Button
-          label={t('result.playAgain')}
-          onPress={() => navigation.replace('Game', { mode, level: level ?? 1 })}
+          label={canPlay ? t('result.playAgain') : t('modeSelect.noLivesPlay')}
+          disabled={!canPlay}
+          onPress={() =>
+            navigation.replace('Game', { mode, level: startLevel })
+          }
         />
         <Button
           label={t('result.viewLeaderboard')}
@@ -124,7 +232,7 @@ export function ResultScreen() {
           variant="ghost"
           onPress={() => navigation.popToTop()}
         />
-      </View>
+      </ScreenFooter>
 
       <Modal
         visible={loginModal}
@@ -167,7 +275,38 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   stats: { gap: spacing.sm },
+  saveWarning: {
+    gap: spacing.xs,
+    padding: spacing.sm,
+    borderRadius: radius.md,
+    backgroundColor: `${colors.error}18`,
+    borderWidth: 1,
+    borderColor: `${colors.error}44`,
+  },
+  saveWarningTitle: {
+    color: colors.error,
+    fontSize: typography.body.fontSize,
+    fontWeight: '700',
+  },
+  saveWarningBody: {
+    color: colors.textSecondary,
+    fontSize: typography.caption.fontSize,
+    lineHeight: 18,
+  },
   statLine: { color: colors.textSecondary, fontSize: typography.body.fontSize },
+  livesLine: {
+    color: colors.orange400,
+    fontSize: typography.body.fontSize,
+    fontWeight: '700',
+  },
+  regenLine: {
+    color: colors.textMuted,
+    fontSize: typography.caption.fontSize,
+  },
+  noLivesLine: {
+    color: colors.textMuted,
+    fontSize: typography.caption.fontSize,
+  },
   spacer: { flex: 1 },
   modalBody: { color: colors.textSecondary, fontSize: typography.body.fontSize },
 });

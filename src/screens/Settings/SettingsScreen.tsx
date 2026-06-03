@@ -8,6 +8,7 @@ import { SafeLayout } from '../../components/shared/SafeLayout';
 import type { RootNavProp } from '../../app/navigation/types';
 import { usePremiumActions } from '../../hooks/usePremiumActions';
 import { SUPPORTED_LANGUAGES } from '../../i18n';
+import localeLabels from '../../i18n/localeLabels.json';
 import { useSettingsStore } from '../../stores';
 import { colors, radius, spacing, typography } from '../../theme';
 
@@ -57,7 +58,7 @@ export function SettingsScreen() {
           onValueChange={toggleNotifications}
         />
 
-        <View style={styles.row}>
+        <View style={styles.langSection}>
           <Text style={styles.rowLabel}>{t('settings.language')}</Text>
           <View style={styles.langGroup}>
             {SUPPORTED_LANGUAGES.map((lang) => (
@@ -72,7 +73,7 @@ export function SettingsScreen() {
                     language === lang && styles.langChipTextActive,
                   ]}
                 >
-                  {t(`languages.${lang}`)}
+                  {localeLabels[lang]}
                 </Text>
               </Pressable>
             ))}
@@ -115,7 +116,8 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.sm,
   },
   rowLabel: { color: colors.textPrimary, fontSize: typography.body.fontSize },
-  langGroup: { flexDirection: 'row', gap: spacing.sm },
+  langSection: { gap: spacing.sm, paddingVertical: spacing.sm },
+  langGroup: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
   langChip: {
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.xs,

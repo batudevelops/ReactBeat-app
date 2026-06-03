@@ -49,6 +49,17 @@ function pickLifetimePackage(
   );
 }
 
+/** Localized price from the current offering, or null if RC is not configured. */
+export async function getPremiumPriceLabel(): Promise<string | null> {
+  if (!isRevenueCatConfigured()) {
+    return null;
+  }
+  const offerings = await Purchases.getOfferings();
+  const packages = offerings.current?.availablePackages ?? [];
+  const pkg = pickLifetimePackage(packages);
+  return pkg?.product.priceString ?? null;
+}
+
 export async function purchasePremium(): Promise<boolean> {
   if (!isRevenueCatConfigured()) {
     throw new Error('RevenueCat API key is not configured.');

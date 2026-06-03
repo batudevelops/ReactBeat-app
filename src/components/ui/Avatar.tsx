@@ -1,50 +1,49 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View, type ViewStyle } from 'react-native';
 
+import { getAvatarDefinition, normalizeAvatarIndex } from '../../constants/avatars';
 import { colors, radius } from '../../theme';
-
-const AVATAR_EMOJIS = [
-  '🦊',
-  '🐼',
-  '🐯',
-  '🦁',
-  '🐸',
-  '🐙',
-  '🦉',
-  '🐢',
-  '🦄',
-  '🐝',
-];
+import { AvatarArt } from './avatarArt/AvatarArt';
 
 export interface AvatarProps {
-  /** 0-9 index */
+  /** Persisted avatar index (0–11). */
   index: number;
   size?: number;
+  /** Highlight ring (profile picker, “you” on leaderboard). */
+  selected?: boolean;
+  style?: ViewStyle;
 }
 
-export function Avatar({ index, size = 56 }: AvatarProps) {
-  const safeIndex = ((index % AVATAR_EMOJIS.length) + AVATAR_EMOJIS.length) %
-    AVATAR_EMOJIS.length;
+export function Avatar({ index, size = 56, selected = false, style }: AvatarProps) {
+  const safeIndex = normalizeAvatarIndex(index);
+  const def = getAvatarDefinition(safeIndex);
+  const ring = selected ? def.accent : colors.bgBorder;
 
   return (
     <View
       style={[
-        styles.avatar,
-        { width: size, height: size, borderRadius: radius.full },
+        styles.frame,
+        {
+          width: size,
+          height: size,
+          borderRadius: size / 2,
+          borderColor: ring,
+          borderWidth: selected ? 3 : 1,
+        },
+        style,
       ]}
     >
-      <Text style={{ fontSize: size * 0.5 }}>{AVATAR_EMOJIS[safeIndex]}</Text>
+      <AvatarArt index={safeIndex} size={size - (selected ? 6 : 2)} />
     </View>
   );
 }
 
-export const AVATAR_COUNT = AVATAR_EMOJIS.length;
+export { AVATAR_COUNT, AVATARS, getAvatarDefinition, normalizeAvatarIndex } from '../../constants/avatars';
 
 const styles = StyleSheet.create({
-  avatar: {
-    backgroundColor: colors.bgElevated,
+  frame: {
+    overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: colors.bgBorder,
+    backgroundColor: colors.bgElevated,
   },
 });

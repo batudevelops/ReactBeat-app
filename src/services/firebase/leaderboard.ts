@@ -27,7 +27,14 @@ export function parseLeaderboardSnapshot(
     ts: row.ts ?? 0,
   }));
   entries.sort((a, b) => b.score - a.score || b.ts - a.ts);
-  const max = getRemoteConfig().daily_leaderboard_size;
+  return entries;
+}
+
+/** Visible slice for the list UI (full board may be larger). */
+export function sliceLeaderboardTop(
+  entries: LeaderboardEntry[],
+  max = getRemoteConfig().daily_leaderboard_size,
+): LeaderboardEntry[] {
   return entries.slice(0, max);
 }
 
@@ -77,7 +84,5 @@ export function provisionalRank(
     return null;
   }
   const higher = entries.filter((e) => e.score > score).length;
-  const rank = higher + 1;
-  const max = getRemoteConfig().daily_leaderboard_size;
-  return rank <= max ? rank : null;
+  return higher + 1;
 }

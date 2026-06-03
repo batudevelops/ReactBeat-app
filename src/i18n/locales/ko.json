@@ -1,0 +1,201 @@
+{
+  "common": {
+    "back": "뒤로",
+    "close": "닫기"
+  },
+  "splash": {
+    "tagline": "REACT · REMEMBER · BEAT"
+  },
+  "home": {
+    "greeting": "안녕, {{name}} 👋",
+    "streak": "🔥 {{value}}일 연속",
+    "leaderboard": "리더보드",
+    "profile": "프로필",
+    "lives": "❤️ {{current}}/{{max}}",
+    "quickPlay": "빠른 플레이",
+    "skills": {
+      "speed": "속도",
+      "memory": "기억",
+      "attention": "주의력",
+      "mix": "Brain Mix"
+    },
+    "nav": {
+      "leaderboard": "Ranks",
+      "profile": "Profile",
+      "settings": "Settings"
+    }
+  },
+  "modes": {
+    "reflex": {
+      "label": "반사",
+      "description": "정답을 최대한 빨리 탭하세요."
+    },
+    "memory": {
+      "label": "기억",
+      "description": "보여준 순서를 기억하고 따라 하세요."
+    },
+    "pattern": {
+      "label": "패턴",
+      "description": "잠깐 보여준 패턴을 찾으세요."
+    },
+    "colorConflict": {
+      "label": "색 충돌",
+      "description": "도형의 실제 색을 탭하세요."
+    },
+    "oddOneOut": {
+      "label": "다른 하나",
+      "description": "다른 것을 찾으세요."
+    },
+    "mix": {
+      "label": "Brain Mix",
+      "description": "매 라운드마다 스킬이 바뀝니다 — 모든 모드 공통 레벨."
+    },
+    "mathSnap": {
+      "label": "Math Snap",
+      "description": "시간이 끝나기 전에 방정식을 풀세요."
+    },
+    "direction": {
+      "label": "Direction",
+      "description": "화살표와 같은 방향을 고르세요."
+    }
+  },
+  "modeSelect": {
+    "personalBest": "개인 최고: {{value}}",
+    "weeklyRank": "주간 순위: {{value}}",
+    "watchAd": "🎥 광고 보기 → +1 목숨",
+    "lives": "❤️ {{current}}/{{max}} 목숨",
+    "noLivesHint": "광고를 보고 +1 목숨",
+    "noLivesPlay": "목숨 없음",
+    "play": "▶ 플레이"
+  },
+  "game": {
+    "reflexPrompt": "이 색을 탭",
+    "colorConflictHint": "도형의 실제 색을 탭",
+    "oddOneOutHint": "다른 것을 탭",
+    "patternMemorize": "패턴을 기억하세요",
+    "patternWhich": "어느 것이었나요?",
+    "memoryWatch": "순서를 보세요",
+    "memoryRepeat": "따라 하기 ({{current}}/{{total}})",
+    "memoryBetween": "준비…",
+    "patternBetween": "준비…",
+    "mixSubMode": "{{mode}} 라운드",
+    "mathSnapPrompt": "정답을 탭",
+    "directionPrompt": "화살표 맞추기",
+    "outOfLivesTitle": "목숨 없음",
+    "outOfLivesBody": "광고를 보고 +1 목숨으로 계속하거나 이번 판을 종료하세요.",
+    "outOfLivesWatchAd": "🎥 광고 보기 → +1 목숨",
+    "outOfLivesEnd": "종료"
+  },
+  "result": {
+    "newRecord": "🎉 신기록!",
+    "scoreLabel": "{{mode}} 점수",
+    "correctWrong": "정답: {{correct}}  오답: {{wrong}}",
+    "avgReaction": "평균 반응: {{ms}} ms",
+    "avgReactionEmpty": "평균 반응: —",
+    "weeklyRank": "주간 순위: #{{rank}}",
+    "saveScoreTitle": "점수를 저장하세요!",
+    "saveScoreBody": "주간 상위 {{rank}} — 계정을 연결해 점수를 저장하세요.",
+    "saveScoreDismiss": "나중에",
+    "playAgain": "다시 플레이",
+    "viewLeaderboard": "리더보드 보기",
+    "mainMenu": "메인 메뉴",
+    "levelReached": "Level reached: {{level}}"
+  },
+  "leaderboard": {
+    "title": "리더보드",
+    "daily": "일간",
+    "weekly": "주간",
+    "alltime": "전체",
+    "empty": "아직 점수가 없습니다. 첫 번째가 되세요!",
+    "yourRank": "내 순위: —",
+    "yourRankValue": "내 순위: #{{rank}}",
+    "emptyTitle": "아직 점수가 없습니다",
+    "notRanked": "Play this mode to appear on the board.",
+    "you": "You",
+    "restOfTop": "Ranks 4–{{count}}"
+  },
+  "profile": {
+    "title": "프로필",
+    "defaultName": "플레이어",
+    "premium": "★ Premium",
+    "totalGames": "총 게임: {{value}}",
+    "totalXP": "총 XP: {{value}}",
+    "longestStreak": "최장 연속: {{value}}",
+    "bestScores": "최고 점수",
+    "linkGoogle": "Google 연결",
+    "linkApple": "Apple 연결",
+    "linking": "연결 중…",
+    "linked": "계정 연결됨 ✓",
+    "linkSuccessTitle": "성공",
+    "linkSuccessBody": "계정이 연결되었고 진행 상황이 안전합니다.",
+    "linkFailTitle": "연결 실패",
+    "linkFailBody": "연결 중 오류가 발생했습니다.",
+    "chooseAvatar": "아바타 선택",
+    "editName": "표시 이름",
+    "saveName": "이름 저장",
+    "saving": "저장 중…",
+    "saveFailTitle": "저장 실패",
+    "saveFailBody": "프로필 업데이트 중 오류가 발생했습니다."
+  },
+  "settings": {
+    "title": "설정",
+    "sound": "효과음",
+    "haptic": "햅틱 피드백",
+    "notifications": "알림",
+    "language": "언어",
+    "buyPremium": "Premium 구매",
+    "restore": "구매 복원",
+    "privacy": "개인정보 처리방침",
+    "terms": "이용 약관",
+    "version": "{{appName}} v{{version}}"
+  },
+  "paywall": {
+    "title": "{{appName}} Premium",
+    "perkModes": "모든 게임 모드 전체 이용",
+    "perkNoAds": "광고 없음",
+    "perkLives": "무한 목숨",
+    "perkLeaderboard": "전체 기간 리더보드",
+    "oneTime": "일회성",
+    "buy": "구매",
+    "restore": "구매 복원",
+    "purchaseSuccess": "Premium이 활성화되었습니다!",
+    "purchaseFailed": "구매를 완료할 수 없습니다.",
+    "restoreSuccess": "구매가 복원되었습니다.",
+    "restoreEmpty": "복원할 구매가 없습니다.",
+    "restoreFailed": "복원에 실패했습니다.",
+    "signInRequired": "구매하려면 로그인이 필요합니다."
+  },
+  "level": {
+    "label": "Level {{level}}",
+    "upToast": "Level up!"
+  },
+  "levelRules": {
+    "timeOptions": "{{time}}s · {{count}} options",
+    "memory": "{{seq}} steps · {{grid}} grid · {{show}}s show",
+    "pattern": "{{time}}s · {{show}}s reveal · {{count}} choices",
+    "oddOneOut": "{{time}}s · {{grid}} tiles",
+    "mix": "모든 스킬 · Lv.{{level}}"
+  },
+  "avatars": {
+    "fox": "Swift Fox",
+    "owl": "Wise Owl",
+    "octopus": "Clever Octopus",
+    "lion": "Golden Lion",
+    "panda": "Calm Panda",
+    "robot": "Brain Bot",
+    "unicorn": "Spark Unicorn",
+    "bee": "Turbo Bee",
+    "frog": "Focus Frog",
+    "brain": "React Brain",
+    "cheetah": "Speed Cheetah",
+    "cat": "Wizard Cat",
+    "penguin": "Chill Penguin",
+    "dragon": "Mini Dragon",
+    "koala": "Sleepy Koala",
+    "shark": "Sharp Shark",
+    "monkey": "Jungle Monkey",
+    "alien": "Cosmic Alien",
+    "ghost": "Friendly Ghost",
+    "eagle": "Sharp Eagle"
+  }
+}

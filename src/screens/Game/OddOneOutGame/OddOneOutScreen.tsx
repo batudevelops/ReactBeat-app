@@ -6,7 +6,9 @@ import {
   generateOddOneOutRound,
   type OddOneOutRound,
 } from '../../../engine/modes';
+import { formatLevelRules } from '../../../engine/levelSummary';
 import { colors, radius, spacing, typography } from '../../../theme';
+import { MODE_ACCENT } from '../../../types/game';
 import type { GameModeScreenProps } from '../types';
 import { useGameController } from '../useGameController';
 
@@ -19,7 +21,7 @@ export function OddOneOutScreen({
   onFinish,
 }: Readonly<GameModeScreenProps>) {
   const { t } = useTranslation();
-  const { round, msLeft, timeLimit, score, combo, lives, maxLives, submit } =
+  const { round, msLeft, timeLimit, score, combo, lives, maxLives, currentLevel, levelUpToken, submit } =
     useGameController<OddOneOutRound, string>({
       mode: 'oddOneOut',
       level,
@@ -39,6 +41,10 @@ export function OddOneOutScreen({
         maxLives={maxLives}
         msLeft={msLeft}
         timeLimit={timeLimit}
+        level={currentLevel}
+        levelRules={formatLevelRules('oddOneOut', currentLevel, t)}
+        accentColor={MODE_ACCENT.oddOneOut}
+        levelUpToken={levelUpToken}
       />
 
       {round ? (

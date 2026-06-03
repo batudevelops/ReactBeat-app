@@ -8,45 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:909994962274:android:2b9efce153c16e41fa103b",
+        "mobilesdk_app_id": "1:909994962274:android:bfb28dc1f190fbb6fa103b",
         "android_client_info": {
-          "package_name": "com.batudevelops.braintap"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "909994962274-aibg719t8juamcjhb49dsagmuc5acdr1.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDw-YD1ZupBIOcNLmlgphvRaIghw5lxm2g"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "909994962274-aibg719t8juamcjhb49dsagmuc5acdr1.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "909994962274-5320dfdt03o64jp2h0rvofc2mffigs46.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.braintap.app"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:909994962274:android:73febb2d3771fd35fa103b",
-        "android_client_info": {
-          "package_name": "com.braintap.app"
+          "package_name": "com.batudevelops.reactbeat"
         }
       },
       "oauth_client": [

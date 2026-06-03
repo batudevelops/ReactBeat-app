@@ -1,0 +1,201 @@
+{
+  "common": {
+    "back": "Atrás",
+    "close": "Cerrar"
+  },
+  "splash": {
+    "tagline": "REACT · REMEMBER · BEAT"
+  },
+  "home": {
+    "greeting": "Hola, {{name}} 👋",
+    "streak": "🔥 Racha de {{value}} días",
+    "leaderboard": "Clasificación",
+    "profile": "Perfil",
+    "lives": "❤️ {{current}}/{{max}}",
+    "quickPlay": "Juego rápido",
+    "skills": {
+      "speed": "Velocidad",
+      "memory": "Memoria",
+      "attention": "Atención",
+      "mix": "Brain Mix"
+    },
+    "nav": {
+      "leaderboard": "Ranks",
+      "profile": "Profile",
+      "settings": "Settings"
+    }
+  },
+  "modes": {
+    "reflex": {
+      "label": "Reflejos",
+      "description": "Toca la opción correcta lo más rápido posible."
+    },
+    "memory": {
+      "label": "Memoria",
+      "description": "Memoriza la secuencia y repítela."
+    },
+    "pattern": {
+      "label": "Patrón",
+      "description": "Encuentra el patrón que se mostró brevemente."
+    },
+    "colorConflict": {
+      "label": "Conflicto de color",
+      "description": "Toca el color real de la forma."
+    },
+    "oddOneOut": {
+      "label": "El diferente",
+      "description": "Encuentra el que no encaja."
+    },
+    "mix": {
+      "label": "Brain Mix",
+      "description": "Cada ronda cambia de habilidad — un nivel para todos los modos."
+    },
+    "mathSnap": {
+      "label": "Math Snap",
+      "description": "Resuelve la ecuación antes de que se acabe el tiempo."
+    },
+    "direction": {
+      "label": "Dirección",
+      "description": "Empareja la flecha con la dirección correcta."
+    }
+  },
+  "modeSelect": {
+    "personalBest": "Mejor personal: {{value}}",
+    "weeklyRank": "Rango semanal: {{value}}",
+    "watchAd": "🎥 Ver anuncio → +1 vida",
+    "lives": "❤️ {{current}}/{{max}} vidas",
+    "noLivesHint": "Mira un anuncio para +1 vida",
+    "noLivesPlay": "Sin vidas",
+    "play": "▶ Jugar"
+  },
+  "game": {
+    "reflexPrompt": "Toca este color",
+    "colorConflictHint": "Toca el color real de la forma",
+    "oddOneOutHint": "Toca el diferente",
+    "patternMemorize": "Memoriza el patrón",
+    "patternWhich": "¿Cuál era?",
+    "memoryWatch": "Observa la secuencia",
+    "memoryRepeat": "Repite ({{current}}/{{total}})",
+    "memoryBetween": "Prepárate…",
+    "patternBetween": "Prepárate…",
+    "mixSubMode": "Ronda de {{mode}}",
+    "mathSnapPrompt": "Toca la respuesta",
+    "directionPrompt": "Empareja esta flecha",
+    "outOfLivesTitle": "Sin vidas",
+    "outOfLivesBody": "Mira un anuncio para +1 vida y seguir, o termina la partida.",
+    "outOfLivesWatchAd": "🎥 Ver anuncio → +1 vida",
+    "outOfLivesEnd": "Terminar"
+  },
+  "result": {
+    "newRecord": "🎉 ¡NUEVO RÉCORD!",
+    "scoreLabel": "Tu puntuación en {{mode}}",
+    "correctWrong": "Correctas: {{correct}}  Incorrectas: {{wrong}}",
+    "avgReaction": "Reacción media: {{ms}} ms",
+    "avgReactionEmpty": "Reacción media: —",
+    "weeklyRank": "Tu rango semanal: #{{rank}}",
+    "saveScoreTitle": "¡Guarda tu puntuación!",
+    "saveScoreBody": "Estás en el top {{rank}} semanal — vincula tu cuenta para guardar tu puntuación.",
+    "saveScoreDismiss": "Después",
+    "playAgain": "Jugar de nuevo",
+    "viewLeaderboard": "Ver clasificación",
+    "mainMenu": "Menú principal",
+    "levelReached": "Level reached: {{level}}"
+  },
+  "leaderboard": {
+    "title": "Clasificación",
+    "daily": "Diario",
+    "weekly": "Semanal",
+    "alltime": "Histórico",
+    "empty": "Aún no hay puntuaciones. ¡Sé el primero!",
+    "yourRank": "Tu rango: —",
+    "yourRankValue": "Tu rango: #{{rank}}",
+    "emptyTitle": "Aún no hay puntuaciones",
+    "notRanked": "Play this mode to appear on the board.",
+    "you": "You",
+    "restOfTop": "Ranks 4–{{count}}"
+  },
+  "profile": {
+    "title": "Perfil",
+    "defaultName": "Jugador",
+    "premium": "★ Premium",
+    "totalGames": "Partidas totales: {{value}}",
+    "totalXP": "XP total: {{value}}",
+    "longestStreak": "Racha más larga: {{value}}",
+    "bestScores": "Mejores puntuaciones",
+    "linkGoogle": "Vincular con Google",
+    "linkApple": "Vincular con Apple",
+    "linking": "Vinculando…",
+    "linked": "Cuenta vinculada ✓",
+    "linkSuccessTitle": "Éxito",
+    "linkSuccessBody": "Tu cuenta está vinculada, tu progreso está a salvo.",
+    "linkFailTitle": "No se pudo vincular",
+    "linkFailBody": "Algo salió mal al vincular.",
+    "chooseAvatar": "Elegir avatar",
+    "editName": "Nombre visible",
+    "saveName": "Guardar nombre",
+    "saving": "Guardando…",
+    "saveFailTitle": "No se pudo guardar",
+    "saveFailBody": "Algo salió mal al actualizar tu perfil."
+  },
+  "settings": {
+    "title": "Ajustes",
+    "sound": "Efectos de sonido",
+    "haptic": "Vibración háptica",
+    "notifications": "Notificaciones",
+    "language": "Idioma",
+    "buyPremium": "Comprar Premium",
+    "restore": "Restaurar compras",
+    "privacy": "Política de privacidad",
+    "terms": "Términos de uso",
+    "version": "{{appName}} v{{version}}"
+  },
+  "paywall": {
+    "title": "{{appName}} Premium",
+    "perkModes": "Acceso completo a todos los modos",
+    "perkNoAds": "Sin anuncios",
+    "perkLives": "Vidas ilimitadas",
+    "perkLeaderboard": "Clasificación histórica",
+    "oneTime": "PAGO ÚNICO",
+    "buy": "Comprar",
+    "restore": "Restaurar compras",
+    "purchaseSuccess": "¡Premium activo!",
+    "purchaseFailed": "No se pudo completar la compra.",
+    "restoreSuccess": "Compras restauradas.",
+    "restoreEmpty": "No hay compras que restaurar.",
+    "restoreFailed": "Error al restaurar.",
+    "signInRequired": "Inicia sesión para comprar."
+  },
+  "level": {
+    "label": "Level {{level}}",
+    "upToast": "Level up!"
+  },
+  "levelRules": {
+    "timeOptions": "{{time}}s · {{count}} options",
+    "memory": "{{seq}} steps · {{grid}} grid · {{show}}s show",
+    "pattern": "{{time}}s · {{show}}s reveal · {{count}} choices",
+    "oddOneOut": "{{time}}s · {{grid}} tiles",
+    "mix": "Todas las habilidades · Nv.{{level}}"
+  },
+  "avatars": {
+    "fox": "Swift Fox",
+    "owl": "Wise Owl",
+    "octopus": "Clever Octopus",
+    "lion": "Golden Lion",
+    "panda": "Calm Panda",
+    "robot": "Brain Bot",
+    "unicorn": "Spark Unicorn",
+    "bee": "Turbo Bee",
+    "frog": "Focus Frog",
+    "brain": "React Brain",
+    "cheetah": "Speed Cheetah",
+    "cat": "Wizard Cat",
+    "penguin": "Chill Penguin",
+    "dragon": "Mini Dragon",
+    "koala": "Sleepy Koala",
+    "shark": "Sharp Shark",
+    "monkey": "Jungle Monkey",
+    "alien": "Cosmic Alien",
+    "ghost": "Friendly Ghost",
+    "eagle": "Sharp Eagle"
+  }
+}

@@ -1,11 +1,11 @@
 import { NativeModules, Platform } from 'react-native';
 
 import type { AppLanguage } from './languages';
-import { SUPPORTED_LANGUAGES } from './languages';
+import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from './languages';
 
 /**
  * Best-effort device language using only core React Native bridges (no extra
- * native module, so it works without a rebuild). Falls back to Turkish.
+ * native module, so it works without a rebuild). Falls back to English.
  */
 export function getDeviceLanguage(): AppLanguage {
   let raw: string | undefined;
@@ -23,5 +23,5 @@ export function getDeviceLanguage(): AppLanguage {
   const code = (raw ?? '').slice(0, 2).toLowerCase();
   return (SUPPORTED_LANGUAGES as readonly string[]).includes(code)
     ? (code as AppLanguage)
-    : 'tr';
+    : DEFAULT_LANGUAGE;
 }

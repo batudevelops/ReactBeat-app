@@ -3,9 +3,8 @@ import { initReactI18next } from 'react-i18next';
 
 import { APP_NAME } from '../constants/app';
 import { useSettingsStore } from '../stores/settingsStore';
-import { DEFAULT_LANGUAGE } from './languages';
-import en from './locales/en.json';
-import tr from './locales/tr.json';
+import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from './languages';
+import { localeResources } from './locales';
 
 // We don't use i18next plural forms, but its pluralResolver still warns about
 // the missing Intl.PluralRules in Hermes. Drop only that noisy message.
@@ -29,11 +28,13 @@ const quietLogger = {
   },
 };
 
+const storedLang = useSettingsStore.getState().language;
+if (!(SUPPORTED_LANGUAGES as readonly string[]).includes(storedLang)) {
+  useSettingsStore.getState().setLanguage(DEFAULT_LANGUAGE);
+}
+
 void i18n.use(quietLogger).use(initReactI18next).init({
-  resources: {
-    tr: { translation: tr },
-    en: { translation: en },
-  },
+  resources: localeResources,
   lng: useSettingsStore.getState().language,
   fallbackLng: DEFAULT_LANGUAGE,
   interpolation: { escapeValue: false, defaultVariables: { appName: APP_NAME } },

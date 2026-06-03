@@ -6,8 +6,9 @@ import { calculateScore } from '../engine/scorer';
 import { DEFAULT_LIVES, PREMIUM_LIVES } from '../constants/monetization';
 import type { GameMode } from '../types/game';
 import type { GameSession, TapEvent } from '../types/session';
+import { MAX_LIVES, useLivesStore } from './livesStore';
 
-export type GameStatus = 'idle' | 'playing' | 'paused' | 'finished';
+export type GameStatus = 'idle' | 'playing' | 'paused' | 'outOfLives' | 'finished';
 
 interface GameState {
   mode: GameMode | null;
@@ -26,6 +27,7 @@ interface GameState {
   tapWrong: (detail?: Partial<TapEvent>) => void;
   pauseGame: () => void;
   resumeGame: () => void;
+  resumeWithOneLife: () => void;
   endGame: () => void;
   reset: () => void;
 }
@@ -48,14 +50,17 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   startGame: (mode, level, initialLives = DEFAULT_LIVES) => {
     const unlimitedLives = initialLives >= PREMIUM_LIVES;
-    const maxLives = unlimitedLives ? DEFAULT_LIVES : initialLives;
+    const runLives = unlimitedLives ? DEFAULT_LIVES : initialLives;
+    const maxLives = unlimitedLives
+      ? DEFAULT_LIVES
+      : Math.max(DEFAULT_LIVES, Math.min(MAX_LIVES, initialLives));
     set({
       mode,
       level,
       score: 0,
       combo: 0,
       streak: 0,
-      lives: initialLives,
+      lives: runLives,
       maxLives,
       unlimitedLives,
       status: 'playing',
@@ -65,23 +70,25 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   tapCorrect: (reactionMs, detail) =>
     set((s) => {
+      const cfg = s.mode ? getLevelConfig(s.mode, s.level) : null;
+      const timeLimit = detail?.timeLimitMs ?? cfg?.timeLimit ?? 2000;
+      const comboBonus = detail?.comboBonus ?? cfg?.comboBonus ?? 10;
       const event: TapEvent = {
         ts: Date.now(),
         questionId: detail?.questionId ?? '',
         answer: detail?.answer ?? '',
         correct: true,
         reactionMs,
+        timeLimitMs: timeLimit,
+        comboBonus,
       };
-      const cfg = s.mode ? getLevelConfig(s.mode, s.level) : null;
-      const points = cfg
-        ? calculateScore({
-            correct: true,
-            reactionMs,
-            timeLimit: cfg.timeLimit,
-            combo: s.combo,
-            comboBonus: cfg.comboBonus,
-          })
-        : 100;
+      const points = calculateScore({
+        correct: true,
+        reactionMs,
+        timeLimit,
+        combo: s.combo,
+        comboBonus,
+      });
       return {
         score: s.score + points,
         combo: s.combo + 1,
@@ -100,6 +107,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         answer: detail?.answer ?? '',
         correct: false,
         reactionMs: detail?.reactionMs ?? 0,
+        timeLimitMs: detail?.timeLimitMs,
       };
       if (s.unlimitedLives) {
         return {
@@ -109,18 +117,15 @@ export const useGameStore = create<GameState>((set, get) => ({
             : s.session,
         };
       }
+      useLivesStore.getState().loseLife();
       const lives = Math.max(0, s.lives - 1);
-      const finished = lives === 0;
+      const outOfLives = lives === 0;
       return {
         lives,
         combo: 0,
-        status: finished ? 'finished' : s.status,
+        status: outOfLives ? 'outOfLives' : s.status,
         session: s.session
-          ? {
-              ...s.session,
-              events: [...s.session.events, event],
-              endTime: finished ? Date.now() : s.session.endTime,
-            }
+          ? { ...s.session, events: [...s.session.events, event] }
           : s.session,
       };
     }),
@@ -130,6 +135,11 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   resumeGame: () =>
     set((s) => (s.status === 'paused' ? { status: 'playing' } : s)),
+
+  resumeWithOneLife: () =>
+    set((s) =>
+      s.status === 'outOfLives' ? { lives: 1, status: 'playing' } : s,
+    ),
 
   endGame: () =>
     set((s) => ({

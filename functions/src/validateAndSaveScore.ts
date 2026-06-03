@@ -12,6 +12,7 @@ const GAME_MODES: GameMode[] = [
   'pattern',
   'colorConflict',
   'oddOneOut',
+  'mix',
 ];
 
 function isGameMode(value: string): value is GameMode {

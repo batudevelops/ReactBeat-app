@@ -37,8 +37,8 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="braintap"/>
-        <data android:scheme="exp+braintap"/>
+        <data android:scheme="reactbeat"/>
+        <data android:scheme="exp+reactbeat"/>
       </intent-filter>
     </activity>
   </application>

@@ -1,5 +1,6 @@
 import { getRemoteConfig } from '../services/firebase/remoteConfig';
-import type { GameMode } from '../types/game';
+import { DEFAULT_LIVES } from '../constants/monetization';
+import { MIX_SUB_MODES, type GameMode } from '../types/game';
 
 export interface LevelConfig {
   timeLimit: number; // ms per question
@@ -12,7 +13,6 @@ export interface LevelConfig {
   showDuration?: number; // Memory / Pattern reveal duration (ms)
 }
 
-const DEFAULT_LIVES = 3;
 const HIGH_LEVEL = 31;
 
 function clamp(value: number, min: number, max: number): number {
@@ -120,12 +120,59 @@ function oddOneOutConfig(level: number): LevelConfig {
   };
 }
 
+function mathSnapConfig(level: number): LevelConfig {
+  const remote = rc();
+  const options = clamp(2 + Math.floor((level - 1) / 8), 2, 4);
+  const timeLimit = clamp(2400 - (level - 1) * 35, 1100, 2400);
+  return {
+    timeLimit,
+    options,
+    lives: DEFAULT_LIVES,
+    speedMultiplier: clamp(1 + (level - 1) * 0.025, 1, 1.8),
+    comboBonus: 12,
+    streakThreshold: remote.combo_threshold,
+  };
+}
+
+function directionConfig(level: number): LevelConfig {
+  const remote = rc();
+  const timeLimit = clamp(2600 - (level - 1) * 42, 950, 2600);
+  return {
+    timeLimit,
+    options: 4,
+    lives: DEFAULT_LIVES,
+    speedMultiplier: clamp(1 + (level - 1) * 0.03, 1, 2),
+    comboBonus: 13,
+    streakThreshold: remote.combo_threshold,
+  };
+}
+
+/** Session defaults for Brain Mix — difficulty comes from each sub-mode at the mix level. */
+function mixConfig(level: number): LevelConfig {
+  const remote = rc();
+  const subs = MIX_SUB_MODES.map((m) => getLevelConfig(m, level));
+  const avgTime = Math.round(
+    subs.reduce((sum, c) => sum + c.timeLimit, 0) / subs.length,
+  );
+  return {
+    timeLimit: avgTime,
+    options: 4,
+    lives: DEFAULT_LIVES,
+    speedMultiplier: 1.4,
+    comboBonus: 12,
+    streakThreshold: remote.combo_threshold,
+  };
+}
+
 const BUILDERS: Record<GameMode, (level: number) => LevelConfig> = {
   reflex: reflexConfig,
   memory: memoryConfig,
   pattern: patternConfig,
   colorConflict: colorConflictConfig,
   oddOneOut: oddOneOutConfig,
+  mathSnap: mathSnapConfig,
+  direction: directionConfig,
+  mix: mixConfig,
 };
 
 export function getLevelConfig(mode: GameMode, level: number): LevelConfig {

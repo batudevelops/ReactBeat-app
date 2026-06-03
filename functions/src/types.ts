@@ -3,7 +3,10 @@ export type GameMode =
   | 'memory'
   | 'pattern'
   | 'colorConflict'
-  | 'oddOneOut';
+  | 'oddOneOut'
+  | 'mathSnap'
+  | 'direction'
+  | 'mix';
 
 export interface TapEvent {
   ts: number;
@@ -11,6 +14,8 @@ export interface TapEvent {
   answer: string;
   correct: boolean;
   reactionMs: number;
+  timeLimitMs?: number;
+  comboBonus?: number;
 }
 
 export interface GameSession {

@@ -10,7 +10,49 @@
     "greeting": "Merhaba, {{name}} 👋",
     "streak": "🔥 {{value}} günlük seri",
     "leaderboard": "Leaderboard",
-    "profile": "Profil"
+    "profile": "Profil",
+    "lives": "❤️ {{current}}/{{max}} can",
+    "quickPlay": "Hızlı Oyna",
+    "skills": {
+      "speed": "Hız",
+      "memory": "Hafıza",
+      "attention": "Dikkat",
+      "mix": "Brain Mix"
+    },
+    "nav": {
+      "leaderboard": "Sıra",
+      "profile": "Profil",
+      "settings": "Ayarlar"
+    }
+  },
+  "level": {
+    "label": "Level {{level}}",
+    "upToast": "Seviye atladın!"
+  },
+  "lives": {
+    "nextIn": "Sonraki can: {{time}}"
+  },
+  "levelRules": {
+    "timeOptions": "{{time}}s · {{count}} seçenek",
+    "memory": "{{seq}} adım · {{grid}} grid · {{show}}s gösterim",
+    "pattern": "{{time}}s · {{show}}s gösterim · {{count}} seçenek",
+    "oddOneOut": "{{time}}s · {{grid}} karo",
+    "mix": "Tüm beceriler · Lv.{{level}}",
+    "directionSame": "{{time}}s · aynı yön",
+    "directionConflict": "{{time}}s · aynı veya ters",
+    "directionOdd": "{{time}}s · 3 ok · farklı renk",
+    "directionWords": "{{time}}s · yön kelimeleri",
+    "directionSymbols": "{{time}}s · ok sembolleri",
+    "directionOpposite": "{{time}}s · ters yön",
+    "directionTurns": "{{time}}s · dönüşler",
+    "directionAdvanced": "{{time}}s · karışık kurallar",
+    "mathAdd": "{{time}}s · toplama",
+    "mathSubtract": "{{time}}s · + ve −",
+    "mathMissing": "{{time}}s · eksik sayı",
+    "mathMultiply": "{{time}}s · × ve karşılaştır",
+    "mathAdvanced": "{{time}}s · iki kat & yarı",
+    "mathExpert": "{{time}}s · zincir & tek/çift",
+    "mathMaster": "{{time}}s · tüm bulmacalar"
   },
   "modes": {
     "reflex": {
@@ -32,14 +74,34 @@
     "oddOneOut": {
       "label": "Odd One Out",
       "description": "Farklı olanı yakala."
+    },
+    "mix": {
+      "label": "Brain Mix",
+      "description": "Her tur farklı beceri — tüm modlar için tek seviye."
+    },
+    "mathSnap": {
+      "label": "Math Snap",
+      "description": "Denklemi süre bitmeden çöz."
+    },
+    "direction": {
+      "label": "Direction",
+      "description": "Metin ipucunu oku — pedde doğru oka tap’la."
     }
   },
   "modeSelect": {
     "personalBest": "Kişisel en iyi: {{value}}",
     "weeklyRank": "Haftalık sıra: {{value}}",
     "watchAd": "🎥 Reklam izle → +1 can",
-    "bonusLives": "+{{count}} bonus can sıradaki oyunda",
-    "play": "▶ Oyna"
+    "lives": "❤️ {{current}}/{{max}} can",
+    "noLivesHint": "Reklam izleyerek +1 can kazan",
+    "noLivesRegen": "Sonraki can {{time}} — veya reklam izle",
+    "noLivesPlay": "Can kalmadı",
+    "play": "▶ Oyna",
+    "resetLevel": "Level sıfırla",
+    "resetLevelTitle": "Level sıfırlansın mı?",
+    "resetLevelBody": "{{mode}} modunda Level {{level}} → Level 1. Kişisel rekorun kalır — sadece zorluk sıfırlanır.",
+    "resetLevelConfirm": "Evet, Level 1’e dön",
+    "resetLevelCancel": "Level’ım kalsın"
   },
   "game": {
     "reflexPrompt": "Bu renge tap’la",
@@ -48,7 +110,44 @@
     "patternMemorize": "Deseni ezberle",
     "patternWhich": "Hangisiydi?",
     "memoryWatch": "Sırayı izle",
-    "memoryRepeat": "Tekrarla ({{current}}/{{total}})"
+    "memoryRepeat": "Tekrarla ({{current}}/{{total}})",
+    "memoryBetween": "Hazır ol…",
+    "patternBetween": "Hazır ol…",
+    "mixSubMode": "{{mode}} turu",
+    "mathSnapPrompt": "Doğru cevaba tap’la",
+    "mathSnapHints": {
+      "add": "Toplamı seç",
+      "subtract": "Farkı seç",
+      "multiply": "Çarpımı seç",
+      "missingLeft": "Eksik sayıyı bul",
+      "missingRight": "Eksik sayıyı bul",
+      "double": "Sonucu seç",
+      "half": "Yarısını seç",
+      "chainAdd": "Toplamı seç",
+      "compare": "Büyük olanı seç",
+      "oddEven": "Tek mi çift mi?"
+    },
+    "mathSnapOddEven": {
+      "odd": "TEK",
+      "even": "ÇİFT"
+    },
+    "directions": {
+      "up": "YUKARI",
+      "down": "AŞAĞI",
+      "left": "SOL",
+      "right": "SAĞ"
+    },
+    "directionPrompt": {
+      "opposite": "{{dir}} yönünün tersi",
+      "clockwise": "{{dir}} yönünden saat yönü",
+      "counterClockwise": "{{dir}} yönünden saat tersi",
+      "mirrorHorizontal": "{{dir}} yatay ayna",
+      "mirrorVertical": "{{dir}} dikey çevir"
+    },
+    "outOfLivesTitle": "Can kalmadı",
+    "outOfLivesBody": "Reklam izleyerek +1 can kazan ve devam et, ya da run'ı bitir.",
+    "outOfLivesWatchAd": "🎥 Reklam izle → +1 can",
+    "outOfLivesEnd": "Bitir"
   },
   "result": {
     "newRecord": "🎉 YENİ REKOR!",
@@ -61,17 +160,60 @@
     "saveScoreBody": "Haftalık top {{rank}} — hesabını bağla, skorun kaybolmasın.",
     "saveScoreDismiss": "Sonra",
     "playAgain": "Tekrar Oyna",
+    "levelReached": "Ulaşılan level: {{level}}",
     "viewLeaderboard": "Leaderboard’a bak",
-    "mainMenu": "Ana Menü"
+    "mainMenu": "Ana Menü",
+    "scoreSaveFailedTitle": "Leaderboard’a kaydedilemedi",
+    "scoreSaveFailedGeneric": "Online sıralamaya yazılamadı. Kişisel rekorun bu cihazda duruyor.",
+    "scoreSaveReasons": {
+      "auth_required": "Oturum yok — Firebase’de Anonymous auth açık mı kontrol et.",
+      "network_error": "Ağ veya Cloud Function’a ulaşılamadı.",
+      "server_error": "Sunucu isteği reddetti.",
+      "client_server_score_mismatch": "Skor doğrulaması uyuşmadı — uygulamayı güncelle ve functions deploy et.",
+      "reaction_too_fast": "Anti-cheat oturumu işaretledi.",
+      "identical_timing": "Anti-cheat oturumu işaretledi.",
+      "score_exceeds_max": "Skor sunucuya geçersiz göründü.",
+      "duration_too_short": "Oturum süresi geçersiz göründü.",
+      "event_score_mismatch": "Oturum verisi eksik.",
+      "no_correct_events": "Geçerli tap kaydı yok.",
+      "rejected": "Sunucu skoru reddetti.",
+      "no_session": "Oyun oturumu bulunamadı."
+    }
   },
   "leaderboard": {
     "title": "Liderlik Tablosu",
     "daily": "Günlük",
     "weekly": "Haftalık",
-    "alltime": "Tüm",
-    "empty": "Henüz skor yok. İlk sen ol!",
+    "alltime": "Tüm zamanlar",
+    "emptyTitle": "Henüz skor yok",
+    "empty": "Bir oyun oyna ve zirveye çık!",
+    "notRanked": "Tabloda görünmek için bu modda oyna.",
+    "you": "Sen",
+    "restOfTop": "4–{{count}} arası",
     "yourRank": "Senin sıran: —",
     "yourRankValue": "Senin sıran: #{{rank}}"
+  },
+  "avatars": {
+    "fox": "Hızlı Tilki",
+    "owl": "Bilge Baykuş",
+    "octopus": "Zeki Ahtapot",
+    "lion": "Altın Aslan",
+    "panda": "Sakin Panda",
+    "robot": "Beyin Bot",
+    "unicorn": "Kıvılcım Unicorn",
+    "bee": "Turbo Arı",
+    "frog": "Odak Kurbağası",
+    "brain": "React Beyin",
+    "cheetah": "Hız Leoparı",
+    "cat": "Sihirbaz Kedi",
+    "penguin": "Cool Penguen",
+    "dragon": "Mini Ejderha",
+    "koala": "Uykulu Koala",
+    "shark": "Keskin Köpekbalığı",
+    "monkey": "Orman Maymunu",
+    "alien": "Uzaylı",
+    "ghost": "Dost Hayalet",
+    "eagle": "Keskin Kartal"
   },
   "profile": {
     "title": "Profil",
@@ -110,7 +252,7 @@
   },
   "paywall": {
     "title": "{{appName}} Premium",
-    "perkModes": "5 oyun moduna tam erişim",
+    "perkModes": "Tüm oyun modlarına tam erişim",
     "perkNoAds": "Reklamsız deneyim",
     "perkLives": "Sınırsız can",
     "perkLeaderboard": "Tüm zamanlar leaderboard",
@@ -123,9 +265,5 @@
     "restoreEmpty": "Geri yüklenecek satın alma bulunamadı.",
     "restoreFailed": "Geri yükleme başarısız.",
     "signInRequired": "Satın alma için oturum gerekli."
-  },
-  "languages": {
-    "tr": "Türkçe",
-    "en": "English"
   }
 }

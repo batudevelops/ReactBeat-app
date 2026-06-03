@@ -10,7 +10,49 @@
     "greeting": "Hi, {{name}} 👋",
     "streak": "🔥 {{value}}-day streak",
     "leaderboard": "Leaderboard",
-    "profile": "Profile"
+    "profile": "Profile",
+    "lives": "❤️ {{current}}/{{max}}",
+    "quickPlay": "Quick Play",
+    "skills": {
+      "speed": "Speed",
+      "memory": "Memory",
+      "attention": "Attention",
+      "mix": "Brain Mix"
+    },
+    "nav": {
+      "leaderboard": "Ranks",
+      "profile": "Profile",
+      "settings": "Settings"
+    }
+  },
+  "level": {
+    "label": "Level {{level}}",
+    "upToast": "Level up!"
+  },
+  "lives": {
+    "nextIn": "Next life in {{time}}"
+  },
+  "levelRules": {
+    "timeOptions": "{{time}}s · {{count}} options",
+    "memory": "{{seq}} steps · {{grid}} grid · {{show}}s show",
+    "pattern": "{{time}}s · {{show}}s reveal · {{count}} choices",
+    "oddOneOut": "{{time}}s · {{grid}} tiles",
+    "mix": "All skills · Lv.{{level}}",
+    "directionSame": "{{time}}s · same direction",
+    "directionConflict": "{{time}}s · same or opposite",
+    "directionOdd": "{{time}}s · 3 arrows · odd color",
+    "directionWords": "{{time}}s · direction words",
+    "directionSymbols": "{{time}}s · arrow symbols",
+    "directionOpposite": "{{time}}s · opposites appear",
+    "directionTurns": "{{time}}s · turns & opposites",
+    "directionAdvanced": "{{time}}s · mixed rules",
+    "mathAdd": "{{time}}s · addition",
+    "mathSubtract": "{{time}}s · + and −",
+    "mathMissing": "{{time}}s · missing numbers",
+    "mathMultiply": "{{time}}s · × and compare",
+    "mathAdvanced": "{{time}}s · double & half",
+    "mathExpert": "{{time}}s · chains & odd/even",
+    "mathMaster": "{{time}}s · all puzzle types"
   },
   "modes": {
     "reflex": {
@@ -32,14 +74,34 @@
     "oddOneOut": {
       "label": "Odd One Out",
       "description": "Spot the different one."
+    },
+    "mix": {
+      "label": "Brain Mix",
+      "description": "Every round switches skill — one level for all modes."
+    },
+    "mathSnap": {
+      "label": "Math Snap",
+      "description": "Solve the equation before time runs out."
+    },
+    "direction": {
+      "label": "Direction",
+      "description": "Read the text prompt — tap the right arrow on the pad."
     }
   },
   "modeSelect": {
     "personalBest": "Personal best: {{value}}",
     "weeklyRank": "Weekly rank: {{value}}",
     "watchAd": "🎥 Watch ad → +1 life",
-    "bonusLives": "+{{count}} bonus lives for your next game",
-    "play": "▶ Play"
+    "lives": "❤️ {{current}}/{{max}} lives",
+    "noLivesHint": "Watch an ad to get +1 life",
+    "noLivesRegen": "Next life in {{time}}, or watch an ad",
+    "noLivesPlay": "No lives left",
+    "play": "▶ Play",
+    "resetLevel": "Reset level",
+    "resetLevelTitle": "Reset your level?",
+    "resetLevelBody": "Drop {{mode}} from Level {{level}} back to Level 1. Your personal best score stays — only difficulty resets.",
+    "resetLevelConfirm": "Yes, reset to Level 1",
+    "resetLevelCancel": "Keep my level"
   },
   "game": {
     "reflexPrompt": "Tap this color",
@@ -48,7 +110,44 @@
     "patternMemorize": "Memorize the pattern",
     "patternWhich": "Which one was it?",
     "memoryWatch": "Watch the sequence",
-    "memoryRepeat": "Repeat ({{current}}/{{total}})"
+    "memoryRepeat": "Repeat ({{current}}/{{total}})",
+    "memoryBetween": "Get ready…",
+    "patternBetween": "Get ready…",
+    "mixSubMode": "{{mode}} round",
+    "mathSnapPrompt": "Tap the answer",
+    "mathSnapHints": {
+      "add": "Tap the sum",
+      "subtract": "Tap the difference",
+      "multiply": "Tap the product",
+      "missingLeft": "Find the missing number",
+      "missingRight": "Find the missing number",
+      "double": "Tap the result",
+      "half": "Tap half",
+      "chainAdd": "Tap the total",
+      "compare": "Tap the larger number",
+      "oddEven": "Odd or even?"
+    },
+    "mathSnapOddEven": {
+      "odd": "ODD",
+      "even": "EVEN"
+    },
+    "directions": {
+      "up": "UP",
+      "down": "DOWN",
+      "left": "LEFT",
+      "right": "RIGHT"
+    },
+    "directionPrompt": {
+      "opposite": "Opposite of {{dir}}",
+      "clockwise": "Clockwise from {{dir}}",
+      "counterClockwise": "Counter-clockwise from {{dir}}",
+      "mirrorHorizontal": "Horizontal mirror of {{dir}}",
+      "mirrorVertical": "Vertical flip of {{dir}}"
+    },
+    "outOfLivesTitle": "No lives left",
+    "outOfLivesBody": "Watch an ad for +1 life and keep playing, or end this run.",
+    "outOfLivesWatchAd": "🎥 Watch ad → +1 life",
+    "outOfLivesEnd": "End run"
   },
   "result": {
     "newRecord": "🎉 NEW RECORD!",
@@ -61,17 +160,60 @@
     "saveScoreBody": "You're in the weekly top {{rank}} — link your account so your score is saved.",
     "saveScoreDismiss": "Later",
     "playAgain": "Play Again",
+    "levelReached": "Level reached: {{level}}",
     "viewLeaderboard": "View Leaderboard",
-    "mainMenu": "Main Menu"
+    "mainMenu": "Main Menu",
+    "scoreSaveFailedTitle": "Leaderboard sync failed",
+    "scoreSaveFailedGeneric": "Could not save to the online leaderboard. Your personal best is still stored on this device.",
+    "scoreSaveReasons": {
+      "auth_required": "Not signed in — check that Anonymous auth is enabled in Firebase.",
+      "network_error": "Network or Cloud Function unreachable.",
+      "server_error": "Server rejected the request.",
+      "client_server_score_mismatch": "Score validation mismatch — update the app and redeploy functions.",
+      "reaction_too_fast": "Session flagged by anti-cheat.",
+      "identical_timing": "Session flagged by anti-cheat.",
+      "score_exceeds_max": "Score looked invalid to the server.",
+      "duration_too_short": "Session timing looked invalid.",
+      "event_score_mismatch": "Session data incomplete.",
+      "no_correct_events": "No valid taps were recorded.",
+      "rejected": "Server rejected this score.",
+      "no_session": "Game session was missing."
+    }
   },
   "leaderboard": {
     "title": "Leaderboard",
     "daily": "Daily",
     "weekly": "Weekly",
     "alltime": "All-time",
-    "empty": "No scores yet. Be the first!",
+    "emptyTitle": "No scores yet",
+    "empty": "Play a game and claim the top spot!",
+    "notRanked": "Play this mode to appear on the board.",
+    "you": "You",
+    "restOfTop": "Ranks 4–{{count}}",
     "yourRank": "Your rank: —",
     "yourRankValue": "Your rank: #{{rank}}"
+  },
+  "avatars": {
+    "fox": "Swift Fox",
+    "owl": "Wise Owl",
+    "octopus": "Clever Octopus",
+    "lion": "Golden Lion",
+    "panda": "Calm Panda",
+    "robot": "Brain Bot",
+    "unicorn": "Spark Unicorn",
+    "bee": "Turbo Bee",
+    "frog": "Focus Frog",
+    "brain": "React Brain",
+    "cheetah": "Speed Cheetah",
+    "cat": "Wizard Cat",
+    "penguin": "Chill Penguin",
+    "dragon": "Mini Dragon",
+    "koala": "Sleepy Koala",
+    "shark": "Sharp Shark",
+    "monkey": "Jungle Monkey",
+    "alien": "Cosmic Alien",
+    "ghost": "Friendly Ghost",
+    "eagle": "Sharp Eagle"
   },
   "profile": {
     "title": "Profile",
@@ -110,7 +252,7 @@
   },
   "paywall": {
     "title": "{{appName}} Premium",
-    "perkModes": "Full access to all 5 game modes",
+    "perkModes": "Full access to all game modes",
     "perkNoAds": "Ad-free experience",
     "perkLives": "Unlimited lives",
     "perkLeaderboard": "All-time leaderboard",
@@ -123,9 +265,5 @@
     "restoreEmpty": "No purchases to restore.",
     "restoreFailed": "Restore failed.",
     "signInRequired": "Sign-in required to purchase."
-  },
-  "languages": {
-    "tr": "Türkçe",
-    "en": "English"
   }
 }

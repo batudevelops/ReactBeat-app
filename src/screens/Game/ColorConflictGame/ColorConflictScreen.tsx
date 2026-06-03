@@ -6,7 +6,9 @@ import {
   generateColorConflictRound,
   type ColorConflictRound,
 } from '../../../engine/modes';
+import { formatLevelRules } from '../../../engine/levelSummary';
 import { colors, radius, spacing, typography } from '../../../theme';
+import { MODE_ACCENT } from '../../../types/game';
 import type { GameModeScreenProps } from '../types';
 import { useGameController } from '../useGameController';
 
@@ -15,7 +17,7 @@ export function ColorConflictScreen({
   onFinish,
 }: Readonly<GameModeScreenProps>) {
   const { t } = useTranslation();
-  const { round, msLeft, timeLimit, score, combo, lives, maxLives, submit } =
+  const { round, msLeft, timeLimit, score, combo, lives, maxLives, currentLevel, levelUpToken, submit } =
     useGameController<ColorConflictRound, string>({
       mode: 'colorConflict',
       level,
@@ -33,6 +35,10 @@ export function ColorConflictScreen({
         maxLives={maxLives}
         msLeft={msLeft}
         timeLimit={timeLimit}
+        level={currentLevel}
+        levelRules={formatLevelRules('colorConflict', currentLevel, t)}
+        accentColor={MODE_ACCENT.colorConflict}
+        levelUpToken={levelUpToken}
       />
 
       {round ? (

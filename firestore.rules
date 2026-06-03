@@ -1,6 +1,6 @@
 rules_version = '2';
 
-// BrainTap Firestore rules (ProjectDoc §10).
+// ReactBeat Firestore rules (ProjectDoc §10).
 // - users/{uid}: any signed-in user can read; only the owner can write.
 // - config/{doc}: world-readable dynamic config (Faz 9), no client writes.
 // - everything else is denied by default.

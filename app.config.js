@@ -9,7 +9,7 @@
 
 require('dotenv').config();
 
-const APP_NAME = 'BrainTap';
+const APP_NAME = 'ReactBeat';
 const SPLASH_BG = '#0c0a08';
 
 // Google OAuth client IDs come from the Firebase iOS app's GoogleService-Info.plist
@@ -21,11 +21,11 @@ const googleWebClientId =
   '909994962274-aibg719t8juamcjhb49dsagmuc5acdr1.apps.googleusercontent.com';
 const googleIosClientId =
   process.env.GOOGLE_IOS_CLIENT_ID ||
-  '909994962274-9g993c0ma7tbhtdo6gjed1auv3hf5qsr.apps.googleusercontent.com';
+  '909994962274-gkulbh9l7ulv4ffvb9tfc3nbsh14qpho.apps.googleusercontent.com';
 // iOS URL scheme is the reversed iOS client ID.
 const googleIosUrlScheme =
   process.env.GOOGLE_IOS_URL_SCHEME ||
-  'com.googleusercontent.apps.909994962274-9g993c0ma7tbhtdo6gjed1auv3hf5qsr';
+  'com.googleusercontent.apps.909994962274-gkulbh9l7ulv4ffvb9tfc3nbsh14qpho';
 
 // Google AdMob test app ids (replace via env for production).
 const admobIosAppId =
@@ -34,18 +34,27 @@ const admobAndroidAppId =
   process.env.ADMOB_ANDROID_APP_ID || 'ca-app-pub-3940256099942544~3347511713';
 
 const plugins = [
-  [
-    'expo-splash-screen',
-    {
-      backgroundColor: SPLASH_BG,
-      image: './assets/splash.png',
-      resizeMode: 'contain',
-      dark: {
+    [
+      'expo-splash-screen',
+      {
         backgroundColor: SPLASH_BG,
         image: './assets/splash.png',
+        // iOS: cover + legacy full-screen storyboard constraints.
+        resizeMode: 'cover',
+        ios: {
+          resizeMode: 'cover',
+          enableFullScreenImage_legacy: true,
+        },
+        // Android: native drawable (splashscreen.xml + nodpi image), not 100dp centered icon.
+        android: {
+          resizeMode: 'native',
+        },
+        dark: {
+          backgroundColor: SPLASH_BG,
+          image: './assets/splash.png',
+        },
       },
-    },
-  ],
+    ],
   'expo-audio',
   'expo-apple-authentication',
   [
@@ -72,22 +81,23 @@ const plugins = [
 module.exports = {
   expo: {
     name: APP_NAME,
-    slug: 'braintap',
+    slug: 'reactbeat',
     owner: 'fatih_2062',
     version: '1.0.0',
     orientation: 'portrait',
-    scheme: 'braintap',
+    scheme: 'reactbeat',
     userInterfaceStyle: 'automatic',
     newArchEnabled: true,
     icon: './assets/icon.png',
     splash: {
       image: './assets/splash.png',
-      resizeMode: 'contain',
+      resizeMode: 'cover',
       backgroundColor: SPLASH_BG,
     },
     ios: {
       supportsTablet: false,
-      bundleIdentifier: 'com.batudevelops.braintap',
+      bundleIdentifier: 'com.batudevelops.reactbeat',
+      googleServicesFile: './GoogleService-Info.plist',
       usesAppleSignIn: true,
       infoPlist: {
         CFBundleDisplayName: APP_NAME,
@@ -95,7 +105,8 @@ module.exports = {
       },
     },
     android: {
-      package: 'com.batudevelops.braintap',
+      package: 'com.batudevelops.reactbeat',
+      googleServicesFile: './google-services.json',
       label: APP_NAME,
       adaptiveIcon: {
         foregroundImage: './assets/icon.png',
@@ -112,7 +123,7 @@ module.exports = {
         projectId: 'braintap-b0486',
         storageBucket: 'braintap-b0486.firebasestorage.app',
         messagingSenderId: '909994962274',
-        appId: '1:909994962274:ios:018c42f0c33e4880fa103b',
+        appId: '1:909994962274:ios:ab7108decb16bccffa103b',
         databaseURL:
           'https://braintap-b0486-default-rtdb.europe-west1.firebasedatabase.app',
       },
@@ -129,7 +140,7 @@ module.exports = {
         'https://fb0d7a668f3b0af296b1f144912e76f4@o4510990539948032.ingest.de.sentry.io/4511491185639504',
       appName: APP_NAME,
       eas: {
-        projectId: '7bf88fbd-d0e3-4a34-b8e7-be8150d5904f',
+        projectId: '70a94134-3ffb-4666-84c1-5a5bc11eedea',
       },
       revenueCat: {
         iosApiKey: process.env.REVENUECAT_IOS_API_KEY || '',

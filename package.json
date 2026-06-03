@@ -1,5 +1,5 @@
 {
-  "name": "BrainTap",
+  "name": "ReactBeat",
   "version": "0.0.1",
   "private": true,
   "main": "index.js",
@@ -8,6 +8,8 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "prebuild": "expo prebuild",
+    "sync:ios-splash": "npx expo prebuild --platform ios --no-install",
+    "sync:native-splash": "bash scripts/sync-native-splash.sh",
     "build:dev": "eas build --profile development --platform all",
     "build:dev:ios": "eas build --profile development --platform ios",
     "build:dev:android": "eas build --profile development --platform android",
@@ -16,7 +18,8 @@
     "submit:ios": "eas submit --platform ios --profile production",
     "submit:android": "eas submit --platform android --profile production",
     "lint": "eslint .",
-    "test": "jest"
+    "test": "jest",
+    "generate:sounds": "node scripts/generate-sounds.mjs"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^2.2.0",
@@ -36,6 +39,7 @@
     "expo-linear-gradient": "~56.0.4",
     "expo-splash-screen": "~56.0.10",
     "expo-status-bar": "~56.0.4",
+    "expo-updates": "~56.0.17",
     "firebase": "^12.14.0",
     "i18next": "^23.16.8",
     "lottie-react-native": "~7.3.4",

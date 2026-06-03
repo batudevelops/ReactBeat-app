@@ -19,6 +19,18 @@ const googleConfig = Constants.expoConfig?.extra?.google as
   | { webClientId?: string; iosClientId?: string }
   | undefined;
 
+/** User dismissed the Google/Apple account picker — not an error. */
+export class AuthCancelledError extends Error {
+  constructor() {
+    super('AUTH_CANCELLED');
+    this.name = 'AuthCancelledError';
+  }
+}
+
+export function isAuthCancelledError(error: unknown): boolean {
+  return error instanceof AuthCancelledError;
+}
+
 export function getCurrentUser(): User | null {
   return firebaseAuth.currentUser;
 }
@@ -94,17 +106,37 @@ async function getGoogleSignin() {
 }
 
 export async function linkWithGoogle(): Promise<User> {
+  const mod = await import('@react-native-google-signin/google-signin');
   const GoogleSignin = await getGoogleSignin();
   await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-  const response = await GoogleSignin.signIn();
 
-  // google-signin v13+ returns { type, data }; older returns the user directly.
-  const idToken =
-    (response as { data?: { idToken?: string } }).data?.idToken ??
-    (response as { idToken?: string }).idToken;
-  if (!idToken) {
-    throw new Error('Google girişinden idToken alınamadı.');
+  let idToken: string | null = null;
+  try {
+    const response = await GoogleSignin.signIn();
+    if (response.type === 'cancelled') {
+      throw new AuthCancelledError();
+    }
+    idToken = response.data.idToken;
+    if (!idToken) {
+      const tokens = await GoogleSignin.getTokens();
+      idToken = tokens.idToken;
+    }
+  } catch (error) {
+    if (isAuthCancelledError(error)) {
+      throw error;
+    }
+    if ((error as { code?: string }).code === mod.statusCodes.SIGN_IN_CANCELLED) {
+      throw new AuthCancelledError();
+    }
+    throw error;
   }
+
+  if (!idToken) {
+    throw new Error(
+      'Google idToken alınamadı. Firebase Console > Project settings > Android uygulamasına debug SHA-1 ekleyip google-services.json dosyasını yeniden indirin.',
+    );
+  }
+
   const credential = GoogleAuthProvider.credential(idToken);
   return linkOrSignIn(credential);
 }

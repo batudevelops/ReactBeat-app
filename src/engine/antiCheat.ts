@@ -64,9 +64,9 @@ export function theoreticalMaxScore(
     total += calculateScore({
       correct: true,
       reactionMs: 0,
-      timeLimit: Math.max(1, event.reactionMs || 1),
+      timeLimit: event.timeLimitMs ?? 2000,
       combo,
-      comboBonus,
+      comboBonus: event.comboBonus ?? comboBonus,
     });
     combo += 1;
   }

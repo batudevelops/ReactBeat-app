@@ -1,0 +1,201 @@
+{
+  "common": {
+    "back": "Назад",
+    "close": "Закрыть"
+  },
+  "splash": {
+    "tagline": "REACT · REMEMBER · BEAT"
+  },
+  "home": {
+    "greeting": "Привет, {{name}} 👋",
+    "streak": "🔥 Серия {{value}} дн.",
+    "leaderboard": "Рейтинг",
+    "profile": "Профиль",
+    "lives": "❤️ {{current}}/{{max}}",
+    "quickPlay": "Быстрая игра",
+    "skills": {
+      "speed": "Скорость",
+      "memory": "Память",
+      "attention": "Внимание",
+      "mix": "Brain Mix"
+    },
+    "nav": {
+      "leaderboard": "Ranks",
+      "profile": "Profile",
+      "settings": "Settings"
+    }
+  },
+  "modes": {
+    "reflex": {
+      "label": "Рефлексы",
+      "description": "Нажми на правильный вариант как можно быстрее."
+    },
+    "memory": {
+      "label": "Память",
+      "description": "Запомни последовательность и повтори её."
+    },
+    "pattern": {
+      "label": "Узор",
+      "description": "Найди кратко показанный узор."
+    },
+    "colorConflict": {
+      "label": "Конфликт цветов",
+      "description": "Нажми на настоящий цвет фигуры."
+    },
+    "oddOneOut": {
+      "label": "Лишний",
+      "description": "Найди отличающийся элемент."
+    },
+    "mix": {
+      "label": "Brain Mix",
+      "description": "Каждый раунд меняет навык — один уровень для всех режимов."
+    },
+    "mathSnap": {
+      "label": "Math Snap",
+      "description": "Реши пример до конца времени."
+    },
+    "direction": {
+      "label": "Направление",
+      "description": "Сопоставь стрелку с правильным направлением."
+    }
+  },
+  "modeSelect": {
+    "personalBest": "Личный рекорд: {{value}}",
+    "weeklyRank": "Недельный рейтинг: {{value}}",
+    "watchAd": "🎥 Смотреть рекламу → +1 жизнь",
+    "lives": "❤️ {{current}}/{{max}} жизней",
+    "noLivesHint": "Посмотри рекламу для +1 жизни",
+    "noLivesPlay": "Жизней не осталось",
+    "play": "▶ Играть"
+  },
+  "game": {
+    "reflexPrompt": "Нажми этот цвет",
+    "colorConflictHint": "Нажми на настоящий цвет фигуры",
+    "oddOneOutHint": "Нажми на лишний",
+    "patternMemorize": "Запомни узор",
+    "patternWhich": "Какой это был?",
+    "memoryWatch": "Смотри последовательность",
+    "memoryRepeat": "Повтори ({{current}}/{{total}})",
+    "memoryBetween": "Приготовься…",
+    "patternBetween": "Приготовься…",
+    "mixSubMode": "Раунд: {{mode}}",
+    "mathSnapPrompt": "Нажми ответ",
+    "directionPrompt": "Сопоставь стрелку",
+    "outOfLivesTitle": "Жизней не осталось",
+    "outOfLivesBody": "Посмотри рекламу для +1 жизни и продолжи, или заверши забег.",
+    "outOfLivesWatchAd": "🎥 Смотреть рекламу → +1 жизнь",
+    "outOfLivesEnd": "Завершить"
+  },
+  "result": {
+    "newRecord": "🎉 НОВЫЙ РЕКОРД!",
+    "scoreLabel": "Твой счёт в {{mode}}",
+    "correctWrong": "Верно: {{correct}}  Неверно: {{wrong}}",
+    "avgReaction": "Ср. реакция: {{ms}} мс",
+    "avgReactionEmpty": "Ср. реакция: —",
+    "weeklyRank": "Твой недельный рейтинг: #{{rank}}",
+    "saveScoreTitle": "Сохрани счёт!",
+    "saveScoreBody": "Ты в топ-{{rank}} недели — привяжи аккаунт, чтобы сохранить счёт.",
+    "saveScoreDismiss": "Позже",
+    "playAgain": "Играть снова",
+    "viewLeaderboard": "Смотреть рейтинг",
+    "mainMenu": "Главное меню",
+    "levelReached": "Level reached: {{level}}"
+  },
+  "leaderboard": {
+    "title": "Рейтинг",
+    "daily": "День",
+    "weekly": "Неделя",
+    "alltime": "Все время",
+    "empty": "Пока нет результатов. Будь первым!",
+    "yourRank": "Твой рейтинг: —",
+    "yourRankValue": "Твой рейтинг: #{{rank}}",
+    "emptyTitle": "Пока нет результатов",
+    "notRanked": "Play this mode to appear on the board.",
+    "you": "You",
+    "restOfTop": "Ranks 4–{{count}}"
+  },
+  "profile": {
+    "title": "Профиль",
+    "defaultName": "Игрок",
+    "premium": "★ Premium",
+    "totalGames": "Всего игр: {{value}}",
+    "totalXP": "Всего XP: {{value}}",
+    "longestStreak": "Самая длинная серия: {{value}}",
+    "bestScores": "Лучшие результаты",
+    "linkGoogle": "Привязать Google",
+    "linkApple": "Привязать Apple",
+    "linking": "Привязка…",
+    "linked": "Аккаунт привязан ✓",
+    "linkSuccessTitle": "Успех",
+    "linkSuccessBody": "Аккаунт привязан, прогресс в безопасности.",
+    "linkFailTitle": "Не удалось привязать",
+    "linkFailBody": "Произошла ошибка при привязке.",
+    "chooseAvatar": "Выбрать аватар",
+    "editName": "Отображаемое имя",
+    "saveName": "Сохранить имя",
+    "saving": "Сохранение…",
+    "saveFailTitle": "Не удалось сохранить",
+    "saveFailBody": "Ошибка при обновлении профиля."
+  },
+  "settings": {
+    "title": "Настройки",
+    "sound": "Звуковые эффекты",
+    "haptic": "Тактильная отдача",
+    "notifications": "Уведомления",
+    "language": "Язык",
+    "buyPremium": "Купить Premium",
+    "restore": "Восстановить покупки",
+    "privacy": "Политика конфиденциальности",
+    "terms": "Условия использования",
+    "version": "{{appName}} v{{version}}"
+  },
+  "paywall": {
+    "title": "{{appName}} Premium",
+    "perkModes": "Полный доступ ко всем режимам",
+    "perkNoAds": "Без рекламы",
+    "perkLives": "Бесконечные жизни",
+    "perkLeaderboard": "Рейтинг за всё время",
+    "oneTime": "РАЗОВО",
+    "buy": "Купить",
+    "restore": "Восстановить покупки",
+    "purchaseSuccess": "Premium активен!",
+    "purchaseFailed": "Не удалось завершить покупку.",
+    "restoreSuccess": "Покупки восстановлены.",
+    "restoreEmpty": "Нет покупок для восстановления.",
+    "restoreFailed": "Ошибка восстановления.",
+    "signInRequired": "Для покупки нужен вход."
+  },
+  "level": {
+    "label": "Level {{level}}",
+    "upToast": "Level up!"
+  },
+  "levelRules": {
+    "timeOptions": "{{time}}s · {{count}} options",
+    "memory": "{{seq}} steps · {{grid}} grid · {{show}}s show",
+    "pattern": "{{time}}s · {{show}}s reveal · {{count}} choices",
+    "oddOneOut": "{{time}}s · {{grid}} tiles",
+    "mix": "Все навыки · Ур.{{level}}"
+  },
+  "avatars": {
+    "fox": "Swift Fox",
+    "owl": "Wise Owl",
+    "octopus": "Clever Octopus",
+    "lion": "Golden Lion",
+    "panda": "Calm Panda",
+    "robot": "Brain Bot",
+    "unicorn": "Spark Unicorn",
+    "bee": "Turbo Bee",
+    "frog": "Focus Frog",
+    "brain": "React Brain",
+    "cheetah": "Speed Cheetah",
+    "cat": "Wizard Cat",
+    "penguin": "Chill Penguin",
+    "dragon": "Mini Dragon",
+    "koala": "Sleepy Koala",
+    "shark": "Sharp Shark",
+    "monkey": "Jungle Monkey",
+    "alien": "Cosmic Alien",
+    "ghost": "Friendly Ghost",
+    "eagle": "Sharp Eagle"
+  }
+}
