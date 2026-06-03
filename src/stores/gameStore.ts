@@ -50,7 +50,7 @@ const idleState = {
   session: null,
 };
 
-export const useGameStore = create<GameState>((set, get) => ({
+export const useGameStore = create<GameState>((set, _get) => ({
   ...idleState,
 
   startGame: (mode, level, initialLives = DEFAULT_LIVES) => {

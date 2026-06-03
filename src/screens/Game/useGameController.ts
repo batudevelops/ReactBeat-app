@@ -230,7 +230,7 @@ export function useGameController<TRound, TAnswer>(
         applyNextRound();
       }, delay);
     },
-    [applyNextRound, getInterRoundDelay, interRoundDelayMs, round, startTimer, stopTimer],
+    [applyNextRound, getInterRoundDelay, interRoundDelayMs, round, stopTimer],
   );
 
   const maybeLevelUp = useCallback(() => {

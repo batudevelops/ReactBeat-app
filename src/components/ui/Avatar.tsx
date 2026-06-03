@@ -1,7 +1,7 @@
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 
 import { getAvatarDefinition, normalizeAvatarIndex } from '../../constants/avatars';
-import { colors, radius } from '../../theme';
+import { colors } from '../../theme';
 import { AvatarArt } from './avatarArt/AvatarArt';
 
 export interface AvatarProps {

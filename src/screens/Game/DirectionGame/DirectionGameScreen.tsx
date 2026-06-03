@@ -10,7 +10,6 @@ import {
   type DirectionRound,
 } from '../../../engine/modes';
 import { formatLevelRules } from '../../../engine/levelSummary';
-import { spacing } from '../../../theme';
 import { MODE_ACCENT } from '../../../types/game';
 import type { GameModeScreenProps } from '../types';
 import { useGameController } from '../useGameController';
