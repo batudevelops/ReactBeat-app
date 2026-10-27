@@ -66,7 +66,13 @@
     "lives": "❤️ {{current}}/{{max}} Leben",
     "noLivesHint": "Werbung ansehen für +1 Leben",
     "noLivesPlay": "Keine Leben übrig",
-    "play": "▶ Spielen"
+    "play": "▶ Spielen",
+    "noLivesRegen": "Nächstes Leben in {{time}} oder sieh dir eine Anzeige an",
+    "resetLevel": "Level zurücksetzen",
+    "resetLevelTitle": "Level zurücksetzen?",
+    "resetLevelBody": "Setze {{mode}} von Level {{level}} zurück auf Level 1. Deine Bestleistung bleibt — nur die Schwierigkeit wird zurückgesetzt.",
+    "resetLevelConfirm": "Ja, auf Level 1 zurücksetzen",
+    "resetLevelCancel": "Level behalten"
   },
   "game": {
     "reflexPrompt": "Tippe auf diese Farbe",
@@ -80,11 +86,52 @@
     "patternBetween": "Mach dich bereit…",
     "mixSubMode": "{{mode}}-Runde",
     "mathSnapPrompt": "Tippe auf die Antwort",
-    "directionPrompt": "Passe den Pfeil an",
+    "directionPrompt": {
+      "opposite": "Gegenteil von {{dir}}",
+      "clockwise": "Im Uhrzeigersinn von {{dir}}",
+      "counterClockwise": "Gegen den Uhrzeigersinn von {{dir}}",
+      "mirrorHorizontal": "Horizontale Spiegelung von {{dir}}",
+      "mirrorVertical": "Vertikale Spiegelung von {{dir}}"
+    },
     "outOfLivesTitle": "Keine Leben übrig",
     "outOfLivesBody": "Sieh dir eine Werbung an für +1 Leben, oder beende den Lauf.",
     "outOfLivesWatchAd": "🎥 Werbung ansehen → +1 Leben",
-    "outOfLivesEnd": "Lauf beenden"
+    "outOfLivesEnd": "Lauf beenden",
+    "patternMemorizeTransform": "Merken — dann {{transform}}",
+    "patternPickTransform": "Wähle die gedrehte Form",
+    "patternTransform": {
+      "match": "gleich",
+      "cw90": "90→",
+      "cw180": "180↓",
+      "ccw90": "←90"
+    },
+    "mathSnapHints": {
+      "add": "Tippe die Summe",
+      "subtract": "Tippe die Differenz",
+      "multiply": "Tippe das Produkt",
+      "missingLeft": "Finde die fehlende Zahl",
+      "missingRight": "Finde die fehlende Zahl",
+      "double": "Tippe das Ergebnis",
+      "half": "Tippe die Hälfte",
+      "chainAdd": "Tippe die Gesamtsumme",
+      "compare": "Tippe die größere Zahl",
+      "oddEven": "Gerade oder ungerade?"
+    },
+    "mathSnapOddEven": {
+      "odd": "UNGERADE",
+      "even": "GERADE"
+    },
+    "directions": {
+      "up": "OBEN",
+      "down": "UNTEN",
+      "left": "LINKS",
+      "right": "RECHTS"
+    },
+    "outOfLivesBodyNoContinue": "Du hast dein Weiterspielen in dieser Runde bereits genutzt. Beende sie, um deine Punktzahl zu sehen.",
+    "quitTitle": "Dieses Spiel beenden?",
+    "quitBody": "Deine Punktzahl von {{score}} wird in der Bestenliste gespeichert, dann endet das Spiel.",
+    "quitConfirm": "Beenden & speichern",
+    "quitKeep": "Weiterspielen"
   },
   "result": {
     "newRecord": "🎉 NEUER REKORD!",
@@ -99,7 +146,24 @@
     "playAgain": "Nochmal spielen",
     "viewLeaderboard": "Bestenliste ansehen",
     "mainMenu": "Hauptmenü",
-    "levelReached": "Level reached: {{level}}"
+    "levelReached": "Level reached: {{level}}",
+    "scoreSaveFailedTitle": "Bestenlisten-Synchronisierung fehlgeschlagen",
+    "scoreSaveFailedGeneric": "Konnte nicht in der Online-Bestenliste gespeichert werden. Deine Bestleistung ist weiterhin auf diesem Gerät gespeichert.",
+    "scoreSaveReasons": {
+      "auth_required": "Nicht angemeldet — prüfe, ob die anonyme Anmeldung in Firebase aktiviert ist.",
+      "network_error": "Netzwerk oder Cloud Function nicht erreichbar.",
+      "server_error": "Server hat die Anfrage abgelehnt.",
+      "client_server_score_mismatch": "Abweichung bei der Punktzahlprüfung — App aktualisieren und Functions neu bereitstellen.",
+      "invalid_session": "Ungültige Spielsitzung — App aktualisieren und erneut versuchen.",
+      "reaction_too_fast": "Sitzung vom Anti-Cheat markiert.",
+      "identical_timing": "Sitzung vom Anti-Cheat markiert.",
+      "score_exceeds_max": "Punktzahl erschien dem Server ungültig.",
+      "duration_too_short": "Sitzungsdauer erschien ungültig.",
+      "event_score_mismatch": "Sitzungsdaten unvollständig.",
+      "no_correct_events": "Keine gültigen Tipps aufgezeichnet.",
+      "rejected": "Server hat diese Punktzahl abgelehnt.",
+      "no_session": "Spielsitzung fehlte."
+    }
   },
   "leaderboard": {
     "title": "Bestenliste",
@@ -174,7 +238,27 @@
     "memory": "{{seq}} steps · {{grid}} grid · {{show}}s show",
     "pattern": "{{time}}s · {{show}}s reveal · {{count}} choices",
     "oddOneOut": "{{time}}s · {{grid}} tiles",
-    "mix": "Alle Fähigkeiten · Lv.{{level}}"
+    "mix": "Alle Fähigkeiten · Lv.{{level}}",
+    "patternMatch": "{{show}}s · Form merken",
+    "patternRotate90": "{{show}}s · dann 90→",
+    "patternRotateBoth": "{{show}}s · 90→ und ←90",
+    "patternRotate180": "{{show}}s · + 180↓",
+    "patternRotateMixed": "{{show}}s · gemischte Drehungen",
+    "directionSame": "{{time}}s · gleiche Richtung",
+    "directionConflict": "{{time}}s · gleich oder entgegengesetzt",
+    "directionOdd": "{{time}}s · 3 Pfeile · andere Farbe",
+    "directionWords": "{{time}}s · Richtungswörter",
+    "directionSymbols": "{{time}}s · Pfeilsymbole",
+    "directionOpposite": "{{time}}s · Gegenteile erscheinen",
+    "directionTurns": "{{time}}s · Drehungen & Gegenteile",
+    "directionAdvanced": "{{time}}s · gemischte Regeln",
+    "mathAdd": "{{time}}s · Addition",
+    "mathSubtract": "{{time}}s · + und −",
+    "mathMissing": "{{time}}s · fehlende Zahlen",
+    "mathMultiply": "{{time}}s · × und vergleichen",
+    "mathAdvanced": "{{time}}s · Doppelt & Hälfte",
+    "mathExpert": "{{time}}s · Ketten & gerade/ungerade",
+    "mathMaster": "{{time}}s · alle Aufgabentypen"
   },
   "avatars": {
     "fox": "Swift Fox",
@@ -197,5 +281,8 @@
     "alien": "Cosmic Alien",
     "ghost": "Friendly Ghost",
     "eagle": "Sharp Eagle"
+  },
+  "lives": {
+    "nextIn": "Nächstes Leben in {{time}}"
   }
 }

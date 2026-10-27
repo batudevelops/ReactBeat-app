@@ -1,14 +1,25 @@
 rules_version = '2';
 
 // ReactBeat Firestore rules (ProjectDoc §10).
-// - users/{uid}: any signed-in user can read; only the owner can write.
+// - users/{uid}: only the owner can read/write their own doc. `isPremium` is
+//   server-controlled (written by the RevenueCat webhook via the Admin SDK),
+//   so clients may never create it as `true` or change it afterwards.
 // - config/{doc}: world-readable dynamic config (Faz 9), no client writes.
 // - everything else is denied by default.
 service cloud.firestore {
   match /databases/{database}/documents {
     match /users/{uid} {
-      allow read: if request.auth != null;
-      allow write: if request.auth != null && request.auth.uid == uid;
+      allow read: if request.auth != null && request.auth.uid == uid;
+
+      allow create: if request.auth != null
+        && request.auth.uid == uid
+        && request.resource.data.isPremium == false;
+
+      allow update: if request.auth != null
+        && request.auth.uid == uid
+        && !('isPremium' in request.resource.data.diff(resource.data).affectedKeys());
+
+      allow delete: if false;
     }
 
     match /config/{document=**} {

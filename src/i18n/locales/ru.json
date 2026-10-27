@@ -66,7 +66,13 @@
     "lives": "❤️ {{current}}/{{max}} жизней",
     "noLivesHint": "Посмотри рекламу для +1 жизни",
     "noLivesPlay": "Жизней не осталось",
-    "play": "▶ Играть"
+    "play": "▶ Играть",
+    "noLivesRegen": "Следующая жизнь через {{time}} или посмотри рекламу",
+    "resetLevel": "Сбросить уровень",
+    "resetLevelTitle": "Сбросить уровень?",
+    "resetLevelBody": "Вернуть {{mode}} с уровня {{level}} на уровень 1. Ваш рекорд сохранится — сбросится только сложность.",
+    "resetLevelConfirm": "Да, вернуть на уровень 1",
+    "resetLevelCancel": "Оставить мой уровень"
   },
   "game": {
     "reflexPrompt": "Нажми этот цвет",
@@ -80,11 +86,52 @@
     "patternBetween": "Приготовься…",
     "mixSubMode": "Раунд: {{mode}}",
     "mathSnapPrompt": "Нажми ответ",
-    "directionPrompt": "Сопоставь стрелку",
+    "directionPrompt": {
+      "opposite": "Противоположно {{dir}}",
+      "clockwise": "По часовой от {{dir}}",
+      "counterClockwise": "Против часовой от {{dir}}",
+      "mirrorHorizontal": "Горизонтальное зеркало {{dir}}",
+      "mirrorVertical": "Вертикальный переворот {{dir}}"
+    },
     "outOfLivesTitle": "Жизней не осталось",
     "outOfLivesBody": "Посмотри рекламу для +1 жизни и продолжи, или заверши забег.",
     "outOfLivesWatchAd": "🎥 Смотреть рекламу → +1 жизнь",
-    "outOfLivesEnd": "Завершить"
+    "outOfLivesEnd": "Завершить",
+    "patternMemorizeTransform": "Запомни — затем {{transform}}",
+    "patternPickTransform": "Выбери повёрнутую фигуру",
+    "patternTransform": {
+      "match": "та же",
+      "cw90": "90→",
+      "cw180": "180↓",
+      "ccw90": "←90"
+    },
+    "mathSnapHints": {
+      "add": "Нажми на сумму",
+      "subtract": "Нажми на разность",
+      "multiply": "Нажми на произведение",
+      "missingLeft": "Найди пропущенное число",
+      "missingRight": "Найди пропущенное число",
+      "double": "Нажми на результат",
+      "half": "Нажми на половину",
+      "chainAdd": "Нажми на сумму",
+      "compare": "Нажми на большее число",
+      "oddEven": "Чётное или нечётное?"
+    },
+    "mathSnapOddEven": {
+      "odd": "НЕЧЁТ",
+      "even": "ЧЁТ"
+    },
+    "directions": {
+      "up": "ВВЕРХ",
+      "down": "ВНИЗ",
+      "left": "ВЛЕВО",
+      "right": "ВПРАВО"
+    },
+    "outOfLivesBodyNoContinue": "Вы уже использовали продолжение в этом забеге. Завершите его, чтобы увидеть счёт.",
+    "quitTitle": "Завершить игру?",
+    "quitBody": "Ваш счёт {{score}} будет сохранён в таблице лидеров, затем игра завершится.",
+    "quitConfirm": "Завершить и сохранить",
+    "quitKeep": "Продолжить игру"
   },
   "result": {
     "newRecord": "🎉 НОВЫЙ РЕКОРД!",
@@ -99,7 +146,24 @@
     "playAgain": "Играть снова",
     "viewLeaderboard": "Смотреть рейтинг",
     "mainMenu": "Главное меню",
-    "levelReached": "Level reached: {{level}}"
+    "levelReached": "Level reached: {{level}}",
+    "scoreSaveFailedTitle": "Ошибка синхронизации таблицы лидеров",
+    "scoreSaveFailedGeneric": "Не удалось сохранить в онлайн-таблицу лидеров. Ваш личный рекорд по-прежнему хранится на этом устройстве.",
+    "scoreSaveReasons": {
+      "auth_required": "Вход не выполнен — проверьте, включена ли анонимная аутентификация в Firebase.",
+      "network_error": "Сеть или Cloud Function недоступны.",
+      "server_error": "Сервер отклонил запрос.",
+      "client_server_score_mismatch": "Несовпадение проверки счёта — обновите приложение и переразверните функции.",
+      "invalid_session": "Недействительная игровая сессия — обновите приложение и повторите.",
+      "reaction_too_fast": "Сессия помечена античитом.",
+      "identical_timing": "Сессия помечена античитом.",
+      "score_exceeds_max": "Счёт показался серверу недопустимым.",
+      "duration_too_short": "Время сессии показалось недопустимым.",
+      "event_score_mismatch": "Данные сессии неполные.",
+      "no_correct_events": "Не записано ни одного верного нажатия.",
+      "rejected": "Сервер отклонил этот счёт.",
+      "no_session": "Игровая сессия отсутствовала."
+    }
   },
   "leaderboard": {
     "title": "Рейтинг",
@@ -174,7 +238,27 @@
     "memory": "{{seq}} steps · {{grid}} grid · {{show}}s show",
     "pattern": "{{time}}s · {{show}}s reveal · {{count}} choices",
     "oddOneOut": "{{time}}s · {{grid}} tiles",
-    "mix": "Все навыки · Ур.{{level}}"
+    "mix": "Все навыки · Ур.{{level}}",
+    "patternMatch": "{{show}}с · запомни фигуру",
+    "patternRotate90": "{{show}}с · затем 90→",
+    "patternRotateBoth": "{{show}}с · 90→ и ←90",
+    "patternRotate180": "{{show}}с · + 180↓",
+    "patternRotateMixed": "{{show}}с · смешанные повороты",
+    "directionSame": "{{time}}с · то же направление",
+    "directionConflict": "{{time}}с · то же или противоположное",
+    "directionOdd": "{{time}}с · 3 стрелки · другой цвет",
+    "directionWords": "{{time}}с · слова направлений",
+    "directionSymbols": "{{time}}с · символы стрелок",
+    "directionOpposite": "{{time}}с · появляются противоположные",
+    "directionTurns": "{{time}}с · повороты и противоположности",
+    "directionAdvanced": "{{time}}с · смешанные правила",
+    "mathAdd": "{{time}}с · сложение",
+    "mathSubtract": "{{time}}с · + и −",
+    "mathMissing": "{{time}}с · пропущенные числа",
+    "mathMultiply": "{{time}}с · × и сравнение",
+    "mathAdvanced": "{{time}}с · удвоить и половина",
+    "mathExpert": "{{time}}с · цепочки и чёт/нечёт",
+    "mathMaster": "{{time}}с · все типы задач"
   },
   "avatars": {
     "fox": "Swift Fox",
@@ -197,5 +281,8 @@
     "alien": "Cosmic Alien",
     "ghost": "Friendly Ghost",
     "eagle": "Sharp Eagle"
+  },
+  "lives": {
+    "nextIn": "Следующая жизнь через {{time}}"
   }
 }

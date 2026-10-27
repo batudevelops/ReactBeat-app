@@ -1,3 +1,4 @@
+export { CellGrid } from './CellGrid';
 export { GameHud } from './GameHud';
 export { LevelUpToast } from './LevelUpToast';
 export { OutOfLivesModal } from './OutOfLivesModal';

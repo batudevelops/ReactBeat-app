@@ -31,20 +31,32 @@ export async function upsertLeaderboardScores(
   );
 }
 
-/** 1-based weekly rank after write (top 100). */
+/** How many leaderboard rows we ever rank against (matches the client top list). */
+const LEADERBOARD_TOP_N = 100;
+
+/**
+ * 1-based weekly rank after write (top 100).
+ *
+ * Reads only the top {@link LEADERBOARD_TOP_N} rows via the `score` index
+ * instead of the entire board, so cost stays bounded as the board grows.
+ * Requires `.indexOn: ["score"]` in database.rules.json.
+ */
 export async function weeklyRank(
   uid: string,
   mode: GameMode,
 ): Promise<number | null> {
-  const snap = await getDatabase().ref(`leaderboard/weekly/${mode}`).get();
+  const snap = await getDatabase()
+    .ref(`leaderboard/weekly/${mode}`)
+    .orderByChild('score')
+    .limitToLast(LEADERBOARD_TOP_N)
+    .get();
   const data = snap.val() as Record<string, LeaderboardRow> | null;
   if (!data) {
     return null;
   }
   const sorted = Object.entries(data)
     .map(([id, row]) => ({ uid: id, score: row.score ?? 0, ts: row.ts ?? 0 }))
-    .sort((a, b) => b.score - a.score || b.ts - a.ts)
-    .slice(0, 100);
+    .sort((a, b) => b.score - a.score || b.ts - a.ts);
   const idx = sorted.findIndex((e) => e.uid === uid);
   return idx >= 0 ? idx + 1 : null;
 }

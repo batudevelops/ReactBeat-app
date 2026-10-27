@@ -66,7 +66,13 @@
     "lives": "❤️ {{current}}/{{max}} حياة",
     "noLivesHint": "شاهد إعلانًا للحصول على +1 حياة",
     "noLivesPlay": "لا توجد حياة",
-    "play": "▶ العب"
+    "play": "▶ العب",
+    "noLivesRegen": "الحياة التالية بعد {{time}}، أو شاهد إعلانًا",
+    "resetLevel": "إعادة ضبط المستوى",
+    "resetLevelTitle": "إعادة ضبط مستواك؟",
+    "resetLevelBody": "إرجاع {{mode}} من المستوى {{level}} إلى المستوى 1. يبقى أفضل سجل لك — تُعاد فقط الصعوبة.",
+    "resetLevelConfirm": "نعم، أعِد إلى المستوى 1",
+    "resetLevelCancel": "احتفظ بمستواي"
   },
   "game": {
     "reflexPrompt": "اضغط على هذا اللون",
@@ -80,11 +86,52 @@
     "patternBetween": "استعد…",
     "mixSubMode": "جولة {{mode}}",
     "mathSnapPrompt": "اضغط على الإجابة",
-    "directionPrompt": "طابق هذا السهم",
+    "directionPrompt": {
+      "opposite": "عكس {{dir}}",
+      "clockwise": "باتجاه عقارب الساعة من {{dir}}",
+      "counterClockwise": "عكس عقارب الساعة من {{dir}}",
+      "mirrorHorizontal": "انعكاس أفقي لـ {{dir}}",
+      "mirrorVertical": "انعكاس رأسي لـ {{dir}}"
+    },
     "outOfLivesTitle": "لا توجد حياة",
     "outOfLivesBody": "شاهد إعلانًا للحصول على +1 حياة والمتابعة، أو أنهِ الجولة.",
     "outOfLivesWatchAd": "🎥 شاهد إعلانًا → +1 حياة",
-    "outOfLivesEnd": "إنهاء"
+    "outOfLivesEnd": "إنهاء",
+    "patternMemorizeTransform": "احفظ — ثم {{transform}}",
+    "patternPickTransform": "اختر الشكل المُدوَّر",
+    "patternTransform": {
+      "match": "نفسه",
+      "cw90": "90→",
+      "cw180": "180↓",
+      "ccw90": "←90"
+    },
+    "mathSnapHints": {
+      "add": "اضغط على المجموع",
+      "subtract": "اضغط على الفرق",
+      "multiply": "اضغط على الحاصل",
+      "missingLeft": "جد الرقم الناقص",
+      "missingRight": "جد الرقم الناقص",
+      "double": "اضغط على الناتج",
+      "half": "اضغط على النصف",
+      "chainAdd": "اضغط على الإجمالي",
+      "compare": "اضغط على الرقم الأكبر",
+      "oddEven": "فردي أم زوجي؟"
+    },
+    "mathSnapOddEven": {
+      "odd": "فردي",
+      "even": "زوجي"
+    },
+    "directions": {
+      "up": "أعلى",
+      "down": "أسفل",
+      "left": "يسار",
+      "right": "يمين"
+    },
+    "outOfLivesBodyNoContinue": "لقد استخدمت المتابعة في هذه الجولة بالفعل. أنهِها لرؤية نتيجتك.",
+    "quitTitle": "إنهاء هذه اللعبة؟",
+    "quitBody": "ستُحفظ نتيجتك {{score}} في لوحة الصدارة، ثم تنتهي اللعبة.",
+    "quitConfirm": "إنهاء وحفظ",
+    "quitKeep": "متابعة اللعب"
   },
   "result": {
     "newRecord": "🎉 رقم قياسي جديد!",
@@ -99,7 +146,24 @@
     "playAgain": "العب مجددًا",
     "viewLeaderboard": "عرض المتصدرين",
     "mainMenu": "القائمة الرئيسية",
-    "levelReached": "Level reached: {{level}}"
+    "levelReached": "Level reached: {{level}}",
+    "scoreSaveFailedTitle": "فشلت مزامنة لوحة الصدارة",
+    "scoreSaveFailedGeneric": "تعذّر الحفظ في لوحة الصدارة على الإنترنت. أفضل نتيجة لك لا تزال محفوظة على هذا الجهاز.",
+    "scoreSaveReasons": {
+      "auth_required": "لم يتم تسجيل الدخول — تأكد من تفعيل المصادقة المجهولة في Firebase.",
+      "network_error": "الشبكة أو Cloud Function غير متاحة.",
+      "server_error": "رفض الخادم الطلب.",
+      "client_server_score_mismatch": "عدم تطابق في التحقق من النتيجة — حدّث التطبيق وأعد نشر الدوال.",
+      "invalid_session": "جلسة لعب غير صالحة — حدّث التطبيق وحاول مجددًا.",
+      "reaction_too_fast": "تم الإبلاغ عن الجلسة من نظام مكافحة الغش.",
+      "identical_timing": "تم الإبلاغ عن الجلسة من نظام مكافحة الغش.",
+      "score_exceeds_max": "بدت النتيجة غير صالحة للخادم.",
+      "duration_too_short": "بدا توقيت الجلسة غير صالح.",
+      "event_score_mismatch": "بيانات الجلسة غير مكتملة.",
+      "no_correct_events": "لم تُسجَّل أي نقرات صالحة.",
+      "rejected": "رفض الخادم هذه النتيجة.",
+      "no_session": "جلسة اللعب كانت مفقودة."
+    }
   },
   "leaderboard": {
     "title": "لوحة المتصدرين",
@@ -174,7 +238,27 @@
     "memory": "{{seq}} steps · {{grid}} grid · {{show}}s show",
     "pattern": "{{time}}s · {{show}}s reveal · {{count}} choices",
     "oddOneOut": "{{time}}s · {{grid}} tiles",
-    "mix": "جميع المهارات · مستوى {{level}}"
+    "mix": "جميع المهارات · مستوى {{level}}",
+    "patternMatch": "{{show}}ث · احفظ الشكل",
+    "patternRotate90": "{{show}}ث · ثم 90→",
+    "patternRotateBoth": "{{show}}ث · 90→ و ←90",
+    "patternRotate180": "{{show}}ث · + 180↓",
+    "patternRotateMixed": "{{show}}ث · تدويرات متنوعة",
+    "directionSame": "{{time}}ث · نفس الاتجاه",
+    "directionConflict": "{{time}}ث · نفسه أو عكسه",
+    "directionOdd": "{{time}}ث · 3 أسهم · لون مختلف",
+    "directionWords": "{{time}}ث · كلمات الاتجاه",
+    "directionSymbols": "{{time}}ث · رموز الأسهم",
+    "directionOpposite": "{{time}}ث · تظهر الأضداد",
+    "directionTurns": "{{time}}ث · دورات وأضداد",
+    "directionAdvanced": "{{time}}ث · قواعد متنوعة",
+    "mathAdd": "{{time}}ث · جمع",
+    "mathSubtract": "{{time}}ث · + و −",
+    "mathMissing": "{{time}}ث · أرقام ناقصة",
+    "mathMultiply": "{{time}}ث · × ومقارنة",
+    "mathAdvanced": "{{time}}ث · الضعف والنصف",
+    "mathExpert": "{{time}}ث · سلاسل وزوجي/فردي",
+    "mathMaster": "{{time}}ث · كل الأنواع"
   },
   "avatars": {
     "fox": "Swift Fox",
@@ -197,5 +281,8 @@
     "alien": "Cosmic Alien",
     "ghost": "Friendly Ghost",
     "eagle": "Sharp Eagle"
+  },
+  "lives": {
+    "nextIn": "الحياة التالية بعد {{time}}"
   }
 }

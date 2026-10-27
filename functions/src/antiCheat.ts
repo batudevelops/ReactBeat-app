@@ -1,10 +1,15 @@
+import { DEFAULT_COMBO_MULTIPLIER_STEP } from './config';
 import type { GameSession } from './types';
 import { calculateScore } from './scorer';
 
 export const MIN_HUMAN_REACTION_MS = 80;
 const IDENTICAL_TIMING_MIN_SAMPLES = 5;
 
-export function theoreticalMaxScore(session: GameSession, comboBonus = 0): number {
+export function theoreticalMaxScore(
+  session: GameSession,
+  comboBonus = 0,
+  comboMultiplierStep: number = DEFAULT_COMBO_MULTIPLIER_STEP,
+): number {
   let combo = 0;
   let total = 0;
   for (const event of session.events) {
@@ -14,13 +19,16 @@ export function theoreticalMaxScore(session: GameSession, comboBonus = 0): numbe
     }
     const timeLimit = event.timeLimitMs ?? 2000;
     const eventComboBonus = event.comboBonus ?? comboBonus;
-    total += calculateScore({
-      correct: true,
-      reactionMs: 0,
-      timeLimit,
-      combo,
-      comboBonus: eventComboBonus,
-    });
+    total += calculateScore(
+      {
+        correct: true,
+        reactionMs: 0,
+        timeLimit,
+        combo,
+        comboBonus: eventComboBonus,
+      },
+      comboMultiplierStep,
+    );
     combo += 1;
   }
   return total;
@@ -30,6 +38,7 @@ export function validateSession(
   session: GameSession,
   claimedScore: number,
   comboBonus = 0,
+  comboMultiplierStep: number = DEFAULT_COMBO_MULTIPLIER_STEP,
 ): { valid: boolean; reasons: string[] } {
   const reasons: string[] = [];
   const correctEvents = session.events.filter((e) => e.correct);
@@ -45,7 +54,7 @@ export function validateSession(
     }
   }
 
-  if (claimedScore > theoreticalMaxScore(session, comboBonus)) {
+  if (claimedScore > theoreticalMaxScore(session, comboBonus, comboMultiplierStep)) {
     reasons.push('score_exceeds_max');
   }
 

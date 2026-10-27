@@ -2,7 +2,9 @@ import { HttpsError, onCall, type CallableRequest } from 'firebase-functions/v2/
 import { getFirestore } from 'firebase-admin/firestore';
 
 import { validateSession } from './antiCheat';
+import { getComboMultiplierStep } from './config';
 import { upsertLeaderboardScores, weeklyRank } from './leaderboardWrite';
+import { allowScoreSubmit } from './rateLimit';
 import { scoreFromSession } from './scorer';
 import type { GameMode, ValidateScoreRequest, ValidateScoreResponse } from './types';
 
@@ -41,11 +43,28 @@ export const validateAndSaveScore = onCall(
     const data = request.data as ValidateScoreRequest;
     assertSession(data.session);
 
+    if (!(await allowScoreSubmit(uid))) {
+      throw new HttpsError(
+        'resource-exhausted',
+        'Too many score submissions. Please slow down.',
+      );
+    }
+
     const comboBonus = data.comboBonus ?? 10;
-    const serverScore = scoreFromSession(data.session, comboBonus);
+    const comboMultiplierStep = await getComboMultiplierStep();
+    const serverScore = scoreFromSession(
+      data.session,
+      comboBonus,
+      comboMultiplierStep,
+    );
     const claimedScore = Math.max(0, Math.floor(data.claimedScore ?? 0));
 
-    const validation = validateSession(data.session, claimedScore, comboBonus);
+    const validation = validateSession(
+      data.session,
+      claimedScore,
+      comboBonus,
+      comboMultiplierStep,
+    );
     if (!validation.valid) {
       return { valid: false, score: 0, rank: null, reasons: validation.reasons };
     }

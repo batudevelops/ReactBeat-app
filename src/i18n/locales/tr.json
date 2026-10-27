@@ -161,7 +161,11 @@
     "outOfLivesBody": "Reklam izleyerek +1 can kazan ve devam et, ya da run'ı bitir.",
     "outOfLivesBodyNoContinue": "Bu run'da devam hakkını kullandın. Skorunu görmek için run'ı bitir.",
     "outOfLivesWatchAd": "🎥 Reklam izle → +1 can",
-    "outOfLivesEnd": "Bitir"
+    "outOfLivesEnd": "Bitir",
+    "quitTitle": "Oyunu bitir?",
+    "quitBody": "{{score}} puanın liderlik tablosuna kaydedilecek, sonra oyun bitecek.",
+    "quitConfirm": "Bitir ve kaydet",
+    "quitKeep": "Oynamaya devam et"
   },
   "result": {
     "newRecord": "🎉 YENİ REKOR!",

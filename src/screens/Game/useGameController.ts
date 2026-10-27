@@ -3,19 +3,17 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { CORRECT_PER_LEVEL_UP, MAX_MODE_LEVEL } from '../../constants/game';
 import { getLevelConfig, type LevelConfig } from '../../engine/levelConfig';
-import { calculateXP } from '../../engine/scorer';
 import {
   playCorrectSound,
   playTickSound,
   playWrongSound,
 } from '../../services/gameAudio';
-import { submitValidatedScore } from '../../services/firebase/scores';
 import { useGameStore, type GameStatus } from '../../stores/gameStore';
 import { getSessionLives } from '../../stores/livesStore';
-import { useProgressStore } from '../../stores/progressStore';
 import { useSettingsStore } from '../../stores/settingsStore';
 import { useUserStore } from '../../stores/userStore';
 import type { GameMode } from '../../types/game';
+import { finalizeRun } from './finalizeRun';
 import type { GameResult } from './types';
 
 interface ControllerOptions<TRound, TAnswer> {
@@ -255,66 +253,8 @@ export function useGameController<TRound, TAnswer>(
     }
     finished.current = true;
     stopTimer();
-
-    const finalLevel = currentLevelRef.current;
-    useProgressStore.getState().recordLevel(mode, finalLevel);
-
-    const state = useGameStore.getState();
-    const events = state.session?.events ?? [];
-    const correct = events.filter((e) => e.correct).length;
-    const wrong = events.length - correct;
-    const avgReactionMs = correct
-      ? Math.round(
-          events
-            .filter((e) => e.correct)
-            .reduce((sum, e) => sum + e.reactionMs, 0) / correct,
-        )
-      : 0;
-
-    const levelCfg = getLevelConfig(mode, finalLevel);
-    const eventComboBonus = [...events]
-      .reverse()
-      .find((e) => e.correct && e.comboBonus != null)?.comboBonus;
-    const comboBonus = eventComboBonus ?? levelCfg.comboBonus;
-    let rank: number | undefined;
-    let scoreSaved = false;
-    let scoreSaveReasons: string[] | undefined;
-    if (state.session) {
-      const cf = await submitValidatedScore(
-        state.session,
-        state.score,
-        comboBonus,
-      );
-      if (cf.valid) {
-        scoreSaved = true;
-        rank = cf.rank ?? undefined;
-      } else if (state.score > 0) {
-        scoreSaveReasons = cf.reasons?.length ? cf.reasons : ['rejected'];
-      }
-    } else if (state.score > 0) {
-      scoreSaveReasons = ['no_session'];
-    }
-
-    const user = useUserStore.getState();
-    const isNewRecord = state.score > (user.bestScores[mode] ?? 0);
-    user.updateBestScore(mode, state.score);
-    user.setUser({
-      totalGames: user.totalGames + 1,
-      totalXP: user.totalXP + calculateXP(state.score),
-      lastPlayedAt: new Date().toISOString(),
-    });
-
-    onFinish({
-      score: state.score,
-      isNewRecord,
-      correct,
-      wrong,
-      avgReactionMs,
-      finalLevel,
-      rank,
-      scoreSaved,
-      scoreSaveReasons,
-    });
+    const result = await finalizeRun(mode, currentLevelRef.current);
+    onFinish(result);
   }, [mode, onFinish, stopTimer]);
 
   const handleAnswer = useCallback(

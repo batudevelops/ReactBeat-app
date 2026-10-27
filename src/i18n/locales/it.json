@@ -66,7 +66,13 @@
     "lives": "❤️ {{current}}/{{max}} vite",
     "noLivesHint": "Guarda un annuncio per +1 vita",
     "noLivesPlay": "Nessuna vita",
-    "play": "▶ Gioca"
+    "play": "▶ Gioca",
+    "noLivesRegen": "Prossima vita tra {{time}}, o guarda un annuncio",
+    "resetLevel": "Reimposta livello",
+    "resetLevelTitle": "Reimpostare il tuo livello?",
+    "resetLevelBody": "Riporta {{mode}} dal Livello {{level}} al Livello 1. Il tuo miglior punteggio resta — si reimposta solo la difficoltà.",
+    "resetLevelConfirm": "Sì, torna al Livello 1",
+    "resetLevelCancel": "Mantieni il mio livello"
   },
   "game": {
     "reflexPrompt": "Tocca questo colore",
@@ -80,11 +86,52 @@
     "patternBetween": "Preparati…",
     "mixSubMode": "Round {{mode}}",
     "mathSnapPrompt": "Tocca la risposta",
-    "directionPrompt": "Abbina questa freccia",
+    "directionPrompt": {
+      "opposite": "Opposto di {{dir}}",
+      "clockwise": "Orario da {{dir}}",
+      "counterClockwise": "Antiorario da {{dir}}",
+      "mirrorHorizontal": "Specchio orizzontale di {{dir}}",
+      "mirrorVertical": "Ribaltamento verticale di {{dir}}"
+    },
     "outOfLivesTitle": "Nessuna vita",
     "outOfLivesBody": "Guarda un annuncio per +1 vita e continua, oppure termina la partita.",
     "outOfLivesWatchAd": "🎥 Guarda annuncio → +1 vita",
-    "outOfLivesEnd": "Termina"
+    "outOfLivesEnd": "Termina",
+    "patternMemorizeTransform": "Memorizza — poi {{transform}}",
+    "patternPickTransform": "Scegli la forma ruotata",
+    "patternTransform": {
+      "match": "uguale",
+      "cw90": "90→",
+      "cw180": "180↓",
+      "ccw90": "←90"
+    },
+    "mathSnapHints": {
+      "add": "Tocca la somma",
+      "subtract": "Tocca la differenza",
+      "multiply": "Tocca il prodotto",
+      "missingLeft": "Trova il numero mancante",
+      "missingRight": "Trova il numero mancante",
+      "double": "Tocca il risultato",
+      "half": "Tocca la metà",
+      "chainAdd": "Tocca il totale",
+      "compare": "Tocca il numero più grande",
+      "oddEven": "Pari o dispari?"
+    },
+    "mathSnapOddEven": {
+      "odd": "DISPARI",
+      "even": "PARI"
+    },
+    "directions": {
+      "up": "SU",
+      "down": "GIÙ",
+      "left": "SINISTRA",
+      "right": "DESTRA"
+    },
+    "outOfLivesBodyNoContinue": "Hai già usato la tua ripresa in questa partita. Terminala per vedere il punteggio.",
+    "quitTitle": "Terminare questa partita?",
+    "quitBody": "Il tuo punteggio di {{score}} verrà salvato in classifica, poi la partita finirà.",
+    "quitConfirm": "Termina e salva",
+    "quitKeep": "Continua a giocare"
   },
   "result": {
     "newRecord": "🎉 NUOVO RECORD!",
@@ -99,7 +146,24 @@
     "playAgain": "Gioca ancora",
     "viewLeaderboard": "Vedi classifica",
     "mainMenu": "Menu principale",
-    "levelReached": "Level reached: {{level}}"
+    "levelReached": "Level reached: {{level}}",
+    "scoreSaveFailedTitle": "Sincronizzazione classifica non riuscita",
+    "scoreSaveFailedGeneric": "Impossibile salvare nella classifica online. Il tuo record resta memorizzato su questo dispositivo.",
+    "scoreSaveReasons": {
+      "auth_required": "Non connesso — verifica che l’autenticazione anonima sia attiva in Firebase.",
+      "network_error": "Rete o Cloud Function non raggiungibile.",
+      "server_error": "Il server ha rifiutato la richiesta.",
+      "client_server_score_mismatch": "Discrepanza nella convalida del punteggio — aggiorna l’app e ridistribuisci le functions.",
+      "invalid_session": "Sessione di gioco non valida — aggiorna l’app e riprova.",
+      "reaction_too_fast": "Sessione segnalata dall’anti-cheat.",
+      "identical_timing": "Sessione segnalata dall’anti-cheat.",
+      "score_exceeds_max": "Il punteggio è sembrato non valido al server.",
+      "duration_too_short": "La durata della sessione è sembrata non valida.",
+      "event_score_mismatch": "Dati della sessione incompleti.",
+      "no_correct_events": "Nessun tocco valido registrato.",
+      "rejected": "Il server ha rifiutato questo punteggio.",
+      "no_session": "La sessione di gioco era assente."
+    }
   },
   "leaderboard": {
     "title": "Classifica",
@@ -174,7 +238,27 @@
     "memory": "{{seq}} steps · {{grid}} grid · {{show}}s show",
     "pattern": "{{time}}s · {{show}}s reveal · {{count}} choices",
     "oddOneOut": "{{time}}s · {{grid}} tiles",
-    "mix": "Tutte le abilità · Liv.{{level}}"
+    "mix": "Tutte le abilità · Liv.{{level}}",
+    "patternMatch": "{{show}}s · memorizza la forma",
+    "patternRotate90": "{{show}}s · poi 90→",
+    "patternRotateBoth": "{{show}}s · 90→ e ←90",
+    "patternRotate180": "{{show}}s · + 180↓",
+    "patternRotateMixed": "{{show}}s · rotazioni miste",
+    "directionSame": "{{time}}s · stessa direzione",
+    "directionConflict": "{{time}}s · uguale o opposta",
+    "directionOdd": "{{time}}s · 3 frecce · colore diverso",
+    "directionWords": "{{time}}s · parole di direzione",
+    "directionSymbols": "{{time}}s · simboli freccia",
+    "directionOpposite": "{{time}}s · compaiono gli opposti",
+    "directionTurns": "{{time}}s · rotazioni e opposti",
+    "directionAdvanced": "{{time}}s · regole miste",
+    "mathAdd": "{{time}}s · addizione",
+    "mathSubtract": "{{time}}s · + e −",
+    "mathMissing": "{{time}}s · numeri mancanti",
+    "mathMultiply": "{{time}}s · × e confronta",
+    "mathAdvanced": "{{time}}s · doppio e metà",
+    "mathExpert": "{{time}}s · catene e pari/dispari",
+    "mathMaster": "{{time}}s · tutti i tipi"
   },
   "avatars": {
     "fox": "Swift Fox",
@@ -197,5 +281,8 @@
     "alien": "Cosmic Alien",
     "ghost": "Friendly Ghost",
     "eagle": "Sharp Eagle"
+  },
+  "lives": {
+    "nextIn": "Prossima vita tra {{time}}"
   }
 }

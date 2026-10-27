@@ -161,7 +161,11 @@
     "outOfLivesBody": "Watch an ad for +1 life and keep playing, or end this run.",
     "outOfLivesBodyNoContinue": "You already used your continue this run. End it to see your score.",
     "outOfLivesWatchAd": "🎥 Watch ad → +1 life",
-    "outOfLivesEnd": "End run"
+    "outOfLivesEnd": "End run",
+    "quitTitle": "End this game?",
+    "quitBody": "Your score of {{score}} will be saved to the leaderboard, then the game ends.",
+    "quitConfirm": "End & save",
+    "quitKeep": "Keep playing"
   },
   "result": {
     "newRecord": "🎉 NEW RECORD!",

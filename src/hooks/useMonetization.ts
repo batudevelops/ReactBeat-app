@@ -33,7 +33,7 @@ export function useMonetization(uid: string | null): void {
         const entitled = await checkPremiumEntitlement();
         const local = useUserStore.getState().isPremium;
         if (entitled !== local) {
-          await applyPremiumStatus(uid, entitled);
+          applyPremiumStatus(uid, entitled);
         }
       } catch (e) {
         Sentry.captureException(e);

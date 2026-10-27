@@ -24,7 +24,7 @@ export function usePremiumActions() {
     try {
       const ok = await purchasePremium();
       if (ok) {
-        await applyPremiumStatus(user.uid, true);
+        applyPremiumStatus(user.uid, true);
         setFeedback(t('paywall.purchaseSuccess'));
         return true;
       }
@@ -48,7 +48,7 @@ export function usePremiumActions() {
     try {
       const ok = await restorePurchases();
       if (ok) {
-        await applyPremiumStatus(user.uid, true);
+        applyPremiumStatus(user.uid, true);
         setFeedback(t('paywall.restoreSuccess'));
         return true;
       }

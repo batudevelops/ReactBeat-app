@@ -2,6 +2,15 @@
   "rules": {
     "leaderboard": {
       ".read": true,
+      ".write": false,
+      "$period": {
+        "$mode": {
+          ".indexOn": ["score"]
+        }
+      }
+    },
+    "rateLimits": {
+      ".read": false,
       ".write": false
     }
   }

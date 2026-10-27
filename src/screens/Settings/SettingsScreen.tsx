@@ -82,13 +82,13 @@ export function SettingsScreen() {
 
         <Pressable
           style={styles.linkRow}
-          onPress={() => void Linking.openURL('https://batudevelops.com/privacy')}
+          onPress={() => void Linking.openURL('https://batudevelops.github.io/ReactBeat-app/privacy')}
         >
           <Text style={styles.linkText}>{t('settings.privacy')}</Text>
         </Pressable>
         <Pressable
           style={styles.linkRow}
-          onPress={() => void Linking.openURL('https://batudevelops.com/terms')}
+          onPress={() => void Linking.openURL('https://batudevelops.github.io/ReactBeat-app/terms')}
         >
           <Text style={styles.linkText}>{t('settings.terms')}</Text>
         </Pressable>

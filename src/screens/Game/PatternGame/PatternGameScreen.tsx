@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { GameHud } from '../../../components/game';
+import { CellGrid, GameHud } from '../../../components/game';
 import { generatePatternRound, type PatternRound } from '../../../engine/modes';
 import { formatLevelRules } from '../../../engine/levelSummary';
 import { colors, radius, spacing, typography } from '../../../theme';
@@ -19,21 +19,22 @@ function PatternGrid({
   tile,
   active,
 }: Readonly<{ cells: number[]; tile: number; active: boolean }>) {
+  const filled = new Set(cells);
   return (
-    <View style={[styles.grid, { width: COLS * (tile + 4) }]}>
-      {Array.from({ length: GRID }, (_, i) => (
-        <View
-          key={i}
-          style={[
-            styles.gridCell,
-            { width: tile, height: tile },
-            cells.includes(i)
-              ? { backgroundColor: active ? colors.orange500 : colors.special }
-              : { backgroundColor: colors.bgElevated },
-          ]}
-        />
-      ))}
-    </View>
+    <CellGrid
+      count={GRID}
+      tileSize={tile}
+      gap={4}
+      tileRadius={radius.sm}
+      width={COLS * (tile + 4)}
+      cellColor={(i) =>
+        filled.has(i)
+          ? active
+            ? colors.orange500
+            : colors.special
+          : colors.bgElevated
+      }
+    />
   );
 }
 
@@ -71,8 +72,8 @@ export function PatternGameScreen({
       return;
     }
     setRevealed(true);
-    const t = setTimeout(() => setRevealed(false), round.showDuration);
-    return () => clearTimeout(t);
+    const timer = setTimeout(() => setRevealed(false), round.showDuration);
+    return () => clearTimeout(timer);
   }, [round, betweenRounds]);
 
   return (
@@ -147,8 +148,6 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     letterSpacing: 2,
   },
-  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 4, justifyContent: 'center' },
-  gridCell: { borderRadius: radius.sm },
   options: {
     flexDirection: 'row',
     flexWrap: 'wrap',

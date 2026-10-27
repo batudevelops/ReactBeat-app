@@ -66,7 +66,13 @@
     "lives": "❤️ {{current}}/{{max}} 生命",
     "noLivesHint": "观看广告获得 +1 生命",
     "noLivesPlay": "没有生命",
-    "play": "▶ 开始"
+    "play": "▶ 开始",
+    "noLivesRegen": "下一条生命将在 {{time}} 后，或观看广告",
+    "resetLevel": "重置等级",
+    "resetLevelTitle": "重置你的等级？",
+    "resetLevelBody": "将 {{mode}} 从等级 {{level}} 降回等级 1。你的最高分保留，仅重置难度。",
+    "resetLevelConfirm": "是的，重置到等级 1",
+    "resetLevelCancel": "保留我的等级"
   },
   "game": {
     "reflexPrompt": "点击这个颜色",
@@ -80,11 +86,52 @@
     "patternBetween": "准备…",
     "mixSubMode": "{{mode}} 回合",
     "mathSnapPrompt": "点击答案",
-    "directionPrompt": "匹配此箭头",
+    "directionPrompt": {
+      "opposite": "{{dir}} 的相反",
+      "clockwise": "从 {{dir}} 顺时针",
+      "counterClockwise": "从 {{dir}} 逆时针",
+      "mirrorHorizontal": "{{dir}} 的水平镜像",
+      "mirrorVertical": "{{dir}} 的垂直翻转"
+    },
     "outOfLivesTitle": "没有生命",
     "outOfLivesBody": "观看广告获得 +1 生命继续，或结束本局。",
     "outOfLivesWatchAd": "🎥 观看广告 → +1 生命",
-    "outOfLivesEnd": "结束"
+    "outOfLivesEnd": "结束",
+    "patternMemorizeTransform": "记住 — 然后 {{transform}}",
+    "patternPickTransform": "选择旋转后的形状",
+    "patternTransform": {
+      "match": "不变",
+      "cw90": "90→",
+      "cw180": "180↓",
+      "ccw90": "←90"
+    },
+    "mathSnapHints": {
+      "add": "点按和",
+      "subtract": "点按差",
+      "multiply": "点按积",
+      "missingLeft": "找出缺失的数字",
+      "missingRight": "找出缺失的数字",
+      "double": "点按结果",
+      "half": "点按一半",
+      "chainAdd": "点按总和",
+      "compare": "点按较大的数字",
+      "oddEven": "奇数还是偶数？"
+    },
+    "mathSnapOddEven": {
+      "odd": "奇数",
+      "even": "偶数"
+    },
+    "directions": {
+      "up": "上",
+      "down": "下",
+      "left": "左",
+      "right": "右"
+    },
+    "outOfLivesBodyNoContinue": "本局你已经用过续命。结束本局即可查看分数。",
+    "quitTitle": "结束本局？",
+    "quitBody": "你的 {{score}} 分将保存到排行榜，然后结束本局。",
+    "quitConfirm": "结束并保存",
+    "quitKeep": "继续游戏"
   },
   "result": {
     "newRecord": "🎉 新纪录！",
@@ -99,7 +146,24 @@
     "playAgain": "再玩一次",
     "viewLeaderboard": "查看排行榜",
     "mainMenu": "主菜单",
-    "levelReached": "Level reached: {{level}}"
+    "levelReached": "Level reached: {{level}}",
+    "scoreSaveFailedTitle": "排行榜同步失败",
+    "scoreSaveFailedGeneric": "无法保存到在线排行榜。你的最高分仍保存在此设备上。",
+    "scoreSaveReasons": {
+      "auth_required": "未登录 — 请检查 Firebase 中是否启用了匿名身份验证。",
+      "network_error": "网络或 Cloud Function 无法访问。",
+      "server_error": "服务器拒绝了请求。",
+      "client_server_score_mismatch": "分数验证不一致 — 请更新应用并重新部署 functions。",
+      "invalid_session": "无效的游戏会话 — 请更新应用后重试。",
+      "reaction_too_fast": "会话被反作弊标记。",
+      "identical_timing": "会话被反作弊标记。",
+      "score_exceeds_max": "服务器认为分数无效。",
+      "duration_too_short": "会话时长看起来无效。",
+      "event_score_mismatch": "会话数据不完整。",
+      "no_correct_events": "未记录到有效点按。",
+      "rejected": "服务器拒绝了此分数。",
+      "no_session": "缺少游戏会话。"
+    }
   },
   "leaderboard": {
     "title": "排行榜",
@@ -174,7 +238,27 @@
     "memory": "{{seq}} steps · {{grid}} grid · {{show}}s show",
     "pattern": "{{time}}s · {{show}}s reveal · {{count}} choices",
     "oddOneOut": "{{time}}s · {{grid}} tiles",
-    "mix": "全部技能 · Lv.{{level}}"
+    "mix": "全部技能 · Lv.{{level}}",
+    "patternMatch": "{{show}}秒 · 记住形状",
+    "patternRotate90": "{{show}}秒 · 然后 90→",
+    "patternRotateBoth": "{{show}}秒 · 90→ 和 ←90",
+    "patternRotate180": "{{show}}秒 · + 180↓",
+    "patternRotateMixed": "{{show}}秒 · 混合旋转",
+    "directionSame": "{{time}}秒 · 相同方向",
+    "directionConflict": "{{time}}秒 · 相同或相反",
+    "directionOdd": "{{time}}秒 · 3 个箭头 · 异色",
+    "directionWords": "{{time}}秒 · 方向词",
+    "directionSymbols": "{{time}}秒 · 箭头符号",
+    "directionOpposite": "{{time}}秒 · 出现相反方向",
+    "directionTurns": "{{time}}秒 · 旋转与相反",
+    "directionAdvanced": "{{time}}秒 · 混合规则",
+    "mathAdd": "{{time}}秒 · 加法",
+    "mathSubtract": "{{time}}秒 · + 和 −",
+    "mathMissing": "{{time}}秒 · 缺失数字",
+    "mathMultiply": "{{time}}秒 · × 和比较",
+    "mathAdvanced": "{{time}}秒 · 两倍与一半",
+    "mathExpert": "{{time}}秒 · 连加与奇偶",
+    "mathMaster": "{{time}}秒 · 所有题型"
   },
   "avatars": {
     "fox": "Swift Fox",
@@ -197,5 +281,8 @@
     "alien": "Cosmic Alien",
     "ghost": "Friendly Ghost",
     "eagle": "Sharp Eagle"
+  },
+  "lives": {
+    "nextIn": "下一条生命将在 {{time}} 后"
   }
 }

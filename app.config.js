@@ -27,11 +27,12 @@ const googleIosUrlScheme =
   process.env.GOOGLE_IOS_URL_SCHEME ||
   'com.googleusercontent.apps.909994962274-gkulbh9l7ulv4ffvb9tfc3nbsh14qpho';
 
-// Google AdMob test app ids (replace via env for production).
+// AdMob app ids from the AdMob console (BrainTap iOS / Android).
+// Public values, same as the native manifests. Env can still override.
 const admobIosAppId =
-  process.env.ADMOB_IOS_APP_ID || 'ca-app-pub-3940256099942544~1458002511';
+  process.env.ADMOB_IOS_APP_ID || 'ca-app-pub-3161783302871546~8347027369';
 const admobAndroidAppId =
-  process.env.ADMOB_ANDROID_APP_ID || 'ca-app-pub-3940256099942544~3347511713';
+  process.env.ADMOB_ANDROID_APP_ID || 'ca-app-pub-3161783302871546~8253178501';
 
 const plugins = [
     [
@@ -147,10 +148,18 @@ module.exports = {
         androidApiKey: process.env.REVENUECAT_ANDROID_API_KEY || '',
       },
       admob: {
-        iosInterstitialId: process.env.ADMOB_IOS_INTERSTITIAL_ID || '',
-        androidInterstitialId: process.env.ADMOB_ANDROID_INTERSTITIAL_ID || '',
-        iosRewardedId: process.env.ADMOB_IOS_REWARDED_ID || '',
-        androidRewardedId: process.env.ADMOB_ANDROID_REWARDED_ID || '',
+        iosInterstitialId:
+          process.env.ADMOB_IOS_INTERSTITIAL_ID ||
+          'ca-app-pub-3161783302871546/3252437180',
+        androidInterstitialId:
+          process.env.ADMOB_ANDROID_INTERSTITIAL_ID ||
+          'ca-app-pub-3161783302871546/4313933491',
+        iosRewardedId:
+          process.env.ADMOB_IOS_REWARDED_ID ||
+          'ca-app-pub-3161783302871546/6836458973',
+        androidRewardedId:
+          process.env.ADMOB_ANDROID_REWARDED_ID ||
+          'ca-app-pub-3161783302871546/3992849384',
       },
     },
   },

@@ -66,7 +66,13 @@
     "lives": "❤️ {{current}}/{{max}} ライフ",
     "noLivesHint": "広告を見て+1ライフ",
     "noLivesPlay": "ライフがありません",
-    "play": "▶ プレイ"
+    "play": "▶ プレイ",
+    "noLivesRegen": "次のライフまで {{time}}、または広告を見る",
+    "resetLevel": "レベルをリセット",
+    "resetLevelTitle": "レベルをリセットしますか？",
+    "resetLevelBody": "{{mode}} をレベル {{level}} からレベル1に戻します。自己ベストは残り、難易度だけがリセットされます。",
+    "resetLevelConfirm": "はい、レベル1に戻す",
+    "resetLevelCancel": "レベルを保持"
   },
   "game": {
     "reflexPrompt": "この色をタップ",
@@ -80,11 +86,52 @@
     "patternBetween": "準備…",
     "mixSubMode": "{{mode}}ラウンド",
     "mathSnapPrompt": "答えをタップ",
-    "directionPrompt": "矢印を合わせよう",
+    "directionPrompt": {
+      "opposite": "{{dir}} の反対",
+      "clockwise": "{{dir}} から時計回り",
+      "counterClockwise": "{{dir}} から反時計回り",
+      "mirrorHorizontal": "{{dir}} の左右反転",
+      "mirrorVertical": "{{dir}} の上下反転"
+    },
     "outOfLivesTitle": "ライフがありません",
     "outOfLivesBody": "広告を見て+1ライフで続けるか、このランを終了してください。",
     "outOfLivesWatchAd": "🎥 広告を見る → +1ライフ",
-    "outOfLivesEnd": "終了"
+    "outOfLivesEnd": "終了",
+    "patternMemorizeTransform": "覚えて — その後 {{transform}}",
+    "patternPickTransform": "回転した形を選ぶ",
+    "patternTransform": {
+      "match": "そのまま",
+      "cw90": "90→",
+      "cw180": "180↓",
+      "ccw90": "←90"
+    },
+    "mathSnapHints": {
+      "add": "合計をタップ",
+      "subtract": "差をタップ",
+      "multiply": "積をタップ",
+      "missingLeft": "空欄の数を見つけて",
+      "missingRight": "空欄の数を見つけて",
+      "double": "答えをタップ",
+      "half": "半分をタップ",
+      "chainAdd": "合計をタップ",
+      "compare": "大きい数をタップ",
+      "oddEven": "奇数？偶数？"
+    },
+    "mathSnapOddEven": {
+      "odd": "奇数",
+      "even": "偶数"
+    },
+    "directions": {
+      "up": "上",
+      "down": "下",
+      "left": "左",
+      "right": "右"
+    },
+    "outOfLivesBodyNoContinue": "このランではすでにコンティニューを使いました。終了するとスコアが表示されます。",
+    "quitTitle": "このゲームを終了しますか？",
+    "quitBody": "スコア {{score}} がランキングに保存され、ゲームが終了します。",
+    "quitConfirm": "終了して保存",
+    "quitKeep": "続ける"
   },
   "result": {
     "newRecord": "🎉 新記録！",
@@ -99,7 +146,24 @@
     "playAgain": "もう一度",
     "viewLeaderboard": "ランキングを見る",
     "mainMenu": "メインメニュー",
-    "levelReached": "Level reached: {{level}}"
+    "levelReached": "Level reached: {{level}}",
+    "scoreSaveFailedTitle": "ランキングの同期に失敗",
+    "scoreSaveFailedGeneric": "オンラインランキングに保存できませんでした。自己ベストはこの端末に保存されています。",
+    "scoreSaveReasons": {
+      "auth_required": "未サインイン — Firebase で匿名認証が有効か確認してください。",
+      "network_error": "ネットワークまたは Cloud Function に接続できません。",
+      "server_error": "サーバーがリクエストを拒否しました。",
+      "client_server_score_mismatch": "スコア検証の不一致 — アプリを更新し functions を再デプロイしてください。",
+      "invalid_session": "無効なゲームセッション — アプリを更新して再試行してください。",
+      "reaction_too_fast": "セッションがチート対策で検出されました。",
+      "identical_timing": "セッションがチート対策で検出されました。",
+      "score_exceeds_max": "スコアがサーバーで無効と判断されました。",
+      "duration_too_short": "セッション時間が無効と判断されました。",
+      "event_score_mismatch": "セッションデータが不完全です。",
+      "no_correct_events": "有効なタップが記録されませんでした。",
+      "rejected": "サーバーがこのスコアを拒否しました。",
+      "no_session": "ゲームセッションがありませんでした。"
+    }
   },
   "leaderboard": {
     "title": "ランキング",
@@ -174,7 +238,27 @@
     "memory": "{{seq}} steps · {{grid}} grid · {{show}}s show",
     "pattern": "{{time}}s · {{show}}s reveal · {{count}} choices",
     "oddOneOut": "{{time}}s · {{grid}} tiles",
-    "mix": "全スキル · Lv.{{level}}"
+    "mix": "全スキル · Lv.{{level}}",
+    "patternMatch": "{{show}}秒 · 形を覚える",
+    "patternRotate90": "{{show}}秒 · その後 90→",
+    "patternRotateBoth": "{{show}}秒 · 90→ と ←90",
+    "patternRotate180": "{{show}}秒 · + 180↓",
+    "patternRotateMixed": "{{show}}秒 · 回転ミックス",
+    "directionSame": "{{time}}秒 · 同じ方向",
+    "directionConflict": "{{time}}秒 · 同じか逆",
+    "directionOdd": "{{time}}秒 · 矢印3つ · 色違い",
+    "directionWords": "{{time}}秒 · 方向の言葉",
+    "directionSymbols": "{{time}}秒 · 矢印記号",
+    "directionOpposite": "{{time}}秒 · 逆向きが出る",
+    "directionTurns": "{{time}}秒 · 回転と逆向き",
+    "directionAdvanced": "{{time}}秒 · ルールミックス",
+    "mathAdd": "{{time}}秒 · 足し算",
+    "mathSubtract": "{{time}}秒 · + と −",
+    "mathMissing": "{{time}}秒 · 空欄の数",
+    "mathMultiply": "{{time}}秒 · × と比較",
+    "mathAdvanced": "{{time}}秒 · 2倍と半分",
+    "mathExpert": "{{time}}秒 · 連続と偶数/奇数",
+    "mathMaster": "{{time}}秒 · 全パズル"
   },
   "avatars": {
     "fox": "Swift Fox",
@@ -197,5 +281,8 @@
     "alien": "Cosmic Alien",
     "ghost": "Friendly Ghost",
     "eagle": "Sharp Eagle"
+  },
+  "lives": {
+    "nextIn": "次のライフまで {{time}}"
   }
 }
